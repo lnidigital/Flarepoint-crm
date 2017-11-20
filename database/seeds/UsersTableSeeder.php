@@ -20,9 +20,9 @@ class UsersTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'name' => 'Admin',
-                'email' => 'admin@admin.com',
-                'password' => bcrypt('admin123'),
+                'name' => 'Seong Bae',
+                'email' => 'seong@lnidigital.com',
+                'password' => bcrypt('password'),
                 'address' => '',
                 'work_number' => 0,
                 'personal_number' => 0,

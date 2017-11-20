@@ -22,13 +22,13 @@ class RolesTablesSeeder extends Seeder
         $editorRole = new Role;
         $editorRole->display_name = 'Manager';
         $editorRole->name = 'manager';
-        $editorRole->description = 'System Manager';
+        $editorRole->description = 'Group manager';
         $editorRole->save();
 
         $employeeRole = new Role;
-        $employeeRole->display_name = 'Employee';
-        $employeeRole->name = 'employee';
-        $employeeRole->description = 'Employee';
+        $employeeRole->display_name = 'Member';
+        $employeeRole->name = 'member';
+        $employeeRole->description = 'Group member';
         $employeeRole->save();
     }
 }
