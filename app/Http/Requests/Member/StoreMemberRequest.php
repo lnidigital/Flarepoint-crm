@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Client;
+namespace App\Http\Requests\Member;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateClientRequest extends FormRequest
+class StoreMemberRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateClientRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('client-update');
+        return auth()->user()->can('member-create');
     }
 
     /**
@@ -26,16 +26,14 @@ class UpdateClientRequest extends FormRequest
         return [
             'name' => 'required',
             'company_name' => 'required',
-            'vat' => 'max:12',
             'email' => 'required',
             'address' => '',
             'zipcode' => 'max:6',
             'city' => '',
-            'primary_number' => 'max:12',
-            'secondary_number' => 'max:12',
-            'industry' => '',
-            'company_type' => '',
-            'user_id' => 'required'
+            'primary_number' => 'max:10',
+            'secondary_number' => 'max:10',
+            'industry_id' => 'required',
+            
         ];
     }
 }

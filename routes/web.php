@@ -47,6 +47,27 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('clients', 'ClientsController');
 	    Route::resource('documents', 'DocumentsController');
 	
+    /**
+     * Members
+     */
+    Route::group(['prefix' => 'members'], function () {
+        Route::get('/data', 'MembersController@anyData')->name('members.data');
+        Route::post('/create/cvrapi', 'MembersController@cvrapiStart');
+        Route::post('/upload/{id}', 'DocumentsController@upload');
+        Route::patch('/updateassign/{id}', 'MembersController@updateAssign');
+    });
+        Route::resource('members', 'MembersController');
+    
+    /**
+     * Attendance
+     */
+    Route::group(['prefix' => 'attendance'], function () {
+        Route::get('/data', 'AttendanceController@anyData')->name('attendance.data');
+        Route::post('/upload/{id}', 'AttendanceController@upload');
+        Route::patch('/updateassign/{id}', 'AttendanceController@updateAssign');
+    });
+        Route::resource('attendance', 'AttendanceController');
+    
       
     /**
      * Tasks

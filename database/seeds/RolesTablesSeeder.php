@@ -16,7 +16,7 @@ class RolesTablesSeeder extends Seeder
         $adminRole = new Role;
         $adminRole->display_name = 'Administrator';
         $adminRole->name = 'administrator';
-        $adminRole->description = 'System Administrator';
+        $adminRole->description = 'Group Administrator';
         $adminRole->save();
 
         $editorRole = new Role;
@@ -29,6 +29,12 @@ class RolesTablesSeeder extends Seeder
         $employeeRole->display_name = 'Member';
         $employeeRole->name = 'member';
         $employeeRole->description = 'Group member';
+        $employeeRole->save();
+
+        $employeeRole = new Role;
+        $employeeRole->display_name = 'Super User';
+        $employeeRole->name = 'super';
+        $employeeRole->description = 'Super User';
         $employeeRole->save();
     }
 }

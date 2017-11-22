@@ -23,6 +23,15 @@ class GroupsTableSeeder extends Seeder
                 'created_at' => '2016-06-04 13:42:19',
                 'updated_at' => '2016-06-04 13:42:19',
             ),
+            1 =>
+            array (
+                'id' => 2,
+                'name' => 'Tysons BRG',
+                'user_id' => 1,
+                'organization_id' => 1,
+                'created_at' => '2016-06-04 13:42:19',
+                'updated_at' => '2016-06-04 13:42:19',
+            ),
         ));
     }
 }

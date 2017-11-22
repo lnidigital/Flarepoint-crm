@@ -88,5 +88,51 @@ class PermissionsTableSeeder extends Seeder
         $updateLead->name = 'lead-update';
         $updateLead->description = 'Permission to update lead';
         $updateLead->save();
+
+        /**
+         * Member Permissions
+         */
+        
+        $createClient = new Permissions;
+        $createClient->display_name = 'Create member';
+        $createClient->name = 'member-create';
+        $createClient->description = 'Permission to create member';
+        $createClient->save();
+
+        $updateClient = new Permissions;
+        $updateClient->display_name = 'Update member';
+        $updateClient->name = 'member-update';
+        $updateClient->description = 'Permission to update member';
+        $updateClient->save();
+
+        $deleteClient = new Permissions;
+        $deleteClient->display_name = 'Delete member';
+        $deleteClient->name = 'member-delete';
+        $deleteClient->description = 'Permission to delete member';
+        $deleteClient->save();
+
+
+        /**
+         * Attendance Permissions
+         */
+        
+        $createClient = new Permissions;
+        $createClient->display_name = 'Create attendance';
+        $createClient->name = 'attendance-create';
+        $createClient->description = 'Permission to create attendance';
+        $createClient->save();
+
+        $updateClient = new Permissions;
+        $updateClient->display_name = 'Update attendance';
+        $updateClient->name = 'attendance-update';
+        $updateClient->description = 'Permission to update attendance';
+        $updateClient->save();
+
+        $deleteClient = new Permissions;
+        $deleteClient->display_name = 'Delete attendance';
+        $deleteClient->name = 'attendance-delete';
+        $deleteClient->description = 'Permission to delete attendance';
+        $deleteClient->save();
+        
     }
 }
