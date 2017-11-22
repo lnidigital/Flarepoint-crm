@@ -5,7 +5,7 @@
 
 @section('content')
 
-    <table class="table table-hover " id="members-table">
+    <table class="table table-hover " id="guests-table">
         <thead>
         <tr>
             <th>{{ __('Name') }}</th>
@@ -23,11 +23,11 @@
 @push('scripts')
 <script>
     $(function () {
-        $('#members-table').DataTable({
+        $('#guests-table').DataTable({
             processing: true,
             serverSide: true,
 
-            ajax: '{!! route('members.data') !!}',
+            ajax: '{!! route('guests.data') !!}',
             columns: [
 
                 {data: 'namelink', name: 'name'},

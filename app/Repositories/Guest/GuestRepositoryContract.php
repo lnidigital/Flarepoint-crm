@@ -5,11 +5,9 @@ interface GuestRepositoryContract
 {
     public function find($id);
 
-    public function listAllMembers();
+    public function listAllGuests();
 
-    public function getInvoices($id);
-
-    public function getAllMembersCount();
+    public function getAllGuestsCount();
 
     public function listAllIndustries();
 

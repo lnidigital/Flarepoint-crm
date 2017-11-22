@@ -120,13 +120,13 @@ $('body').click(function(e) {
                 @endif
             </div>
 
-            <a href="#tasks" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
+            <a href="#guests" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
                         class="glyphicon sidebar-icon glyphicon-tasks"></i><span id="menu-txt">{{ __('Guests') }}</span>
             <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-            <div class="collapse" id="tasks">
-                <a href="{{ route('tasks.index')}}" class="list-group-item childlist">{{ __('All Tasks') }}</a>
-                @if(Entrust::can('task-create'))
-                    <a href="{{ route('tasks.create')}}" class="list-group-item childlist">{{ __('New Task') }}</a>
+            <div class="collapse" id="guests">
+                <a href="{{ route('guests.index')}}" class="list-group-item childlist">{{ __('All Guests') }}</a>
+                @if(Entrust::can('guest-create'))
+                    <a href="{{ route('guests.create')}}" class="list-group-item childlist">{{ __('New Guest') }}</a>
                 @endif
             </div>
             

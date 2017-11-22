@@ -67,6 +67,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::patch('/updateassign/{id}', 'AttendanceController@updateAssign');
     });
         Route::resource('attendance', 'AttendanceController');
+
+    /**
+     * Guests
+     */
+    Route::group(['prefix' => 'guests'], function () {
+        Route::get('/data', 'GuestController@anyData')->name('guests.data');
+        Route::post('/upload/{id}', 'GuestController@upload');
+        Route::patch('/updateassign/{id}', 'GuestController@updateAssign');
+    });
+        Route::resource('guests', 'GuestController');
     
       
     /**

@@ -133,6 +133,29 @@ class PermissionsTableSeeder extends Seeder
         $deleteClient->name = 'attendance-delete';
         $deleteClient->description = 'Permission to delete attendance';
         $deleteClient->save();
+
+
+        /**
+         * Guests Permissions (17-19)
+         */
+        
+        $createClient = new Permissions;
+        $createClient->display_name = 'Create guest';
+        $createClient->name = 'guest-create';
+        $createClient->description = 'Permission to create guest';
+        $createClient->save();
+
+        $updateClient = new Permissions;
+        $updateClient->display_name = 'Update guest';
+        $updateClient->name = 'guest-update';
+        $updateClient->description = 'Permission to update guest';
+        $updateClient->save();
+
+        $deleteClient = new Permissions;
+        $deleteClient->display_name = 'Delete guest';
+        $deleteClient->name = 'guest-delete';
+        $deleteClient->description = 'Permission to delete guest';
+        $deleteClient->save();
         
     }
 }

@@ -21,34 +21,30 @@ class GuestRepository implements GuestRepositoryContract
      */
     public function find($id)
     {
-        return Member::findOrFail($id);
+        return Guest::findOrFail($id);
     }
 
     /**
      * @return mixed
      */
-    public function listAllMembers()
+    public function listAllGuests()
     {
-        return Client::pluck('name', 'id');
+        return Guest::pluck('name', 'id');
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getInvoices($id)
-    {
-        $invoice = Member::findOrFail($id)->invoices()->with('invoiceLines')->get();
-
-        return $invoice;
-    }
+    
+    // public function getAllGuests() 
+    // {   
+    //     return Guest::all()
+    //     ->pluck('name', 'id');
+    // }
 
     /**
      * @return int
      */
-    public function getAllMembersCount()
+    public function getAllGuestsCount()
     {
-        return Member::all()->count();
+        return Guest::all()->count();
     }
 
     /**
@@ -64,9 +60,9 @@ class GuestRepository implements GuestRepositoryContract
      */
     public function create($requestData)
     {
-        $member = Member::create($requestData);
-        Session()->flash('flash_message', 'Member successfully added');
-        event(new \App\Events\MemberAction($member, self::CREATED));
+        $guest = Guest::create($requestData);
+        Session()->flash('flash_message', 'Guest successfully added');
+        event(new \App\Events\GuestAction($guest, self::CREATED));
     }
 
     /**
@@ -75,8 +71,8 @@ class GuestRepository implements GuestRepositoryContract
      */
     public function update($id, $requestData)
     {
-        $member = Member::findOrFail($id);
-        $member->fill($requestData->all())->save();
+        $guest = Guest::findOrFail($id);
+        $guest->fill($requestData->all())->save();
     }
 
     /**
@@ -85,11 +81,11 @@ class GuestRepository implements GuestRepositoryContract
     public function destroy($id)
     {
         try {
-            $client = Member::findorFail($id);
-            $client->delete();
-            Session()->flash('flash_message', 'Member successfully deleted');
+            $guest = Guest::findorFail($id);
+            $guest->delete();
+            Session()->flash('flash_message', 'Guest successfully deleted');
         } catch (\Illuminate\Database\QueryException $e) {
-            Session()->flash('flash_message_warning', 'Member can NOT be deleted');
+            Session()->flash('flash_message_warning', 'Guest can NOT be deleted');
         }
     }
 
@@ -99,10 +95,10 @@ class GuestRepository implements GuestRepositoryContract
      */
     public function updateAssign($id, $requestData)
     {
-        $member = Member::with('user')->findOrFail($id);
-        $member->user_id = $requestData->get('user_assigned_id');
-        $member->save();
+        $guest = Guest::with('user')->findOrFail($id);
+        $guest->user_id = $requestData->get('user_assigned_id');
+        $guest->save();
 
-        event(new \App\Events\ClientAction($member, self::UPDATED_ASSIGN));
+        event(new \App\Events\GuestAction($guest, self::UPDATED_ASSIGN));
     }
 }

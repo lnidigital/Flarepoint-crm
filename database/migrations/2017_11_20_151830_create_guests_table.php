@@ -15,6 +15,23 @@ class CreateGuestsTable extends Migration
     {
         Schema::create('guests', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('primary_number')->nullable();
+            $table->string('secondary_number')->nullable();
+            $table->string('address')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('company_name');
+            $table->integer('group_id')->unsigned();
+            $table->foreign('group_id')->references('id')->on('groups');
+            $table->integer('member_id')->unsigned();
+            $table->foreign('member_id')->references('id')->on('members');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('industry_id')->unsigned();
+            $table->foreign('industry_id')->references('id')->on('industries');
             $table->timestamps();
         });
     }

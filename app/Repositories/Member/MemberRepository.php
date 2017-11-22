@@ -43,6 +43,12 @@ class MemberRepository implements MemberRepositoryContract
         return $invoice;
     }
 
+    public function getAllMembers() 
+    {
+        return Member::all()
+        ->pluck('name', 'id');
+    }
+
     /**
      * @return int
      */
