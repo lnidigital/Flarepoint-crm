@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Requests\Referral;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreReferralRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return auth()->user()->can('referral-create');
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'from_member_id' => 'required',
+            'to_member_id' => 'required',
+            'referral_date' => 'required',
+            'group_id' => 'required',
+            'description' => ''
+        ];
+    }
+}

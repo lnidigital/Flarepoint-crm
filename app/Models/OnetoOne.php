@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Referral extends Model
+class OnetoOne extends Model
 {
     protected $fillable = [
-        'from_member_id',
-        'to_member_id',
-        'referral_date',
+        'first_member_id',
+        'second_member_id',
+        'onetoone_date',
         'group_id',
         'description'
     ];

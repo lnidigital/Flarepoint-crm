@@ -1,16 +1,19 @@
 <?php
-namespace App\Repositories\Member;
+namespace App\Repositories\Onetoone;
 
-use App\Models\Member;
+use App\Models\OnetoOne;
 use App\Models\Industry;
 use App\Models\Invoice;
 use App\Models\User;
 use DB;
+use Illuminate\Support\Facades\Log;
+use Carbon;
+
 /**
  * Class ClientRepository
  * @package App\Repositories\Client
  */
-class MemberRepository implements MemberRepositoryContract
+class OnetoOneRepository implements OnetoOneRepositoryContract
 {
     const CREATED = 'created';
     const UPDATED_ASSIGN = 'updated_assign';
@@ -21,7 +24,7 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function find($id)
     {
-        return Member::findOrFail($id);
+        return OnetoOne::findOrFail($id);
     }
 
     /**
@@ -29,15 +32,7 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function listAllMembers()
     {
-        return Member::pluck('name', 'id');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMembers($group_id)
-    {
-        return Member::where('group_id',$group_id)->get();
+        return OnetoOne::pluck('name', 'id');
     }
 
     /**
@@ -46,14 +41,14 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function getInvoices($id)
     {
-        $invoice = Member::findOrFail($id)->invoices()->with('invoiceLines')->get();
+        $invoice = OnetoOne::findOrFail($id)->invoices()->with('invoiceLines')->get();
 
         return $invoice;
     }
 
     public function getAllMembers() 
-    {
-        return Member::all()
+    {   
+        return OnetoOne::all()
         ->pluck('name', 'id');
     }
 
@@ -62,7 +57,7 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function getAllMembersCount()
     {
-        return Member::all()->count();
+        return OnetoOne::all()->count();
     }
 
     /**
@@ -78,9 +73,9 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function create($requestData)
     {
-        $member = Member::create($requestData);
-        Session()->flash('flash_message', 'Member successfully added');
-        event(new \App\Events\MemberAction($member, self::CREATED));
+        $referral = OnetoOne::create($requestData);
+        Session()->flash('flash_message', '1-to-1 successfully added');
+        event(new \App\Events\OnetoOneAction($referral, self::CREATED));
     }
 
     /**
@@ -89,7 +84,7 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function update($id, $requestData)
     {
-        $member = Member::findOrFail($id);
+        $member = Referral::findOrFail($id);
         $member->fill($requestData->all())->save();
     }
 
@@ -99,7 +94,7 @@ class MemberRepository implements MemberRepositoryContract
     public function destroy($id)
     {
         try {
-            $client = Member::findorFail($id);
+            $client = Referral::findorFail($id);
             $client->delete();
             Session()->flash('flash_message', 'Member successfully deleted');
         } catch (\Illuminate\Database\QueryException $e) {
@@ -113,10 +108,21 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function updateAssign($id, $requestData)
     {
-        $member = Member::with('user')->findOrFail($id);
+        $member = Referral::with('user')->findOrFail($id);
         $member->user_id = $requestData->get('user_assigned_id');
         $member->save();
 
         event(new \App\Events\ClientAction($member, self::UPDATED_ASSIGN));
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function referralsMadeThisMonth()
+    {
+        return DB::table('referrals')
+            ->select(DB::raw('count(*) as total, updated_at'))
+            ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
 }

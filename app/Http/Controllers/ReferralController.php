@@ -4,30 +4,30 @@ namespace App\Http\Controllers;
 use Config;
 use Dinero;
 use Datatables;
-use App\Models\Client;
+use App\Models\Referral;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Http\Requests\Client\StoreClientRequest;
-use App\Http\Requests\Client\UpdateClientRequest;
+use App\Http\Requests\Referral\StoreReferralRequest;
+use App\Http\Requests\Referral\UpdateReferralRequest;
 use App\Repositories\Member\MemberRepositoryContract;
-use App\Repositories\Guest\GuestRepositoryContract;
+use App\Repositories\Referral\ReferralRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 
-class AttendanceController extends Controller
+class ReferralController extends Controller
 {
 
     protected $settings;
-    protected $guests;
+    protected $referrals;
     protected $members;
 
     public function __construct(
         MemberRepositoryContract $members,
-        GuestRepositoryContract $guests,
+        ReferralRepositoryContract $referrals,
         SettingRepositoryContract $settings
     )
     {
         $this->members = $members;
-        $this->guests = $guests;
+        $this->referrals = $referrals;
         $this->settings = $settings;
         // $this->middleware('attendance.create', ['only' => ['create']]);
         // $this->middleware('attendance.update', ['only' => ['edit']]);
@@ -38,7 +38,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        return view('attendance.index');
+        return view('referrals.index');
     }
 
     /**
@@ -47,15 +47,18 @@ class AttendanceController extends Controller
      */
     public function anyData()
     {
-        $clients = Client::select(['id', 'name', 'company_name', 'email', 'primary_number']);
-        return Datatables::of($clients)
-            ->addColumn('namelink', function ($clients) {
-                return '<a href="clients/' . $clients->id . '" ">' . $clients->name . '</a>';
+        $referrals = Referral::select(['id', 'from_member_id', 'to_member_id', 'referral_date', 'description']);
+        return Datatables::of($referrals)
+            ->addColumn('from_name', function ($referrals) {
+                return $this->members->find($referrals->from_member_id)->name;
+            })
+            ->addColumn('to_name', function ($referrals) {
+                return $this->members->find($referrals->to_member_id)->name;
             })
             ->add_column('edit', '
-                <a href="{{ route(\'clients.edit\', $id) }}" class="btn btn-success" >Edit</a>')
+                <a href="{{ route(\'referrals.edit\', $id) }}" class="btn btn-success" >Edit</a>')
             ->add_column('delete', '
-                <form action="{{ route(\'clients.destroy\', $id) }}" method="POST">
+                <form action="{{ route(\'referrals.destroy\', $id) }}" method="POST">
             <input type="hidden" name="_method" value="DELETE">
             <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
 
@@ -73,19 +76,18 @@ class AttendanceController extends Controller
     {
     	$group_id = 1;
 
-        return view('attendance.create')
-            ->withMembers($this->members->getAllMembers($group_id))
-            ->withGuests($this->guests->listAllGuests($group_id));
+        return view('referrals.create')
+            ->withMembers($this->members->getAllMembers($group_id));
     }
 
     /**
      * @param StoreClientRequest $request
      * @return mixed
      */
-    public function store(StoreClientRequest $request)
+    public function store(StoreReferralRequest $request)
     {
-        $this->clients->create($request->all());
-        return redirect()->route('clients.index');
+        $this->referrals->create($request->all());
+        return redirect()->route('referrals.index');
     }
 
     /**
@@ -121,10 +123,11 @@ class AttendanceController extends Controller
      */
     public function edit($id)
     {
-        return view('clients.edit')
-            ->withClient($this->clients->find($id))
-            ->withUsers($this->users->getAllUsersWithDepartments())
-            ->withIndustries($this->clients->listAllIndustries());
+        $group_id = 1;
+
+        return view('referrals.edit')
+            ->withReferral($this->referrals->find($id))
+            ->withMembers($this->members->getAllMembers($group_id));
     }
 
     /**
@@ -132,11 +135,11 @@ class AttendanceController extends Controller
      * @param UpdateClientRequest $request
      * @return mixed
      */
-    public function update($id, UpdateClientRequest $request)
+    public function update($id, UpdateReferralRequest $request)
     {
-        $this->clients->update($id, $request);
-        Session()->flash('flash_message', 'Client successfully updated');
-        return redirect()->route('clients.index');
+        $this->referrals->update($id, $request);
+        Session()->flash('flash_message', 'Referral successfully updated');
+        return redirect()->route('referrals.index');
     }
 
     /**

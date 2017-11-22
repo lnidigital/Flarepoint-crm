@@ -78,6 +78,26 @@ Route::group(['middleware' => ['auth']], function () {
     });
         Route::resource('guests', 'GuestController');
     
+    /**
+     * Referral
+     */
+    Route::group(['prefix' => 'referral'], function () {
+        Route::get('/data', 'ReferralController@anyData')->name('referrals.data');
+        Route::post('/upload/{id}', 'ReferralController@upload');
+        Route::patch('/updateassign/{id}', 'ReferralController@updateAssign');
+    });
+        Route::resource('referrals', 'ReferralController');
+    
+    /**
+     * Referral
+     */
+    Route::group(['prefix' => 'onetoones'], function () {
+        Route::get('/data', 'OnetoOneController@anyData')->name('onetoones.data');
+        Route::post('/upload/{id}', 'OnetoOneController@upload');
+        Route::patch('/updateassign/{id}', 'OnetoOneController@updateAssign');
+    });
+        Route::resource('onetoones', 'OnetoOneController');
+    
       
     /**
      * Tasks

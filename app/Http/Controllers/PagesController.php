@@ -5,10 +5,12 @@ use DB;
 use Carbon;
 use App\Http\Requests;
 use App\Repositories\Task\TaskRepositoryContract;
+use App\Repositories\Referral\ReferralRepositoryContract;
 use App\Repositories\Lead\LeadRepositoryContract;
 use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Client\ClientRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
+use App\Repositories\Member\MemberRepositoryContract;
 
 class PagesController extends Controller
 {
@@ -18,19 +20,24 @@ class PagesController extends Controller
     protected $settings;
     protected $tasks;
     protected $leads;
+    protected $referrals;
 
     public function __construct(
         UserRepositoryContract $users,
         ClientRepositoryContract $clients,
         SettingRepositoryContract $settings,
         TaskRepositoryContract $tasks,
-        LeadRepositoryContract $leads
+        LeadRepositoryContract $leads,
+        ReferralRepositoryContract $referrals,
+        MemberRepositoryContract $members
     ) {
         $this->users = $users;
         $this->clients = $clients;
         $this->settings = $settings;
         $this->tasks = $tasks;
         $this->leads = $leads;
+        $this->referrals = $referrals;
+        $this->members = $members;
     }
 
     /**
@@ -39,6 +46,9 @@ class PagesController extends Controller
      */
     public function dashboard()
     {
+      $group_id = 1;
+
+      $members = $this->members->getMembers($group_id);
 
       /**
          * Other Statistics
@@ -70,6 +80,11 @@ class PagesController extends Controller
       */
          $taskCompletedThisMonth = $this->tasks->completedTasksThisMonth();
     
+    /**
+      * Statistics for referrals this month.
+      *
+      */
+         $referralsMadeThisMonth = $this->referrals->referralsMadeThisMonth();
 
      /**
       * Statistics for tasks each month(For Charts).
@@ -107,6 +122,7 @@ class PagesController extends Controller
         $createdLeadsMonthly = $this->leads->completedLeadsMonthly();
        
         return view('pages.dashboard', compact(
+            'referralsMadeThisMonth',
             'completedTasksToday',
             'completedLeadsToday',
             'createdTasksToday',
@@ -120,6 +136,7 @@ class PagesController extends Controller
             'totalTimeSpent',
             'totalClients',
             'users',
+            'members',
             'companyname',
             'alltasks',
             'allCompletedTasks',

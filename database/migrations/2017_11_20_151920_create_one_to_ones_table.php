@@ -13,8 +13,19 @@ class CreateOneToOnesTable extends Migration
      */
     public function up()
     {
-        Schema::create('one_to_ones', function (Blueprint $table) {
+        Schema::create('oneto_ones', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('first_member_id')->unsigned();
+            $table->foreign('first_member_id')->references('id')->on('members');
+            $table->integer('second_member_id')->unsigned();
+            $table->foreign('second_member_id')->references('id')->on('members');
+            // $table->integer('from_member_id')->unsigned();
+            // $table->integer('to_member_id')->unsigned();
+            $table->datetime('onetoone_date');
+            $table->integer('group_id')->unsigned();
+            $table->foreign('group_id')->references('id')->on('groups');
+            //$table->integer('group_id')->unsigned();
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -26,6 +37,6 @@ class CreateOneToOnesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('one_to_ones');
+        Schema::dropIfExists('oneto_ones');
     }
 }

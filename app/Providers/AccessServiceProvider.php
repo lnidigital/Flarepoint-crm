@@ -56,6 +56,14 @@ class AccessServiceProvider extends ServiceProvider
             \App\Repositories\Guest\GuestRepository::class
         );
         $this->app->bind(
+            \App\Repositories\Referral\ReferralRepositoryContract::class,
+            \App\Repositories\Referral\ReferralRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\Onetoone\OnetoOneRepositoryContract::class,
+            \App\Repositories\Onetoone\OnetoOneRepository::class
+        );
+        $this->app->bind(
             \App\Repositories\Lead\LeadRepositoryContract::class,
             \App\Repositories\Lead\LeadRepository::class
         );

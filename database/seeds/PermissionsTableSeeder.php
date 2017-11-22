@@ -156,6 +156,50 @@ class PermissionsTableSeeder extends Seeder
         $deleteClient->name = 'guest-delete';
         $deleteClient->description = 'Permission to delete guest';
         $deleteClient->save();
+
+        /**
+         * Referral Permissions (20-22)
+         */
+        
+        $createClient = new Permissions;
+        $createClient->display_name = 'Create referral';
+        $createClient->name = 'referral-create';
+        $createClient->description = 'Permission to create referral';
+        $createClient->save();
+
+        $updateClient = new Permissions;
+        $updateClient->display_name = 'Update referral';
+        $updateClient->name = 'referral-update';
+        $updateClient->description = 'Permission to update referral';
+        $updateClient->save();
+
+        $deleteClient = new Permissions;
+        $deleteClient->display_name = 'Delete referral';
+        $deleteClient->name = 'referral-delete';
+        $deleteClient->description = 'Permission to delete referral';
+        $deleteClient->save();
+
+        /**
+         * Referral Permissions (23-25)
+         */
+        
+        $createClient = new Permissions;
+        $createClient->display_name = 'Create 1-to-1';
+        $createClient->name = 'onetoone-create';
+        $createClient->description = 'Permission to create 1-to-1';
+        $createClient->save();
+
+        $updateClient = new Permissions;
+        $updateClient->display_name = 'Update 1-to-1';
+        $updateClient->name = 'onetoone-update';
+        $updateClient->description = 'Permission to update 1-to-1';
+        $updateClient->save();
+
+        $deleteClient = new Permissions;
+        $deleteClient->display_name = 'Delete 1-to-1';
+        $deleteClient->name = 'onetoone-delete';
+        $deleteClient->description = 'Permission to delete 1-to-1';
+        $deleteClient->save();
         
     }
 }

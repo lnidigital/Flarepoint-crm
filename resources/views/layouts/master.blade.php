@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Flarepoint CRM</title>
+    <title>Grow CRM</title>
     <link href="{{ URL::asset('css/jasny-bootstrap.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
@@ -86,7 +86,7 @@ $('body').click(function(e) {
 
     <nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
         <div class="list-group panel">
-            <p class=" list-group-item siderbar-top" title=""><img src="{{url('images/flarepoint_logo.png')}}" alt=""></p>
+            <p class=" list-group-item siderbar-top" title=""><img src="{{url('images/grow-crm-logo.png')}}" alt="" width="160px"></p>
             <a href="{{route('dashboard', \Auth::id())}}" class=" list-group-item" data-parent="#MainMenu"><i
                         class="glyphicon sidebar-icon glyphicon-dashboard"></i><span id="menu-txt">{{ __('Dashboard') }}</span> </a>
             
@@ -100,23 +100,33 @@ $('body').click(function(e) {
                 @endif
             </div>
 
-            <a href="#tasks" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-tasks"></i><span id="menu-txt">{{ __('Referrals') }}</span>
+            <a href="#referrals" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
+                        class="glyphicon sidebar-icon glyphicon-leaf"></i><span id="menu-txt">{{ __('Referrals') }}</span>
             <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-            <div class="collapse" id="tasks">
-                <a href="{{ route('tasks.index')}}" class="list-group-item childlist">{{ __('All Tasks') }}</a>
-                @if(Entrust::can('task-create'))
-                    <a href="{{ route('tasks.create')}}" class="list-group-item childlist">{{ __('New Task') }}</a>
+            <div class="collapse" id="referrals">
+                <a href="{{ route('referrals.index')}}" class="list-group-item childlist">{{ __('All Referrals') }}</a>
+                @if(Entrust::can('referral-create'))
+                    <a href="{{ route('referrals.create')}}" class="list-group-item childlist">{{ __('New Referral') }}</a>
                 @endif
             </div>
 
-            <a href="#tasks" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-tasks"></i><span id="menu-txt">{{ __('One-to-Ones') }}</span>
+            <a href="#revenues" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
+                        class="glyphicon sidebar-icon glyphicon-leaf"></i><span id="menu-txt">{{ __('Revenue') }}</span>
             <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-            <div class="collapse" id="tasks">
-                <a href="{{ route('tasks.index')}}" class="list-group-item childlist">{{ __('All Tasks') }}</a>
-                @if(Entrust::can('task-create'))
-                    <a href="{{ route('tasks.create')}}" class="list-group-item childlist">{{ __('New Task') }}</a>
+            <div class="collapse" id="revenues">
+                <a href="{{ route('referrals.index')}}" class="list-group-item childlist">{{ __('All Revenue') }}</a>
+                @if(Entrust::can('referral-create'))
+                    <a href="{{ route('referrals.create')}}" class="list-group-item childlist">{{ __('New Revnue') }}</a>
+                @endif
+            </div>
+
+            <a href="#onetoones" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
+                        class="glyphicon sidebar-icon glyphicon-tasks"></i><span id="menu-txt">{{ __('1-to-1s') }}</span>
+            <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
+            <div class="collapse" id="onetoones">
+                <a href="{{ route('onetoones.index')}}" class="list-group-item childlist">{{ __('All 1-to-1s') }}</a>
+                @if(Entrust::can('onetoone-create'))
+                    <a href="{{ route('onetoones.create')}}" class="list-group-item childlist">{{ __('New 1-to-1') }}</a>
                 @endif
             </div>
 
@@ -150,8 +160,9 @@ $('body').click(function(e) {
 
             <a href="{{ url('/logout') }}" class=" list-group-item impmenu" data-parent="#MainMenu"><i
                         class="glyphicon sidebar-icon glyphicon-log-out"></i><span id="menu-txt">{{ __('Sign Out') }}</span> </a>
-
         </div>
+
+        @if(Entrust::hasRole('administrator'))
         <div class="list-group panel">
             <a href="#departments" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
                         class="sidebar-icon glyphicon glyphicon-list-alt"></i><span id="menu-txt">{{ __('Groups') }}</span>
@@ -176,6 +187,7 @@ $('body').click(function(e) {
                 @endif
             </div>
         </div>
+        @endif
 
         <div class="list-group panel">
             @if(Entrust::hasRole('administrator'))
@@ -196,33 +208,36 @@ $('body').click(function(e) {
             @endif
 
         </div>
-        <div class="list-group panel">
-            <a href="#clients" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-tag"></i><span id="menu-txt">{{ __('Clients') }}</span>
-            <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-            <div class="collapse" id="clients">
 
-                <a href="{{ route('clients.index')}}" class="list-group-item childlist">{{ __('All Clients') }}</a>
-                @if(Entrust::can('client-create'))
-                    <a href="{{ route('clients.create')}}"
-                       class="list-group-item childlist">{{ __('New Client') }}</a>
-                @endif
+        @if(Entrust::hasRole('super'))
+            <div class="list-group panel">
+                <a href="#clients" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
+                            class="glyphicon sidebar-icon glyphicon-tag"></i><span id="menu-txt">{{ __('Clients') }}</span>
+                <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
+                <div class="collapse" id="clients">
+
+                    <a href="{{ route('clients.index')}}" class="list-group-item childlist">{{ __('All Clients') }}</a>
+                    @if(Entrust::can('client-create'))
+                        <a href="{{ route('clients.create')}}"
+                           class="list-group-item childlist">{{ __('New Client') }}</a>
+                    @endif
+                </div>
+
+                
+
+                
+                <a href="#leads" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
+                            class="glyphicon sidebar-icon glyphicon-hourglass"></i><span id="menu-txt">{{ __('Leads') }}</span>
+                <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
+                <div class="collapse" id="leads">
+                    <a href="{{ route('leads.index')}}" class="list-group-item childlist">{{ __('All Leads') }}</a>
+                    @if(Entrust::can('lead-create'))
+                        <a href="{{ route('leads.create')}}"
+                           class="list-group-item childlist">{{ __('New Lead') }}</a>
+                    @endif
+                </div>  
             </div>
-
-            
-
-            
-            <a href="#leads" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-hourglass"></i><span id="menu-txt">{{ __('Leads') }}</span>
-            <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-            <div class="collapse" id="leads">
-                <a href="{{ route('leads.index')}}" class="list-group-item childlist">{{ __('All Leads') }}</a>
-                @if(Entrust::can('lead-create'))
-                    <a href="{{ route('leads.create')}}"
-                       class="list-group-item childlist">{{ __('New Lead') }}</a>
-                @endif
-            </div>
-        </div>
+        @endif
     </nav>
 
 

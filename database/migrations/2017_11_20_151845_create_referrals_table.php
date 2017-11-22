@@ -15,6 +15,17 @@ class CreateReferralsTable extends Migration
     {
         Schema::create('referrals', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('from_member_id')->unsigned();
+            $table->foreign('from_member_id')->references('id')->on('members');
+            $table->integer('to_member_id')->unsigned();
+            $table->foreign('to_member_id')->references('id')->on('members');
+            // $table->integer('from_member_id')->unsigned();
+            // $table->integer('to_member_id')->unsigned();
+            $table->datetime('referral_date');
+            $table->integer('group_id')->unsigned();
+            $table->foreign('group_id')->references('id')->on('groups');
+            //$table->integer('group_id')->unsigned();
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -26,6 +37,8 @@ class CreateReferralsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('referrals');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::drop('referrals');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

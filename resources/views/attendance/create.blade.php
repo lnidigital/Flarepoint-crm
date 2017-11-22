@@ -12,7 +12,7 @@
             <th>{{ __('Company') }}</th>
             <th>{{ __('Mail') }}</th>
             <th>{{ __('Number') }}</th>
-            <th></th>
+            <th>{{ __('Attended?') }}</th>
             <th></th>
         </tr>
         </thead>
@@ -34,12 +34,17 @@
                 {data: 'company_name', name: 'company_name'},
                 {data: 'email', name: 'email'},
                 {data: 'primary_number', name: 'primary_number'},
-                @if(Entrust::can('client-update'))   
-                { data: 'edit', name: 'edit', orderable: false, searchable: false},
+                @if(Entrust::can('attendance-update'))   
+                { 
+                	data: 'edit', render: function ( data, type, row ) {
+                    if ( type === 'display' ) {
+                        return '<input type="checkbox" class="editor-active">';
+                    }
+                    return data;
+                },
+                 },
                 @endif
-                @if(Entrust::can('client-delete'))   
-                { data: 'delete', name: 'delete', orderable: false, searchable: false},
-                @endif
+              
 
             ]
         });
