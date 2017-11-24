@@ -59,6 +59,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('members', 'MembersController');
     
     /**
+     * Meetings
+     */
+    Route::group(['prefix' => 'meetings'], function () {
+        Route::get('/data', 'MeetingsController@anyData')->name('meetings.data');
+        Route::post('/upload/{id}', 'MeetingsController@upload');
+        Route::patch('/updateassign/{id}', 'MeetingsController@updateAssign');
+    });
+        Route::resource('meetings', 'MeetingsController');
+
+    /**
      * Attendance
      */
     Route::group(['prefix' => 'attendance'], function () {
@@ -97,6 +107,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::patch('/updateassign/{id}', 'OnetoOneController@updateAssign');
     });
         Route::resource('onetoones', 'OnetoOneController');
+    
+    /**
+     * Revenue
+     */
+    Route::group(['prefix' => 'revenues'], function () {
+        Route::get('/data', 'RevenueController@anyData')->name('revenues.data');
+        Route::post('/upload/{id}', 'RevenueController@upload');
+        Route::patch('/updateassign/{id}', 'RevenueController@updateAssign');
+    });
+        Route::resource('revenues', 'RevenueController');
     
       
     /**

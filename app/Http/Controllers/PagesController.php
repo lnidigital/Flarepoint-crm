@@ -11,6 +11,7 @@ use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Client\ClientRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 use App\Repositories\Member\MemberRepositoryContract;
+use Illuminate\Support\Facades\Log;
 
 class PagesController extends Controller
 {
@@ -48,8 +49,10 @@ class PagesController extends Controller
     {
       $group_id = 1;
 
-      $members = $this->members->getMembers($group_id);
 
+      $members = $this->members->getMembers($group_id);
+      Log::info("dashboard members: " . json_encode($members));
+      
       /**
          * Other Statistics
          *

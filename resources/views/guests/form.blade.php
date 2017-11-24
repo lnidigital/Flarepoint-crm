@@ -11,6 +11,18 @@
     </div>
 
     <div class="form-group col-sm-6 removeleft removeright">
+        {!! Form::label('email', 'Email:', ['class' => 'control-label']) !!}
+        {!! 
+            Form::email('email',
+            isset($data['email']) ? $data['email'] : null, 
+            ['class' => 'form-control']) 
+        !!}
+
+    </div>
+</div>
+
+<div class="form-inline">
+    <div class="form-group col-sm-6 removeleft">
         {!! Form::label('company_name', 'Company name:', ['class' => 'control-label']) !!}
         {!! 
             Form::text('company_name',
@@ -18,24 +30,13 @@
             ['class' => 'form-control']) 
         !!}
     </div>
-</div>
-
-<div class="form-inline">
-    <div class="form-group col-sm-6 removeleft">
-        {!! Form::label('email', 'Email:', ['class' => 'control-label']) !!}
-        {!! 
-            Form::email('email',
-            isset($data['email']) ? $data['email'] : null, 
-            ['class' => 'form-control']) 
-        !!}
-    </div>
     <div class="form-group col-sm-6 removeleft removeright">
-        {!! Form::label('member_id', 'Invited by:', ['class' => 'control-label']) !!}
-        {!!
-        Form::select('member_id',
-        $members,
+        {!! Form::label('industry', 'Industry:', ['class' => 'control-label']) !!}
+    {!!
+        Form::select('industry_id',
+        $industries,
         null,
-        ['class' => 'form-control ui search selection top right pointing search-select',
+        ['placeholder' => 'Select Industry', 'class' => 'form-control ui search selection top right pointing search-select',
         'id' => 'search-select'])
     !!}
     </div>
@@ -52,12 +53,14 @@
     </div>
 
     <div class="form-group col-sm-6 removeleft removeright">
-        {!! Form::label('secondary_number', 'Secondary Number:', ['class' => 'control-label']) !!}
-        {!! 
-            Form::text('secondary_number',  
-            null, 
-            ['class' => 'form-control']) 
-        !!}
+        {!! Form::label('member_id', 'Invited by:', ['class' => 'control-label']) !!}
+        {!!
+        Form::select('member_id',
+        $members,
+        null,
+        ['class' => 'form-control ui search selection top right pointing search-select',
+        'id' => 'search-select'])
+    !!}
     </div>
 </div>
 
@@ -103,14 +106,7 @@
 
 
 <div class="form-group">
-    {!! Form::label('industry', 'Industry:', ['class' => 'control-label']) !!}
-    {!!
-        Form::select('industry_id',
-        $industries,
-        null,
-        ['class' => 'form-control ui search selection top right pointing search-select',
-        'id' => 'search-select'])
-    !!}
+    
 </div>
 
 {{ Form::hidden('group_id', '1') }}

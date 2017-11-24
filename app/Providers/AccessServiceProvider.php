@@ -64,6 +64,14 @@ class AccessServiceProvider extends ServiceProvider
             \App\Repositories\Onetoone\OnetoOneRepository::class
         );
         $this->app->bind(
+            \App\Repositories\Meeting\MeetingRepositoryContract::class,
+            \App\Repositories\Meeting\MeetingRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\Revenue\RevenueRepositoryContract::class,
+            \App\Repositories\Revenue\RevenueRepository::class
+        );
+        $this->app->bind(
             \App\Repositories\Lead\LeadRepositoryContract::class,
             \App\Repositories\Lead\LeadRepository::class
         );

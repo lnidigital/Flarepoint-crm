@@ -91,9 +91,13 @@ $('body').click(function(e) {
                         class="glyphicon sidebar-icon glyphicon-dashboard"></i><span id="menu-txt">{{ __('Dashboard') }}</span> </a>
             
             <a href="#attendance" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-tasks"></i><span id="menu-txt">{{ __('Attendance') }}</span>
+                        class="glyphicon sidebar-icon glyphicon-pencil"></i><span id="menu-txt">{{ __('Attendance') }}</span>
             <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
             <div class="collapse" id="attendance">
+                <a href="{{ route('meetings.index')}}" class="list-group-item childlist">{{ __('View Meetings') }}</a>
+                @if(Entrust::can('meeting-create'))
+                    <a href="{{ route('meetings.create')}}" class="list-group-item childlist">{{ __('New Meeting') }}</a>
+                @endif
                 <a href="{{ route('attendance.index')}}" class="list-group-item childlist">{{ __('View Attendance') }}</a>
                 @if(Entrust::can('attendance-create'))
                     <a href="{{ route('attendance.create')}}" class="list-group-item childlist">{{ __('Record Attendance') }}</a>
@@ -101,7 +105,7 @@ $('body').click(function(e) {
             </div>
 
             <a href="#referrals" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-leaf"></i><span id="menu-txt">{{ __('Referrals') }}</span>
+                        class="glyphicon sidebar-icon glyphicon-transfer"></i><span id="menu-txt">{{ __('Referrals') }}</span>
             <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
             <div class="collapse" id="referrals">
                 <a href="{{ route('referrals.index')}}" class="list-group-item childlist">{{ __('All Referrals') }}</a>
@@ -111,17 +115,17 @@ $('body').click(function(e) {
             </div>
 
             <a href="#revenues" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-leaf"></i><span id="menu-txt">{{ __('Revenue') }}</span>
+                        class="glyphicon sidebar-icon glyphicon-usd"></i><span id="menu-txt">{{ __('Revenue') }}</span>
             <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
             <div class="collapse" id="revenues">
-                <a href="{{ route('referrals.index')}}" class="list-group-item childlist">{{ __('All Revenue') }}</a>
-                @if(Entrust::can('referral-create'))
-                    <a href="{{ route('referrals.create')}}" class="list-group-item childlist">{{ __('New Revnue') }}</a>
+                <a href="{{ route('revenues.index')}}" class="list-group-item childlist">{{ __('All Revenue') }}</a>
+                @if(Entrust::can('revenue-create'))
+                    <a href="{{ route('revenues.create')}}" class="list-group-item childlist">{{ __('New Revnue') }}</a>
                 @endif
             </div>
 
             <a href="#onetoones" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-tasks"></i><span id="menu-txt">{{ __('1-to-1s') }}</span>
+                        class="glyphicon sidebar-icon glyphicon-flash"></i><span id="menu-txt">{{ __('1-to-1s') }}</span>
             <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
             <div class="collapse" id="onetoones">
                 <a href="{{ route('onetoones.index')}}" class="list-group-item childlist">{{ __('All 1-to-1s') }}</a>
@@ -131,7 +135,7 @@ $('body').click(function(e) {
             </div>
 
             <a href="#guests" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-tasks"></i><span id="menu-txt">{{ __('Guests') }}</span>
+                        class="glyphicon sidebar-icon glyphicon-sunglasses"></i><span id="menu-txt">{{ __('Guests') }}</span>
             <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
             <div class="collapse" id="guests">
                 <a href="{{ route('guests.index')}}" class="list-group-item childlist">{{ __('All Guests') }}</a>
@@ -141,7 +145,7 @@ $('body').click(function(e) {
             </div>
             
             <a href="#members" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-tag"></i><span id="menu-txt">{{ __('Members') }}</span>
+                        class="glyphicon sidebar-icon glyphicon-globe"></i><span id="menu-txt">{{ __('Members') }}</span>
             <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
             <div class="collapse" id="members">
 

@@ -19,6 +19,24 @@ class UserRoleTableSeeder extends Seeder
         $newrole->save();
 
         $newrole = new RoleUser;
+        $newrole->role_id = '3';
+        $newrole->user_id = '1';
+        $newrole->timestamps = false;
+        $newrole->save();
+
+        $newrole = new RoleUser;
+        $newrole->role_id = '2';
+        $newrole->user_id = '1';
+        $newrole->timestamps = false;
+        $newrole->save();
+
+        $newrole = new RoleUser;
+        $newrole->role_id = '1';
+        $newrole->user_id = '1';
+        $newrole->timestamps = false;
+        $newrole->save();
+
+        $newrole = new RoleUser;
         $newrole->role_id = '2'; // 2 = manager
         $newrole->user_id = '2';  // 2 = grow-manager@lnidigital.com
         $newrole->timestamps = false;

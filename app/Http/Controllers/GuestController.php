@@ -33,8 +33,8 @@ class GuestController extends Controller
         $this->members = $members;
         $this->guests = $guests;
         $this->settings = $settings;
-        $this->middleware('client.create', ['only' => ['create']]);
-        $this->middleware('client.update', ['only' => ['edit']]);
+        $this->middleware('guest.create', ['only' => ['create']]);
+        $this->middleware('guest.update', ['only' => ['edit']]);
     }
 
     /**
@@ -54,7 +54,7 @@ class GuestController extends Controller
         $guests = Guest::select(['id', 'name', 'company_name', 'email', 'primary_number']);
         return Datatables::of($guests)
             ->addColumn('namelink', function ($guests) {
-                return $guests->name;
+                return '<a href="guests/' . $guests->id . '" ">' . $guests->name . '</a>';
             })
             ->add_column('edit', '
                 <a href="{{ route(\'guests.edit\', $id) }}" class="btn btn-success" >Edit</a>')
@@ -77,6 +77,7 @@ class GuestController extends Controller
     {
         return view('guests.create')
             ->withUsers($this->users->getAllUsersWithDepartments())
+            ->withMembers($this->members->getMembers(1))
             ->withIndustries($this->members->listAllIndustries());
     }
 
@@ -109,7 +110,7 @@ class GuestController extends Controller
     public function show($id)
     {
         return view('guests.show')
-            ->withMember($this->members->find($id))
+            ->with('guest', $this->guests->find($id))
             ->withCompanyname($this->settings->getCompanyName())
             ->withUsers($this->users->getAllUsersWithDepartments());
     }

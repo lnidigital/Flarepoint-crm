@@ -24,6 +24,7 @@ class CreateMembersTable extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('company_name');
+            $table->string('image_path')->nullable();
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
             $table->integer('user_id')->unsigned();
