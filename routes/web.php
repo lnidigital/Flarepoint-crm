@@ -47,6 +47,77 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('clients', 'ClientsController');
 	    Route::resource('documents', 'DocumentsController');
 	
+    /**
+     * Members
+     */
+    Route::group(['prefix' => 'members'], function () {
+        Route::get('/data', 'MembersController@anyData')->name('members.data');
+        Route::post('/create/cvrapi', 'MembersController@cvrapiStart');
+        Route::post('/upload/{id}', 'DocumentsController@upload');
+        Route::patch('/updateassign/{id}', 'MembersController@updateAssign');
+    });
+        Route::resource('members', 'MembersController');
+    
+    /**
+     * Meetings
+     */
+    Route::group(['prefix' => 'meetings'], function () {
+        Route::get('/data', 'MeetingsController@anyData')->name('meetings.data');
+        Route::post('/upload/{id}', 'MeetingsController@upload');
+        Route::patch('/updateassign/{id}', 'MeetingsController@updateAssign');
+    });
+        Route::resource('meetings', 'MeetingsController');
+
+    /**
+     * Attendance
+     */
+    Route::group(['prefix' => 'attendance'], function () {
+        Route::get('/data', 'AttendanceController@anyData')->name('attendance.data');
+        Route::post('/upload/{id}', 'AttendanceController@upload');
+        Route::patch('/updateassign/{id}', 'AttendanceController@updateAssign');
+    });
+        Route::resource('attendance', 'AttendanceController');
+
+    /**
+     * Guests
+     */
+    Route::group(['prefix' => 'guests'], function () {
+        Route::get('/data', 'GuestController@anyData')->name('guests.data');
+        Route::post('/upload/{id}', 'GuestController@upload');
+        Route::patch('/updateassign/{id}', 'GuestController@updateAssign');
+    });
+        Route::resource('guests', 'GuestController');
+    
+    /**
+     * Referral
+     */
+    Route::group(['prefix' => 'referral'], function () {
+        Route::get('/data', 'ReferralController@anyData')->name('referrals.data');
+        Route::post('/upload/{id}', 'ReferralController@upload');
+        Route::patch('/updateassign/{id}', 'ReferralController@updateAssign');
+    });
+        Route::resource('referrals', 'ReferralController');
+    
+    /**
+     * Referral
+     */
+    Route::group(['prefix' => 'onetoones'], function () {
+        Route::get('/data', 'OnetoOneController@anyData')->name('onetoones.data');
+        Route::post('/upload/{id}', 'OnetoOneController@upload');
+        Route::patch('/updateassign/{id}', 'OnetoOneController@updateAssign');
+    });
+        Route::resource('onetoones', 'OnetoOneController');
+    
+    /**
+     * Revenue
+     */
+    Route::group(['prefix' => 'revenues'], function () {
+        Route::get('/data', 'RevenueController@anyData')->name('revenues.data');
+        Route::post('/upload/{id}', 'RevenueController@upload');
+        Route::patch('/updateassign/{id}', 'RevenueController@updateAssign');
+    });
+        Route::resource('revenues', 'RevenueController');
+    
       
     /**
      * Tasks

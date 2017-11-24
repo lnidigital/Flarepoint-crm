@@ -28,17 +28,17 @@
                 <div class="small-box bg-aqua">
                     <div class="inner">
                         <h3>
-                            @foreach($taskCompletedThisMonth as $thisMonth)
+                            @foreach($referralsThisMonth as $thisMonth)
                                 {{$thisMonth->total}}
                             @endforeach
                         </h3>
 
-                        <p>{{ __('Tasks completed this month') }}</p>
+                        <p>{{ __('Referrals this month') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-ios-book-outline"></i>
                     </div>
-                    <a href="{{route('tasks.index')}}" class="small-box-footer">{{ __('All Tasks') }} <i
+                    <a href="{{route('referrals.index')}}" class="small-box-footer">{{ __('All Referrals') }} <i
                                 class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -48,17 +48,17 @@
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3>
-                            @foreach($leadCompletedThisMonth as $thisMonth)
+                            @foreach($onetoonesThisMonth as $thisMonth)
                                 {{$thisMonth->total}}
                             @endforeach
                         </h3>
 
-                        <p>{{ __('Leads completed this month') }}</p>
+                        <p>{{ __('1-to-1s completed this month') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="{{route('leads.index')}}" class="small-box-footer">{{ __('All Leads') }} <i
+                    <a href="{{route('onetoones.index')}}" class="small-box-footer">{{ __('All 1-to-1s') }} <i
                                 class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -67,14 +67,16 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>{{$totalClients}}</h3>
+                        <h3>@foreach($guestsThisMonth as $thisMonth)
+                                {{$thisMonth->total}}
+                            @endforeach</h3>
 
-                        <p>{{ __('All Clients') }}</p>
+                        <p>{{ __('Guests this month') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person"></i>
                     </div>
-                    <a href="{{route('clients.index')}}" class="small-box-footer">{{ __('All clients') }} <i
+                    <a href="{{route('guests.index')}}" class="small-box-footer">{{ __('All guests') }} <i
                                 class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -83,16 +85,10 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>
-                            @foreach($totalTimeSpent[0] as $sum => $value)
-
-                                {{$value}}
-                            @endforeach
-                            @if($value == "")
-                                0
-                            @endif</h3>
-
-                        <p>{{ __('Total hours registered') }}</p>
+                        <h3>@foreach($revenuesThisMonth as $thisMonth)
+                                ${{$thisMonth->total}}
+                            @endforeach</h3>
+                        <p>{{ __('Total revenue generated') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
@@ -131,7 +127,7 @@
         @endforeach
         <div class="row">
 
-            @include('partials.dashboardone')
+            @include('partials.dashboardgrow')
 
 
         </div>

@@ -75,5 +75,309 @@ class RolePermissionTableSeeder extends Seeder
         $updateLead->permission_id = '10';
         $updateLead->timestamps = false;
         $updateLead->save();
+
+        // administrator & member update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '1';
+        $updateTask->permission_id = '11';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '1';
+        $createLead->permission_id = '12';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '1';
+        $updateLead->permission_id = '13';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // manager & member update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '2';
+        $updateTask->permission_id = '11';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '2';
+        $createLead->permission_id = '12';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '2';
+        $updateLead->permission_id = '13';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // admin & attendance update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '1';
+        $updateTask->permission_id = '14';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '1';
+        $createLead->permission_id = '15';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '1';
+        $updateLead->permission_id = '16';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // manager & attendance update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '2';
+        $updateTask->permission_id = '14';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '2';
+        $createLead->permission_id = '15';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '2';
+        $updateLead->permission_id = '16';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // admin & guests update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '1';
+        $updateTask->permission_id = '17';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '1';
+        $createLead->permission_id = '18';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '1';
+        $updateLead->permission_id = '19';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // manager & guests update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '2';
+        $updateTask->permission_id = '17';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '2';
+        $createLead->permission_id = '18';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '2';
+        $updateLead->permission_id = '19';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // admin & guests update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '1';
+        $updateTask->permission_id = '20';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '1';
+        $createLead->permission_id = '21';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '1';
+        $updateLead->permission_id = '22';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // manager & guests update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '2';
+        $updateTask->permission_id = '20';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '2';
+        $createLead->permission_id = '21';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '2';
+        $updateLead->permission_id = '22';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // admin & guests update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '1';
+        $updateTask->permission_id = '23';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '1';
+        $createLead->permission_id = '24';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '1';
+        $updateLead->permission_id = '25';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // manager & guests update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '2';
+        $updateTask->permission_id = '23';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '2';
+        $createLead->permission_id = '24';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '2';
+        $updateLead->permission_id = '25';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // admin & meeting update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '1';
+        $updateTask->permission_id = '26';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '1';
+        $createLead->permission_id = '27';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '1';
+        $updateLead->permission_id = '28';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // manager & meetings update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '2';
+        $updateTask->permission_id = '26';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '2';
+        $createLead->permission_id = '27';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '2';
+        $updateLead->permission_id = '28';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // admin & revenue update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '1';
+        $updateTask->permission_id = '29';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '1';
+        $createLead->permission_id = '30';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '1';
+        $updateLead->permission_id = '31';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // manager & revenue update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '2';
+        $updateTask->permission_id = '29';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '2';
+        $createLead->permission_id = '30';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '2';
+        $updateLead->permission_id = '31';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // admin & group update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '1';
+        $updateTask->permission_id = '32';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '1';
+        $createLead->permission_id = '33';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '1';
+        $updateLead->permission_id = '34';
+        $updateLead->timestamps = false;
+        $updateLead->save();
+
+        // manager & group update
+        $updateTask = new PermissionRole;
+        $updateTask->role_id = '2';
+        $updateTask->permission_id = '32';
+        $updateTask->timestamps = false;
+        $updateTask->save();
+
+        $createLead = new PermissionRole;
+        $createLead->role_id = '2';
+        $createLead->permission_id = '33';
+        $createLead->timestamps = false;
+        $createLead->save();
+
+        $updateLead = new PermissionRole;
+        $updateLead->role_id = '2';
+        $updateLead->permission_id = '34';
+        $updateLead->timestamps = false;
+        $updateLead->save();
     }
 }

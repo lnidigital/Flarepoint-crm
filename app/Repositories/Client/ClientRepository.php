@@ -6,6 +6,8 @@ use App\Models\Industry;
 use App\Models\Invoice;
 use App\Models\User;
 use DB;
+use Illuminate\Support\Facades\Log;
+
 /**
  * Class ClientRepository
  * @package App\Repositories\Client
@@ -64,6 +66,7 @@ class ClientRepository implements ClientRepositoryContract
      */
     public function create($requestData)
     {
+        Log::info('requestData:'.json_encode($requestData));
         $client = Client::create($requestData);
         Session()->flash('flash_message', 'Client successfully added');
         event(new \App\Events\ClientAction($client, self::CREATED));

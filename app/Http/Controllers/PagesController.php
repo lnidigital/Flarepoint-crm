@@ -5,10 +5,16 @@ use DB;
 use Carbon;
 use App\Http\Requests;
 use App\Repositories\Task\TaskRepositoryContract;
+use App\Repositories\Referral\ReferralRepositoryContract;
+use App\Repositories\Onetoone\OnetoOneRepositoryContract;
+use App\Repositories\Guest\GuestRepositoryContract;
+use App\Repositories\Revenue\RevenueRepositoryContract;
 use App\Repositories\Lead\LeadRepositoryContract;
 use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Client\ClientRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
+use App\Repositories\Member\MemberRepositoryContract;
+use Illuminate\Support\Facades\Log;
 
 class PagesController extends Controller
 {
@@ -18,19 +24,30 @@ class PagesController extends Controller
     protected $settings;
     protected $tasks;
     protected $leads;
+    protected $referrals;
 
     public function __construct(
         UserRepositoryContract $users,
         ClientRepositoryContract $clients,
         SettingRepositoryContract $settings,
         TaskRepositoryContract $tasks,
-        LeadRepositoryContract $leads
+        LeadRepositoryContract $leads,
+        ReferralRepositoryContract $referrals,
+        OnetoOneRepositoryContract $onetoones,
+        GuestRepositoryContract $guests,
+        RevenueRepositoryContract $revenues,
+        MemberRepositoryContract $members
     ) {
         $this->users = $users;
         $this->clients = $clients;
         $this->settings = $settings;
         $this->tasks = $tasks;
         $this->leads = $leads;
+        $this->referrals = $referrals;
+        $this->onetoones = $onetoones;
+        $this->guests = $guests;
+        $this->revenues = $revenues;
+        $this->members = $members;
     }
 
     /**
@@ -39,7 +56,22 @@ class PagesController extends Controller
      */
     public function dashboard()
     {
+      $group_id = 1;
 
+
+      $members = $this->members->getMembers($group_id);
+
+      $referralsThisMonth = $this->referrals->referralsMadeThisMonth();
+
+      $onetoonesThisMonth = $this->onetoones->onetoonesMadeThisMonth();
+
+      $guestsThisMonth = $this->guests->guestsMadeThisMonth();
+
+      $revenuesThisMonth = $this->revenues->revenuesMadeThisMonth();
+
+
+      //Log::info("dashboard members: " . json_encode($members));
+      
       /**
          * Other Statistics
          *
@@ -70,6 +102,11 @@ class PagesController extends Controller
       */
          $taskCompletedThisMonth = $this->tasks->completedTasksThisMonth();
     
+    /**
+      * Statistics for referrals this month.
+      *
+      */
+         
 
      /**
       * Statistics for tasks each month(For Charts).
@@ -107,6 +144,10 @@ class PagesController extends Controller
         $createdLeadsMonthly = $this->leads->completedLeadsMonthly();
        
         return view('pages.dashboard', compact(
+            'onetoonesThisMonth',
+            'referralsThisMonth',
+            'guestsThisMonth',
+            'revenuesThisMonth',
             'completedTasksToday',
             'completedLeadsToday',
             'createdTasksToday',
@@ -120,6 +161,7 @@ class PagesController extends Controller
             'totalTimeSpent',
             'totalClients',
             'users',
+            'members',
             'companyname',
             'alltasks',
             'allCompletedTasks',
