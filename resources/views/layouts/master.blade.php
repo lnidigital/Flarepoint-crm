@@ -145,7 +145,7 @@ $('body').click(function(e) {
             </div>
             
             <a href="#members" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                        class="glyphicon sidebar-icon glyphicon-globe"></i><span id="menu-txt">{{ __('Members') }}</span>
+                        class="sidebar-icon fa fa-users"></i><span id="menu-txt">{{ __('Members') }}</span>
             <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
             <div class="collapse" id="members">
 

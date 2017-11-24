@@ -25,14 +25,13 @@ class StoreGuestRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'company_name' => 'required',
-            'email' => 'required',
+            'company_name' => '',
+            'email' => '',
             'address' => '',
             'zipcode' => 'max:6',
             'city' => '',
             'primary_number' => 'max:10',
-            'secondary_number' => 'max:10',
-            'industry_id' => 'required',
+            'secondary_number' => 'max:10'
             
         ];
     }

@@ -35,6 +35,13 @@ class OnetoOneRepository implements OnetoOneRepositoryContract
         return OnetoOne::pluck('name', 'id');
     }
 
+    public function onetoonesMadeThisMonth()
+    {
+        return DB::table('oneto_ones')
+            ->select(DB::raw('count(*) as total, updated_at'))
+            ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
+    }
+
     /**
      * @param $id
      * @return mixed

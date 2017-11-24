@@ -28,7 +28,7 @@
                 <div class="small-box bg-aqua">
                     <div class="inner">
                         <h3>
-                            @foreach($referralsMadeThisMonth as $thisMonth)
+                            @foreach($referralsThisMonth as $thisMonth)
                                 {{$thisMonth->total}}
                             @endforeach
                         </h3>
@@ -48,7 +48,7 @@
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3>
-                            @foreach($leadCompletedThisMonth as $thisMonth)
+                            @foreach($onetoonesThisMonth as $thisMonth)
                                 {{$thisMonth->total}}
                             @endforeach
                         </h3>
@@ -58,7 +58,7 @@
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="{{route('leads.index')}}" class="small-box-footer">{{ __('All 1-to-1s') }} <i
+                    <a href="{{route('onetoones.index')}}" class="small-box-footer">{{ __('All 1-to-1s') }} <i
                                 class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -67,9 +67,11 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>{{$totalClients}}</h3>
+                        <h3>@foreach($guestsThisMonth as $thisMonth)
+                                {{$thisMonth->total}}
+                            @endforeach</h3>
 
-                        <p>{{ __('All Guests') }}</p>
+                        <p>{{ __('Guests this month') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person"></i>
@@ -83,15 +85,9 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>
-                            @foreach($totalTimeSpent[0] as $sum => $value)
-
-                                {{$value}}
-                            @endforeach
-                            @if($value == "")
-                                0
-                            @endif</h3>
-
+                        <h3>@foreach($revenuesThisMonth as $thisMonth)
+                                ${{$thisMonth->total}}
+                            @endforeach</h3>
                         <p>{{ __('Total revenue generated') }}</p>
                     </div>
                     <div class="icon">

@@ -75,9 +75,11 @@ class GuestController extends Controller
      */
     public function create()
     {
+        $group_id = 1;
+
         return view('guests.create')
             ->withUsers($this->users->getAllUsersWithDepartments())
-            ->withMembers($this->members->getMembers(1))
+            ->withMembers($this->members->getMembersSelect($group_id))
             ->withIndustries($this->members->listAllIndustries());
     }
 

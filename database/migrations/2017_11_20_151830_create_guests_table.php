@@ -16,7 +16,7 @@ class CreateGuestsTable extends Migration
         Schema::create('guests', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
             $table->string('primary_number')->nullable();
             $table->string('secondary_number')->nullable();
             $table->string('address')->nullable();
@@ -30,8 +30,6 @@ class CreateGuestsTable extends Migration
             $table->foreign('member_id')->references('id')->on('members');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('industry_id')->unsigned();
-            $table->foreign('industry_id')->references('id')->on('industries');
             $table->timestamps();
         });
     }

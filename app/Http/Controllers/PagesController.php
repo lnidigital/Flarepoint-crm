@@ -6,6 +6,9 @@ use Carbon;
 use App\Http\Requests;
 use App\Repositories\Task\TaskRepositoryContract;
 use App\Repositories\Referral\ReferralRepositoryContract;
+use App\Repositories\Onetoone\OnetoOneRepositoryContract;
+use App\Repositories\Guest\GuestRepositoryContract;
+use App\Repositories\Revenue\RevenueRepositoryContract;
 use App\Repositories\Lead\LeadRepositoryContract;
 use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Client\ClientRepositoryContract;
@@ -30,6 +33,9 @@ class PagesController extends Controller
         TaskRepositoryContract $tasks,
         LeadRepositoryContract $leads,
         ReferralRepositoryContract $referrals,
+        OnetoOneRepositoryContract $onetoones,
+        GuestRepositoryContract $guests,
+        RevenueRepositoryContract $revenues,
         MemberRepositoryContract $members
     ) {
         $this->users = $users;
@@ -38,6 +44,9 @@ class PagesController extends Controller
         $this->tasks = $tasks;
         $this->leads = $leads;
         $this->referrals = $referrals;
+        $this->onetoones = $onetoones;
+        $this->guests = $guests;
+        $this->revenues = $revenues;
         $this->members = $members;
     }
 
@@ -51,7 +60,17 @@ class PagesController extends Controller
 
 
       $members = $this->members->getMembers($group_id);
-      Log::info("dashboard members: " . json_encode($members));
+
+      $referralsThisMonth = $this->referrals->referralsMadeThisMonth();
+
+      $onetoonesThisMonth = $this->onetoones->onetoonesMadeThisMonth();
+
+      $guestsThisMonth = $this->guests->guestsMadeThisMonth();
+
+      $revenuesThisMonth = $this->revenues->revenuesMadeThisMonth();
+
+
+      //Log::info("dashboard members: " . json_encode($members));
       
       /**
          * Other Statistics
@@ -87,7 +106,7 @@ class PagesController extends Controller
       * Statistics for referrals this month.
       *
       */
-         $referralsMadeThisMonth = $this->referrals->referralsMadeThisMonth();
+         
 
      /**
       * Statistics for tasks each month(For Charts).
@@ -125,7 +144,10 @@ class PagesController extends Controller
         $createdLeadsMonthly = $this->leads->completedLeadsMonthly();
        
         return view('pages.dashboard', compact(
-            'referralsMadeThisMonth',
+            'onetoonesThisMonth',
+            'referralsThisMonth',
+            'guestsThisMonth',
+            'revenuesThisMonth',
             'completedTasksToday',
             'completedLeadsToday',
             'createdTasksToday',

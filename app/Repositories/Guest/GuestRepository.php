@@ -6,6 +6,8 @@ use App\Models\Industry;
 use App\Models\Invoice;
 use App\Models\User;
 use DB;
+use Carbon;
+
 /**
  * Class ClientRepository
  * @package App\Repositories\Client
@@ -38,6 +40,16 @@ class GuestRepository implements GuestRepositoryContract
     //     return Guest::all()
     //     ->pluck('name', 'id');
     // }
+
+    /**
+     * @return mixed
+     */
+    public function guestsMadeThisMonth()
+    {
+        return DB::table('guests')
+            ->select(DB::raw('count(*) as total, updated_at'))
+            ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
+    }
 
     /**
      * @return int

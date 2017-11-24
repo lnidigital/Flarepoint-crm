@@ -41,6 +41,14 @@ class MemberRepository implements MemberRepositoryContract
     }
 
     /**
+     * @return mixed
+     */
+    public function getMembersSelect($group_id)
+    {
+        return Member::where('group_id',$group_id)->pluck('name','id');
+    }
+
+    /**
      * @param $id
      * @return mixed
      */
