@@ -101,30 +101,24 @@
         </div>
         <!-- /.row -->
 
-        <?php $createdTaskEachMonths = array(); $taskCreated = array();?>
-        @foreach($createdTasksMonthly as $task)
-            <?php $createdTaskEachMonths[] = date('F', strTotime($task->created_at)) ?>
-            <?php $taskCreated[] = $task->month;?>
+        <?php $createdReferralsEachMonths = array(); $referralCreated = array();?>
+        @foreach($createdReferralsMonthly as $referral)
+            <?php $createdReferralsEachMonths[] = date('F', strTotime($referral->created_at)) ?>
+            <?php $referralCreated[] = $referral->month;?>
         @endforeach
 
-        <?php $completedTaskEachMonths = array(); $taskCompleted = array();?>
-
-        @foreach($completedTasksMonthly as $tasks)
-            <?php $completedTaskEachMonths[] = date('F', strTotime($tasks->updated_at)) ?>
-            <?php $taskCompleted[] = $tasks->month;?>
+        <?php $createdRevenueEachMonths = array(); $revenueCreated = array();?>
+        @foreach($createdRevenuesMonthly as $revenue)
+            <?php $createdRevenueEachMonths[] = date('F', strTotime($revenue->created_at)) ?>
+            <?php $leadCreated[] = $revenue->month;?>
         @endforeach
 
-        <?php $completedLeadEachMonths = array(); $leadsCompleted = array();?>
-        @foreach($completedLeadsMonthly as $leads)
-            <?php $completedLeadEachMonths[] = date('F', strTotime($leads->updated_at)) ?>
-            <?php $leadsCompleted[] = $leads->month;?>
+        <?php $createdOnetoOneEachMonths = array(); $onetoOneCreated = array();?>
+        @foreach($createdOnetoOnesMonthly as $onetoone)
+            <?php $createdOnetoOneEachMonths[] = date('F', strTotime($onetoone->created_at)) ?>
+            <?php $onetoOneCreated[] = $onetoone->month;?>
         @endforeach
 
-        <?php $createdLeadEachMonths = array(); $leadCreated = array();?>
-        @foreach($createdLeadsMonthly as $lead)
-            <?php $createdLeadEachMonths[] = date('F', strTotime($lead->created_at)) ?>
-            <?php $leadCreated[] = $lead->month;?>
-        @endforeach
         <div class="row">
 
             @include('partials.dashboardgrow')

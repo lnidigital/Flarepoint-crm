@@ -16,9 +16,9 @@
         <div id="collapseOne" class="panel-collapse">
             <div class="box-body">
                 <div>
-                    <graphline class="chart" :labels="{{json_encode($createdTaskEachMonths)}}"
-                               :values="{{json_encode($taskCreated)}}"
-                               :valuesextra="{{json_encode($taskCompleted)}}"></graphline>
+                    <graphline class="chart" :labels="{{json_encode($createdReferralsEachMonths)}}"
+                               :values="{{json_encode($referralCreated)}}"
+                               :valuesextra="{{json_encode($referralCreated)}}"></graphline>
                 </div>
             </div>
         </div>
@@ -38,9 +38,9 @@
         <div id="collapseTwo" class="panel-collapse">
             <div class="box-body">
                 <div>
-                    <graphline class="chart" :labels="{{json_encode($createdLeadEachMonths)}}"
-                               :values="{{json_encode($leadCreated)}}"
-                               :valuesextra="{{json_encode($leadsCompleted)}}"></graphline>
+                    <graphline class="chart" :labels="{{json_encode($createdRevenueEachMonths)}}"
+                               :values="{{json_encode($revenueCreated)}}"
+                               :valuesextra="{{json_encode($revenueCreated)}}"></graphline>
 
                 </div>
             </div>
@@ -63,9 +63,9 @@
         <div id="collapseOne" class="panel-collapse">
             <div class="box-body">
                 <div>
-                    <graphline class="chart" :labels="{{json_encode($createdTaskEachMonths)}}"
-                               :values="{{json_encode($taskCreated)}}"
-                               :valuesextra="{{json_encode($taskCompleted)}}"></graphline>
+                    <graphline class="chart" :labels="{{json_encode($createdOnetoOneEachMonths)}}"
+                               :values="{{json_encode($onetoOneCreated)}}"
+                               :valuesextra="{{json_encode($onetoOneCreated)}}"></graphline>
                 </div>
             </div>
         </div>
@@ -85,9 +85,9 @@
         <div id="collapseTwo" class="panel-collapse">
             <div class="box-body">
                 <div>
-                    <graphline class="chart" :labels="{{json_encode($createdLeadEachMonths)}}"
-                               :values="{{json_encode($leadCreated)}}"
-                               :valuesextra="{{json_encode($leadsCompleted)}}"></graphline>
+                    <graphline class="chart" :labels="{{json_encode($createdRevenueEachMonths)}}"
+                               :values="{{json_encode($revenueCreated)}}"
+                               :valuesextra="{{json_encode($revenueCreated)}}"></graphline>
 
                 </div>
             </div>

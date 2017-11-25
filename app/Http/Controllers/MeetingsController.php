@@ -34,8 +34,8 @@ class MeetingsController extends Controller
         $this->guests = $guests;
         $this->settings = $settings;
         $this->meetings = $meetings;
-        // $this->middleware('Meeting.create', ['only' => ['create']]);
-        // $this->middleware('Meeting.update', ['only' => ['edit']]);
+        $this->middleware('meeting.create', ['only' => ['create']]);
+        $this->middleware('meeting.update', ['only' => ['edit']]);
     }
 
     /**
@@ -102,7 +102,7 @@ class MeetingsController extends Controller
      */
     public function show($id)
     {
-        return view('meetings.edit')
+        return view('meetings.show')
             ->withMeeting($this->meetings->find($id));
     }
 

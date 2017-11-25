@@ -35,13 +35,6 @@ class OnetoOneRepository implements OnetoOneRepositoryContract
         return OnetoOne::pluck('name', 'id');
     }
 
-    public function onetoonesMadeThisMonth()
-    {
-        return DB::table('oneto_ones')
-            ->select(DB::raw('count(*) as total, updated_at'))
-            ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
-    }
-
     /**
      * @param $id
      * @return mixed
@@ -91,7 +84,7 @@ class OnetoOneRepository implements OnetoOneRepositoryContract
      */
     public function update($id, $requestData)
     {
-        $member = Referral::findOrFail($id);
+        $member = OnetoOne::findOrFail($id);
         $member->fill($requestData->all())->save();
     }
 
@@ -101,35 +94,33 @@ class OnetoOneRepository implements OnetoOneRepositoryContract
     public function destroy($id)
     {
         try {
-            $client = Referral::findorFail($id);
-            $client->delete();
-            Session()->flash('flash_message', 'Member successfully deleted');
+            $onetoone = OnetoOne::findorFail($id);
+            $onetoone->delete();
+            Session()->flash('flash_message', 'One-to-one successfully deleted');
         } catch (\Illuminate\Database\QueryException $e) {
-            Session()->flash('flash_message_warning', 'Member can NOT be deleted');
+            Session()->flash('flash_message_warning', 'One-to-one can NOT be deleted');
         }
     }
 
     /**
-     * @param $id
-     * @param $requestData
+     * @return mixed
      */
-    public function updateAssign($id, $requestData)
+    public function onetoOnesMadeThisMonth()
     {
-        $member = Referral::with('user')->findOrFail($id);
-        $member->user_id = $requestData->get('user_assigned_id');
-        $member->save();
-
-        event(new \App\Events\ClientAction($member, self::UPDATED_ASSIGN));
+        return DB::table('oneto_ones')
+            ->select(DB::raw('count(*) as total, updated_at'))
+            ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
-
 
     /**
      * @return mixed
      */
-    public function referralsMadeThisMonth()
+    public function createdOnetoOnesMothly()
     {
-        return DB::table('referrals')
-            ->select(DB::raw('count(*) as total, updated_at'))
-            ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
+        return DB::table('oneto_ones')
+            ->select(DB::raw('count(*) as month, created_at'))
+            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+            ->get();
     }
+
 }

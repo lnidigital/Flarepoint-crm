@@ -2,14 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Events\TaskAction;
+use App\Events\GuestAction;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Activity;
 use Lang;
 use App\Models\Task;
 
-class TaskActionLog
+class GuestActionLog
 {
     /**
      * Create the event listener.
@@ -25,14 +25,14 @@ class TaskActionLog
      * @param  TaskAction  $event
      * @return void
      */
-    public function handle(TaskAction $event)
+    public function handle(GuestAction $event)
     {
-        switch ($event->getAction()) {
+        /*switch ($event->getAction()) {
             case 'created':
-                $text = __(':title was created by :creator and assigned to :assignee', [
-                        'title' => $event->getTask()->title,
-                        'creator' => $event->getTask()->creator->name,
-                        'assignee' => $event->getTask()->user->name
+                $text = __(':title was created by :creator', [
+                        'title' => $event->getGuest()->title,
+                        'creator' => $event->getGuest()->creator->name,
+                        'assignee' => $event->getGuest()->user->name
                     ]);
                 break;
             case 'updated_status':
@@ -49,19 +49,19 @@ class TaskActionLog
             case 'updated_assign':
                 $text = __(':username assigned task to :assignee', [
                         'username' => Auth()->user()->name,
-                        'assignee' => $event->getTask()->user->name
+                        'assignee' => $event->getGuest()->user->name
                     ]);
                 break;
             default:
-                break;
+                break;*/
         }
 
         $activityinput = array_merge(
             [
                 'text' => $text,
                 'user_id' => Auth()->id(),
-                'source_type' =>  Task::class,
-                'source_id' =>  $event->getTask()->id,
+                'source_type' =>  Guest::class,
+                'source_id' =>  $event->getGuest()->id,
                 'action' => $event->getAction()
             ]
         );

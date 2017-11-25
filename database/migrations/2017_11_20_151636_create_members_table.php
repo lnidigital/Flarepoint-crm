@@ -29,7 +29,7 @@ class CreateMembersTable extends Migration
             $table->foreign('group_id')->references('id')->on('groups');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('industry_id')->unsigned();
+            $table->integer('industry_id')->nullable()->unsigned();
             $table->foreign('industry_id')->references('id')->on('industries');
             $table->timestamps();
         });

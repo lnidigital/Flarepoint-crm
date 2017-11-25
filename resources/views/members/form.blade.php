@@ -92,7 +92,7 @@
         Form::select('industry_id',
         $industries,
         null,
-        ['class' => 'form-control ui search selection top right pointing search-select',
+        ['placeholder' => 'Select Industry', 'class' => 'form-control ui search selection top right pointing search-select',
         'id' => 'search-select'])
     !!}
 </div>

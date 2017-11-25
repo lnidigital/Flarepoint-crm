@@ -126,4 +126,15 @@ class ReferralRepository implements ReferralRepositoryContract
             ->select(DB::raw('count(*) as total, updated_at'))
             ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
+
+    /**
+     * @return mixed
+     */
+    public function createdReferralsMothly()
+    {
+        return DB::table('referrals')
+            ->select(DB::raw('count(*) as month, created_at'))
+            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+            ->get();
+    }
 }

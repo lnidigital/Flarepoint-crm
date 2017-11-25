@@ -30,8 +30,8 @@ class MembersController extends Controller
         $this->users = $users;
         $this->members = $members;
         $this->settings = $settings;
-        $this->middleware('client.create', ['only' => ['create']]);
-        $this->middleware('client.update', ['only' => ['edit']]);
+        $this->middleware('member.create', ['only' => ['create']]);
+        $this->middleware('member.update', ['only' => ['edit']]);
     }
 
     /**

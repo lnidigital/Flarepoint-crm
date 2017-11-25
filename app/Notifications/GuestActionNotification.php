@@ -6,26 +6,26 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Auth;
 use Lang;
-use App\Models\Task;
+use App\Models\Guest;
 
-class TaskActionNotification extends Notification
+class GuestActionNotification extends Notification
 {
     use Queueable;
 
-
-    private $task;
+    private $guest;
     private $action;
 
     /**
      * Create a new notification instance.
-     * TaskActionNotification constructor.
-     * @param $task
+     * LeadActionNotification constructor.
+     * @param $lead
      * @param $action
      */
-    public function __construct($task, $action)
+    public function __construct($guest, $action)
     {
-        $this->task = $task;
+        $this->guest = $guest;
         $this->action = $action;
     }
 
@@ -48,7 +48,7 @@ class TaskActionNotification extends Notification
      */
     public function toMail($notifiable)
     {
-       /* return (new MailMessage)
+        /*return (new MailMessage)
                     ->line('The introduction to the notification.')
                     ->action('Notification Action', 'https://laravel.com')
                     ->line('Thank you for using our application!'); */
@@ -64,39 +64,38 @@ class TaskActionNotification extends Notification
     {
         switch ($this->action) {
             case 'created':
-                $text = __(':title was created by :creator, and assigned to you', [
-                    'title' =>  $this->task->title,
-                    'creator' => $this->task->creator->name,
-                    ]);
+                $text = __(':title was created by :creator and assigned to you', [
+                'title' => $this->lead->title,
+                'creator' => $this->lead->creator->name
+                ]);
                 break;
             case 'updated_status':
                 $text = __(':title was completed by :username', [
-                    'title' =>  $this->task->title,
-                    'username' =>  Auth()->user()->name,
-                    ]);
+                'title' => $this->lead->title,
+                'username' =>  Auth()->user()->name
+                ]);
                 break;
-            case 'updated_time':
-                $text = __(':username inserted a new time for :title', [
-                    'title' =>  $this->task->title,
-                    'username' =>  Auth()->user()->name,
-                    ]);
+            case 'updated_deadline':
+                $text = __(':username updated the deadline for this :title', [
+                'title' => $this->lead->title,
+                'username' =>  Auth()->user()->name
+                ]);
                 break;
             case 'updated_assign':
-                $text = __(':username assigned a task to you', [
-                    'title' =>  $this->task->title,
-                    'username' =>  Auth()->user()->name,
-                    ]);
+                $text = __(':username assigned a lead to you', [
+                'username' =>  Auth()->user()->name
+                ]);
                 break;
             default:
                 break;
         }
         return [
             'assigned_user' => $notifiable->id, //Assigned user ID
-            'created_user' => $this->task->creator->id,
+            'created_user' => $this->lead->creator->id,
             'message' => $text,
-            'type' =>  Task::class,
-            'type_id' =>  $this->task->id,
-            'url' => url('tasks/' . $this->task->id),
+            'type' => Lead::class,
+            'type_id' =>  $this->lead->id,
+            'url' => url('leads/' . $this->lead->id),
             'action' => $this->action
         ];
     }

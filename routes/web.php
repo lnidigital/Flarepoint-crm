@@ -119,28 +119,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('revenues', 'RevenueController');
     
       
-    /**
-     * Tasks
-     */
-    Route::group(['prefix' => 'tasks'], function () {
-        Route::get('/data', 'TasksController@anyData')->name('tasks.data');
-        Route::patch('/updatestatus/{id}', 'TasksController@updateStatus');
-        Route::patch('/updateassign/{id}', 'TasksController@updateAssign');
-        Route::post('/updatetime/{id}', 'TasksController@updateTime');
-    });
-        Route::resource('tasks', 'TasksController');
-
-    /**
-     * Leads
-     */
-    Route::group(['prefix' => 'leads'], function () {
-        Route::get('/data', 'LeadsController@anyData')->name('leads.data');
-        Route::patch('/updateassign/{id}', 'LeadsController@updateAssign');
-        Route::patch('/updatestatus/{id}', 'LeadsController@updateStatus');
-        Route::patch('/updatefollowup/{id}', 'LeadsController@updateFollowup')->name('leads.followup');
-    });
-        Route::resource('leads', 'LeadsController');
-        Route::post('/comments/{type}/{id}', 'CommentController@store');
+    
     /**
      * Settings
      */
@@ -172,14 +151,4 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/{id}', 'NotificationsController@markRead');
     });
 
-    /**
-     * Invoices
-     */
-    Route::group(['prefix' => 'invoices'], function () {
-        Route::post('/updatepayment/{id}', 'InvoicesController@updatePayment')->name('invoice.payment.date');
-        Route::post('/reopenpayment/{id}', 'InvoicesController@reopenPayment')->name('invoice.payment.reopen');
-        Route::post('/sentinvoice/{id}', 'InvoicesController@updateSentStatus')->name('invoice.sent');
-        Route::post('/newitem/{id}', 'InvoicesController@newItem')->name('invoice.new.item');
-    });
-        Route::resource('invoices', 'InvoicesController');
 });

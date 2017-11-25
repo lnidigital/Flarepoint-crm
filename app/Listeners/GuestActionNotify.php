@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\TaskAction;
+use App\Events\GuestAction;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\TaskActionNotification;
 
-class TaskActionNotify
+class GuestActionNotify
 {
     /**
      * Create the event listener.
@@ -24,13 +24,13 @@ class TaskActionNotify
      * @param  TaskAction  $event
      * @return void
      */
-    public function handle(TaskAction $event)
+    public function handle(GuestAction $event)
     {
-        $task = $event->getTask();
+        /*$guest = $event->getGuest();
         $action = $event->getAction();
-        $task->assignedUser->notify(new TaskActionNotification(
-            $task,
+        $guest->assignedUser->notify(new GuestActionNotification(
+            $guest,
             $action
-        ));
+        ));*/
     }
 }

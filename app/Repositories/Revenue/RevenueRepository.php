@@ -126,4 +126,15 @@ class RevenueRepository implements RevenueRepositoryContract
             ->select(DB::raw('sum(amount) as total, updated_at'))
             ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
+
+    /**
+     * @return mixed
+     */
+    public function createdRevenuesMothly()
+    {
+        return DB::table('revenues')
+            ->select(DB::raw('count(*) as month, created_at'))
+            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+            ->get();
+    }
 }
