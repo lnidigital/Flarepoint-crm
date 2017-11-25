@@ -16,8 +16,6 @@ use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Role\RoleRepositoryContract;
 use App\Repositories\Department\DepartmentRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
-use App\Repositories\Task\TaskRepositoryContract;
-use App\Repositories\Lead\LeadRepositoryContract;
 
 class UsersController extends Controller
 {
@@ -30,17 +28,13 @@ class UsersController extends Controller
         UserRepositoryContract $users,
         RoleRepositoryContract $roles,
         DepartmentRepositoryContract $departments,
-        SettingRepositoryContract $settings,
-        TaskRepositoryContract $tasks,
-        LeadRepositoryContract $leads
+        SettingRepositoryContract $settings
     )
     {
         $this->users = $users;
         $this->roles = $roles;
         $this->departments = $departments;
         $this->settings = $settings;
-        $this->tasks = $tasks;
-        $this->leads = $leads;
         $this->middleware('user.create', ['only' => ['create']]);
     }
 
@@ -78,7 +72,7 @@ class UsersController extends Controller
      * @param $id
      * @return mixed
      */
-    public function taskData($id)
+    /*public function taskData($id)
     {
         $tasks = Task::select(
             ['id', 'title', 'created_at', 'deadline', 'user_assigned_id', 'client_id', 'status']
@@ -103,14 +97,14 @@ class UsersController extends Controller
                 return $tasks->client->name;
             })
             ->make(true);
-    }
+    }*/
 
         /**
      * Json for Data tables
      * @param $id
      * @return mixed
      */
-    public function leadData($id)
+    /*public function leadData($id)
     {
         $leads = Lead::select(
             ['id', 'title', 'created_at', 'contact_date', 'user_assigned_id', 'client_id', 'status']
@@ -135,14 +129,14 @@ class UsersController extends Controller
                 return $tasks->client->name;
             })
             ->make(true);
-    }
+    }*/
 
     /**
      * Json for Data tables
      * @param $id
      * @return mixed
      */
-    public function clientData($id)
+    /*public function clientData($id)
     {
         $clients = Client::select(['id', 'name', 'company_name', 'primary_number', 'email'])->where('user_id', $id);
         return Datatables::of($clients)
@@ -157,7 +151,7 @@ class UsersController extends Controller
 
 
       
-    }
+    }*/
 
 
     /**
@@ -188,9 +182,7 @@ class UsersController extends Controller
     {
         return view('users.show')
             ->withUser($this->users->find($id))
-            ->withCompanyname($this->settings->getCompanyName())
-            ->withTaskStatistics($this->tasks->totalOpenAndClosedTasks($id))
-            ->withLeadStatistics($this->leads->totalOpenAndClosedLeads($id));
+            ->withCompanyname($this->settings->getCompanyName());
     }
 
     /**

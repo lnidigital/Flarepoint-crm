@@ -5,11 +5,13 @@ use Config;
 use Dinero;
 use Datatables;
 use App\Models\Client;
+use App\Models\Attendance;
+use App\Models\Meeting;
 use App\Http\Requests;
+use App\Http\Requests\Attendance\StoreAttendanceRequest;
 use Illuminate\Http\Request;
-use App\Http\Requests\Client\StoreClientRequest;
-use App\Http\Requests\Client\UpdateClientRequest;
 use App\Repositories\Member\MemberRepositoryContract;
+use App\Repositories\Meeting\MeetingRepositoryContract;
 use App\Repositories\Guest\GuestRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 
@@ -23,12 +25,14 @@ class AttendanceController extends Controller
     public function __construct(
         MemberRepositoryContract $members,
         GuestRepositoryContract $guests,
-        SettingRepositoryContract $settings
+        SettingRepositoryContract $settings,
+        MeetingRepositoryContract $meetings
     )
     {
         $this->members = $members;
         $this->guests = $guests;
         $this->settings = $settings;
+        $this->meetings = $meetings;
         // $this->middleware('attendance.create', ['only' => ['create']]);
         // $this->middleware('attendance.update', ['only' => ['edit']]);
     }
@@ -47,21 +51,21 @@ class AttendanceController extends Controller
      */
     public function anyData()
     {
-        $clients = Client::select(['id', 'name', 'company_name', 'email', 'primary_number']);
-        return Datatables::of($clients)
-            ->addColumn('namelink', function ($clients) {
-                return '<a href="clients/' . $clients->id . '" ">' . $clients->name . '</a>';
-            })
-            ->add_column('edit', '
-                <a href="{{ route(\'clients.edit\', $id) }}" class="btn btn-success" >Edit</a>')
-            ->add_column('delete', '
-                <form action="{{ route(\'clients.destroy\', $id) }}" method="POST">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
+        // $clients = Client::select(['id', 'name', 'company_name', 'email', 'primary_number']);
+        // return Datatables::of($clients)
+        //     ->addColumn('namelink', function ($clients) {
+        //         return '<a href="clients/' . $clients->id . '" ">' . $clients->name . '</a>';
+        //     })
+        //     ->add_column('edit', '
+        //         <a href="{{ route(\'clients.edit\', $id) }}" class="btn btn-success" >Edit</a>')
+        //     ->add_column('delete', '
+        //         <form action="{{ route(\'clients.destroy\', $id) }}" method="POST">
+        //     <input type="hidden" name="_method" value="DELETE">
+        //     <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
 
-            {{csrf_field()}}
-            </form>')
-            ->make(true);
+        //     {{csrf_field()}}
+        //     </form>')
+        //     ->make(true);
     }
 
     /**
@@ -82,20 +86,25 @@ class AttendanceController extends Controller
      * @param StoreClientRequest $request
      * @return mixed
      */
-    public function store(StoreClientRequest $request)
+    public function store(StoreAttendanceRequest $request)
     {
-        $this->clients->create($request->all());
-        return redirect()->route('clients.index');
-    }
+        //$this->clients->create($request->all());
+        $attendedPersons =  $request->input('member');
+        $meetingId = $request->input('meeting_id');
+        $meeting = Meeting::find($meetingId);
 
-    /**
-     * @param Request $vatRequest
-     * @return mixed
-     */
-    public function cvrapiStart(Request $vatRequest)
-    {
-        return redirect()->back()
-            ->with('data', $this->clients->vat($vatRequest));
+        foreach ($attendedPersons as $attendedPerson) {
+            if (isset($attendedPerson)) {
+                $attendance = new Attendance;
+                $attendance->meeting_id = $meetingId;
+                $attendance->member_id = $attendedPerson;
+                $attendance->group_id = $meeting->group_id;
+                $attendance->save();
+            }
+            
+        }
+
+        return redirect()->route('meetings.show', $request->meeting_id);
     }
 
     /**
@@ -121,10 +130,10 @@ class AttendanceController extends Controller
      */
     public function edit($id)
     {
-        return view('clients.edit')
-            ->withClient($this->clients->find($id))
-            ->withUsers($this->users->getAllUsersWithDepartments())
-            ->withIndustries($this->clients->listAllIndustries());
+        $group_id = 1;
+        return view('attendance.edit')
+            ->withMembers($this->members->getMembers($group_id))
+            ->withMeeting($this->meetings->find($id));
     }
 
     /**

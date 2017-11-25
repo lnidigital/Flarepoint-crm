@@ -6,6 +6,8 @@ use App\Models\Industry;
 use App\Models\Invoice;
 use App\Models\User;
 use DB;
+use Illuminate\Support\Facades\Log;
+
 /**
  * Class ClientRepository
  * @package App\Repositories\Client
@@ -45,6 +47,8 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function getMembersSelect($group_id)
     {
+        Log::info('getMembersSelect group_id: '.$group_id);
+        
         return Member::where('group_id',$group_id)->pluck('name','id');
     }
 

@@ -20,8 +20,16 @@
     </script>
 @endpush
     <div class="row">
-        @include('partials.memberheader')
+        @include('partials.meetingheader')
     </div>
+    <div class="col-lg-12">
+            <strong>Attended Members</strong>
+            <ul>
+                @foreach ($attendedMembers as $attendedMember)
+                    <li>{{$attendedMember->name}}</li>
+                @endforeach
+            </ul>
+            <a href="{{ url('/attendance/' . $meeting->id . '/edit') }}" class="btn btn-primary">Update Attendance</a>
     </div>
-    </div>
+    
 @stop

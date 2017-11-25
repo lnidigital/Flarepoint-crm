@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Meeting;
+namespace App\Http\Requests\Attendance;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateMeetingRequest extends FormRequest
+class StoreAttendanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateMeetingRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('meeting-update');
+        return auth()->user()->can('attendance-create');
     }
 
     /**
@@ -24,8 +24,7 @@ class UpdateMeetingRequest extends FormRequest
     public function rules()
     {
         return [
-            'meeting_date' => 'required',
-            'meeting_notes' => '',
+            'meeting_id' => 'required',
             'group_id' => 'required'
         ];
     }

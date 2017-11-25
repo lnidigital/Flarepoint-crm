@@ -7,6 +7,7 @@ use Datatables;
 use Carbon;
 use App\Models\Meeting;
 use App\Http\Requests;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Requests\Meeting\StoreMeetingRequest;
 use App\Http\Requests\Meeting\UpdateMeetingRequest;
@@ -22,6 +23,7 @@ class MeetingsController extends Controller
     protected $guests;
     protected $members;
     protected $meetings;
+    protected $attendance;
 
     public function __construct(
         MemberRepositoryContract $members,
@@ -102,8 +104,20 @@ class MeetingsController extends Controller
      */
     public function show($id)
     {
+        $group_id = 1;
+
+        $attendedMembers = array();
+        $groupMembers = $this->members->getMembers($group_id);
+
+        foreach ($groupMembers as $groupMember) {
+            if (Helper::checkMeetingAttended($id, $groupMember->id)) {
+                $attendedMembers[] = $groupMember;
+            }
+        }
+
         return view('meetings.show')
-            ->withMeeting($this->meetings->find($id));
+            ->withMeeting($this->meetings->find($id))
+            ->with('attendedMembers', $attendedMembers);
     }
 
     /**

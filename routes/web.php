@@ -35,18 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
      * Roles
      */
         Route::resource('roles', 'RolesController');
-    /**
-     * Clients
-     */
-    Route::group(['prefix' => 'clients'], function () {
-        Route::get('/data', 'ClientsController@anyData')->name('clients.data');
-        Route::post('/create/cvrapi', 'ClientsController@cvrapiStart');
-        Route::post('/upload/{id}', 'DocumentsController@upload');
-        Route::patch('/updateassign/{id}', 'ClientsController@updateAssign');
-    });
-        Route::resource('clients', 'ClientsController');
-	    Route::resource('documents', 'DocumentsController');
-	
+    
     /**
      * Members
      */

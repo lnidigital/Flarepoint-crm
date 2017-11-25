@@ -30,10 +30,10 @@
 
                 {data: 'namelink', name: 'meeting_date'},
                 {data: 'meeting_notes', name: 'meeting_notes'},
-                @if(Entrust::can('meetings-update'))   
+                @if(Entrust::can('meeting-update'))   
                 { data: 'edit', name: 'edit', orderable: false, searchable: false},
                 @endif
-                @if(Entrust::can('meetings-delete'))   
+                @if(Entrust::can('meeting-delete'))   
                 { data: 'delete', name: 'delete', orderable: false, searchable: false},
                 @endif
 
