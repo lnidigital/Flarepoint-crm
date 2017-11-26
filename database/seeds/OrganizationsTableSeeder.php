@@ -19,8 +19,24 @@ class OrganizationsTableSeeder extends Seeder
                 'id' => 1,
                 'name' => 'Asian American Chamber of Commerce',
                 'user_id' => 1,
-                'created_at' => '2016-06-04 13:42:19',
-                'updated_at' => '2016-06-04 13:42:19',
+                'created_at' => '2017-11-25 13:42:19',
+                'updated_at' => '2017-11-25 13:42:19',
+            ),
+            1 =>
+            array (
+                'id' => 2,
+                'name' => 'NOVA Business Roundtable',
+                'user_id' => 1,
+                'created_at' => '2017-11-25 13:42:19',
+                'updated_at' => '2017-11-25 13:42:19',
+            ),
+            2 =>
+            array (
+                'id' => 3,
+                'name' => 'Greater Reston Chamber of Commerce',
+                'user_id' => 1,
+                'created_at' => '2017-11-25 13:42:19',
+                'updated_at' => '2017-11-25 13:42:19',
             ),
         ));
     }

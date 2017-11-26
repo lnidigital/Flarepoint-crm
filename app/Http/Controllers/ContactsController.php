@@ -4,26 +4,25 @@ namespace App\Http\Controllers;
 use Config;
 use Dinero;
 use Datatables;
-use App\Models\Member;
+use App\Models\Contact;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Http\Requests\Member\StoreMemberRequest;
-use App\Http\Requests\Member\UpdateMemberRequest;
+use App\Http\Requests\Contact\StoreContactRequest;
+use App\Http\Requests\Contact\UpdateContactRequest;
 use App\Repositories\User\UserRepositoryContract;
-use App\Repositories\Member\MemberRepositoryContract;
+use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 
-class MembersController extends Controller
+class ContactsController extends Controller
 {
 
     protected $users;
-    protected $clients;
-    protected $members;
+    protected $contacts;
     protected $settings;
 
     public function __construct(
         UserRepositoryContract $users,
-        MemberRepositoryContract $members,
+        ContactRepositoryContract $contacts,
         SettingRepositoryContract $settings
     )
     {

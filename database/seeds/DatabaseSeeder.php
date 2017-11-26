@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call('UsersTableSeeder');
         $this->call('IndustriesTableSeeder');
-        $this->call('DepartmentsTableSeeder');
         $this->call('SettingsTableSeeder');
         $this->call('PermissionsTableSeeder');
         $this->call('RolesTablesSeeder');
@@ -22,9 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call('OrganizationsTableSeeder');
         $this->call('GroupsTableSeeder');
         $this->call('UserGroupTableSeeder');
-        $this->call('MembersTableSeeder');
+        $this->call('ContactsTableSeeder');
         $this->call('MeetingsTableSeeder');
         $this->call('AttendancesTableSeeder');
-        $this->call('GuestsTableSeeder');
     }
 }

@@ -15,8 +15,8 @@ class CreateRevenuesTable extends Migration
     {
         Schema::create('revenues', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('member_id')->unsigned();
-            $table->foreign('member_id')->references('id')->on('members');
+            $table->integer('contact_id')->unsigned();
+            $table->foreign('contact_id')->references('id')->on('contacts');
             $table->double('amount');
             $table->datetime('report_date');
             $table->integer('group_id')->unsigned();

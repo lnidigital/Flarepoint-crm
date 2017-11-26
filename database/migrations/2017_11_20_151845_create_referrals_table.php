@@ -15,10 +15,10 @@ class CreateReferralsTable extends Migration
     {
         Schema::create('referrals', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('from_member_id')->unsigned();
-            $table->foreign('from_member_id')->references('id')->on('members');
-            $table->integer('to_member_id')->unsigned();
-            $table->foreign('to_member_id')->references('id')->on('members');
+            $table->integer('from_contact_id')->unsigned();
+            $table->foreign('from_contact_id')->references('id')->on('contacts');
+            $table->integer('to_contact_id')->unsigned();
+            $table->foreign('to_contact_id')->references('id')->on('contacts');
             // $table->integer('from_member_id')->unsigned();
             // $table->integer('to_member_id')->unsigned();
             $table->datetime('referral_date');

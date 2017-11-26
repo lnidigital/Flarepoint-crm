@@ -12,29 +12,29 @@ class RolesTablesSeeder extends Seeder
      */
     public function run()
     {
-        
+        $superRole = new Role;
+        $superRole->display_name = 'Super User';
+        $superRole->name = 'super';
+        $superRole->description = 'Super User';
+        $superRole->save();
+
         $adminRole = new Role;
         $adminRole->display_name = 'Administrator';
         $adminRole->name = 'administrator';
         $adminRole->description = 'Group Administrator';
         $adminRole->save();
 
-        $editorRole = new Role;
-        $editorRole->display_name = 'Manager';
-        $editorRole->name = 'manager';
-        $editorRole->description = 'Group manager';
-        $editorRole->save();
+        $managerRole = new Role;
+        $managerRole->display_name = 'Manager';
+        $managerRole->name = 'manager';
+        $managerRole->description = 'Group manager';
+        $managerRole->save();
 
-        $employeeRole = new Role;
-        $employeeRole->display_name = 'Member';
-        $employeeRole->name = 'member';
-        $employeeRole->description = 'Group member';
-        $employeeRole->save();
-
-        $employeeRole = new Role;
-        $employeeRole->display_name = 'Super User';
-        $employeeRole->name = 'super';
-        $employeeRole->description = 'Super User';
-        $employeeRole->save();
+        $memberRole = new Role;
+        $memberRole->display_name = 'Member';
+        $memberRole->name = 'member';
+        $memberRole->description = 'Group member';
+        $memberRole->save();
+        
     }
 }

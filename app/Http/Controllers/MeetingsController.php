@@ -115,6 +115,15 @@ class MeetingsController extends Controller
             }
         }
 
+        $attendedGuests = array();
+        $groupMembers = $this->guests->getMeetingGuests($group_id);
+
+        foreach ($groupMembers as $groupMember) {
+            if (Helper::checkMeetingAttended($id, $groupMember->id)) {
+                $attendedMembers[] = $groupMember;
+            }
+        }
+
         return view('meetings.show')
             ->withMeeting($this->meetings->find($id))
             ->with('attendedMembers', $attendedMembers);

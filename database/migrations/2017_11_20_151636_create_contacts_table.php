@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGuestsTable extends Migration
+class CreateContactsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateGuestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('guests', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->nullable();
+            $table->string('email')->unique();
             $table->string('primary_number')->nullable();
             $table->string('secondary_number')->nullable();
             $table->string('address')->nullable();
@@ -24,12 +24,16 @@ class CreateGuestsTable extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('company_name');
+            $table->string('image_path')->nullable();
+            $table->string('is_guest')->default(0);
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
-            $table->integer('member_id')->unsigned();
-            $table->foreign('member_id')->references('id')->on('members');
+            $table->integer('referrer_id')->nullable()->unsigned();
+            $table->foreign('referrer_id')->references('id')->on('contacts');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('industry_id')->nullable()->unsigned();
+            $table->foreign('industry_id')->references('id')->on('industries');
             $table->timestamps();
         });
     }
@@ -41,6 +45,9 @@ class CreateGuestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guests');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('contacts');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+        
     }
 }

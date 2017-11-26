@@ -20,8 +20,8 @@ class UsersTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'name' => 'Seong Bae',
-                'email' => 'seong@lnidigital.com',
+                'name' => 'Test Member',
+                'email' => 'grow-member@lnidigital.com',
                 'password' => bcrypt('password'),
                 'address' => '',
                 'work_number' => 0,
@@ -50,6 +50,20 @@ class UsersTableSeeder extends Seeder
                 'id' => 3,
                 'name' => 'Test Admin',
                 'email' => 'grow-admin@lnidigital.com',
+                'password' => bcrypt('password'),
+                'address' => '',
+                'work_number' => 0,
+                'personal_number' => 0,
+                'image_path' => '',
+                'remember_token' => null,
+                'created_at' => '2016-06-04 13:42:19',
+                'updated_at' => '2016-06-04 13:42:19',
+            ),
+            3 =>
+            array (
+                'id' => 4,
+                'name' => 'Test Super',
+                'email' => 'grow-super@lnidigital.com',
                 'password' => bcrypt('password'),
                 'address' => '',
                 'work_number' => 0,

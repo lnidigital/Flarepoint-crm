@@ -31,5 +31,14 @@
             </ul>
             <a href="{{ url('/attendance/' . $meeting->id . '/edit') }}" class="btn btn-primary">Update Attendance</a>
     </div>
+    <div class="col-lg-12">
+            <strong>Guests</strong>
+            <ul>
+                @foreach ($attendedGuests as $attendedGuest)
+                    <li>{{$attendedGuest->name}}</li>
+                @endforeach
+            </ul>
+            <a href="{{ url('/guests/create') }}" class="btn btn-primary">Add Guest</a>
+    </div>
     
 @stop

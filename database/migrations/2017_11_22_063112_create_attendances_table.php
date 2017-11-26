@@ -17,8 +17,8 @@ class CreateAttendancesTable extends Migration
             $table->increments('id');
             $table->integer('meeting_id')->unsigned();
             $table->foreign('meeting_id')->references('id')->on('meetings');
-            $table->integer('member_id')->unsigned();
-            $table->foreign('member_id')->references('id')->on('members');
+            $table->integer('contact_id')->unsigned();
+            $table->foreign('contact_id')->references('id')->on('contacts');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
             $table->timestamps();

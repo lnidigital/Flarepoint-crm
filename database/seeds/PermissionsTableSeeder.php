@@ -36,236 +36,181 @@ class PermissionsTableSeeder extends Seeder
 
 
          /**
-         * Client Permissions
+         * Contact Permissions
          */
         
-        $createClient = new Permissions;
-        $createClient->display_name = 'Create client';
-        $createClient->name = 'client-create';
-        $createClient->description = 'Permission to create client';
-        $createClient->save();
+        $createContact = new Permissions;
+        $createContact->display_name = 'Create contact';
+        $createContact->name = 'contact-create';
+        $createContact->description = 'Permission to create contact';
+        $createContact->save();
 
-        $updateClient = new Permissions;
-        $updateClient->display_name = 'Update client';
-        $updateClient->name = 'client-update';
-        $updateClient->description = 'Permission to update client';
-        $updateClient->save();
+        $updateContact = new Permissions;
+        $updateContact->display_name = 'Update contact';
+        $updateContact->name = 'contact-update';
+        $updateContact->description = 'Permission to update contact';
+        $updateContact->save();
 
-        $deleteClient = new Permissions;
-        $deleteClient->display_name = 'Delete client';
-        $deleteClient->name = 'client-delete';
-        $deleteClient->description = 'Permission to delete client';
-        $deleteClient->save();
-
-         /**
-         * Tasks Permissions
-         */
-        
-        $createTask = new Permissions;
-        $createTask->display_name = 'Create task';
-        $createTask->name = 'task-create';
-        $createTask->description = 'Permission to create task';
-        $createTask->save();
-
-        $updateTask = new Permissions;
-        $updateTask->display_name = 'Update task';
-        $updateTask->name = 'task-update';
-        $updateTask->description = 'Permission to update task';
-        $updateTask->save();
-
-         /**
-         * Leads Permissions
-         */
-        
-        $createLead = new Permissions;
-        $createLead->display_name = 'Create lead';
-        $createLead->name = 'lead-create';
-        $createLead->description = 'Permission to create lead';
-        $createLead->save();
-
-        $updateLead = new Permissions;
-        $updateLead->display_name = 'Update lead';
-        $updateLead->name = 'lead-update';
-        $updateLead->description = 'Permission to update lead';
-        $updateLead->save();
-
-        /**
-         * Member Permissions
-         */
-        
-        $createClient = new Permissions;
-        $createClient->display_name = 'Create member';
-        $createClient->name = 'member-create';
-        $createClient->description = 'Permission to create member';
-        $createClient->save();
-
-        $updateClient = new Permissions;
-        $updateClient->display_name = 'Update member';
-        $updateClient->name = 'member-update';
-        $updateClient->description = 'Permission to update member';
-        $updateClient->save();
-
-        $deleteClient = new Permissions;
-        $deleteClient->display_name = 'Delete member';
-        $deleteClient->name = 'member-delete';
-        $deleteClient->description = 'Permission to delete member';
-        $deleteClient->save();
+        $deleteContact = new Permissions;
+        $deleteContact->display_name = 'Delete contact';
+        $deleteContact->name = 'contact-delete';
+        $deleteContact->description = 'Permission to delete contact';
+        $deleteContact->save();
 
 
         /**
          * Attendance Permissions
          */
         
-        $createClient = new Permissions;
-        $createClient->display_name = 'Create attendance';
-        $createClient->name = 'attendance-create';
-        $createClient->description = 'Permission to create attendance';
-        $createClient->save();
+        $createAttendance = new Permissions;
+        $createAttendance->display_name = 'Create attendance';
+        $createAttendance->name = 'attendance-create';
+        $createAttendance->description = 'Permission to create attendance';
+        $createAttendance->save();
 
-        $updateClient = new Permissions;
-        $updateClient->display_name = 'Update attendance';
-        $updateClient->name = 'attendance-update';
-        $updateClient->description = 'Permission to update attendance';
-        $updateClient->save();
+        $updateAttendance = new Permissions;
+        $updateAttendance->display_name = 'Update attendance';
+        $updateAttendance->name = 'attendance-update';
+        $updateAttendance->description = 'Permission to update attendance';
+        $updateAttendance->save();
 
-        $deleteClient = new Permissions;
-        $deleteClient->display_name = 'Delete attendance';
-        $deleteClient->name = 'attendance-delete';
-        $deleteClient->description = 'Permission to delete attendance';
-        $deleteClient->save();
-
-
-        /**
-         * Guests Permissions (17-19)
-         */
-        
-        $createClient = new Permissions;
-        $createClient->display_name = 'Create guest';
-        $createClient->name = 'guest-create';
-        $createClient->description = 'Permission to create guest';
-        $createClient->save();
-
-        $updateClient = new Permissions;
-        $updateClient->display_name = 'Update guest';
-        $updateClient->name = 'guest-update';
-        $updateClient->description = 'Permission to update guest';
-        $updateClient->save();
-
-        $deleteClient = new Permissions;
-        $deleteClient->display_name = 'Delete guest';
-        $deleteClient->name = 'guest-delete';
-        $deleteClient->description = 'Permission to delete guest';
-        $deleteClient->save();
+        $deleteAttendance = new Permissions;
+        $deleteAttendance->display_name = 'Delete attendance';
+        $deleteAttendance->name = 'attendance-delete';
+        $deleteAttendance->description = 'Permission to delete attendance';
+        $deleteAttendance->save();
 
         /**
-         * Referral Permissions (20-22)
+         * Referral Permissions
          */
         
-        $createClient = new Permissions;
-        $createClient->display_name = 'Create referral';
-        $createClient->name = 'referral-create';
-        $createClient->description = 'Permission to create referral';
-        $createClient->save();
+        $createReferral = new Permissions;
+        $createReferral->display_name = 'Create referral';
+        $createReferral->name = 'referral-create';
+        $createReferral->description = 'Permission to create referral';
+        $createReferral->save();
 
-        $updateClient = new Permissions;
-        $updateClient->display_name = 'Update referral';
-        $updateClient->name = 'referral-update';
-        $updateClient->description = 'Permission to update referral';
-        $updateClient->save();
+        $updateReferral = new Permissions;
+        $updateReferral->display_name = 'Update referral';
+        $updateReferral->name = 'referral-update';
+        $updateReferral->description = 'Permission to update referral';
+        $updateReferral->save();
 
-        $deleteClient = new Permissions;
-        $deleteClient->display_name = 'Delete referral';
-        $deleteClient->name = 'referral-delete';
-        $deleteClient->description = 'Permission to delete referral';
-        $deleteClient->save();
+        $deleteReferral = new Permissions;
+        $deleteReferral->display_name = 'Delete referral';
+        $deleteReferral->name = 'referral-delete';
+        $deleteReferral->description = 'Permission to delete referral';
+        $deleteReferral->save();
 
         /**
-         * Referral Permissions (23-25)
+         * One-to-One Permissions 
          */
         
-        $createClient = new Permissions;
-        $createClient->display_name = 'Create 1-to-1';
-        $createClient->name = 'onetoone-create';
-        $createClient->description = 'Permission to create 1-to-1';
-        $createClient->save();
+        $createOnetoone = new Permissions;
+        $createOnetoone->display_name = 'Create 1-to-1';
+        $createOnetoone->name = 'onetoone-create';
+        $createOnetoone->description = 'Permission to create 1-to-1';
+        $createOnetoone->save();
 
-        $updateClient = new Permissions;
-        $updateClient->display_name = 'Update 1-to-1';
-        $updateClient->name = 'onetoone-update';
-        $updateClient->description = 'Permission to update 1-to-1';
-        $updateClient->save();
+        $updateOnetoone = new Permissions;
+        $updateOnetoone->display_name = 'Update 1-to-1';
+        $updateOnetoone->name = 'onetoone-update';
+        $updateOnetoone->description = 'Permission to update 1-to-1';
+        $updateOnetoone->save();
 
-        $deleteClient = new Permissions;
-        $deleteClient->display_name = 'Delete 1-to-1';
-        $deleteClient->name = 'onetoone-delete';
-        $deleteClient->description = 'Permission to delete 1-to-1';
-        $deleteClient->save();
+        $deleteOnetoone = new Permissions;
+        $deleteOnetoone->display_name = 'Delete 1-to-1';
+        $deleteOnetoone->name = 'onetoone-delete';
+        $deleteOnetoone->description = 'Permission to delete 1-to-1';
+        $deleteOnetoone->save();
 
         /**
-         * Meeting Permissions (26-28)
+         * Meeting Permissions 
          */
         
-        $createClient = new Permissions;
-        $createClient->display_name = 'Create Meeting';
-        $createClient->name = 'meeting-create';
-        $createClient->description = 'Permission to create meeting';
-        $createClient->save();
+        $createMeeting = new Permissions;
+        $createMeeting->display_name = 'Create Meeting';
+        $createMeeting->name = 'meeting-create';
+        $createMeeting->description = 'Permission to create meeting';
+        $createMeeting->save();
 
-        $updateClient = new Permissions;
-        $updateClient->display_name = 'Update meeting';
-        $updateClient->name = 'meeting-update';
-        $updateClient->description = 'Permission to update meeting';
-        $updateClient->save();
+        $updateMeeting = new Permissions;
+        $updateMeeting->display_name = 'Update meeting';
+        $updateMeeting->name = 'meeting-update';
+        $updateMeeting->description = 'Permission to update meeting';
+        $updateMeeting->save();
 
-        $deleteClient = new Permissions;
-        $deleteClient->display_name = 'Delete meeting';
-        $deleteClient->name = 'meeting-delete';
-        $deleteClient->description = 'Permission to delete meeting';
-        $deleteClient->save();
+        $deleteMeeting = new Permissions;
+        $deleteMeeting->display_name = 'Delete meeting';
+        $deleteMeeting->name = 'meeting-delete';
+        $deleteMeeting->description = 'Permission to delete meeting';
+        $deleteMeeting->save();
 
         /**
-         * Referral Permissions (29-31)
+         * Revenue Permissions
          */
         
-        $createClient = new Permissions;
-        $createClient->display_name = 'Create revenue';
-        $createClient->name = 'revenue-create';
-        $createClient->description = 'Permission to create revenue';
-        $createClient->save();
+        $createRevenue = new Permissions;
+        $createRevenue->display_name = 'Create revenue';
+        $createRevenue->name = 'revenue-create';
+        $createRevenue->description = 'Permission to create revenue';
+        $createRevenue->save();
 
-        $updateClient = new Permissions;
-        $updateClient->display_name = 'Update revenue';
-        $updateClient->name = 'revenue-update';
-        $updateClient->description = 'Permission to update revenue';
-        $updateClient->save();
+        $updateRevenue = new Permissions;
+        $updateRevenue->display_name = 'Update revenue';
+        $updateRevenue->name = 'revenue-update';
+        $updateRevenue->description = 'Permission to update revenue';
+        $updateRevenue->save();
 
-        $deleteClient = new Permissions;
-        $deleteClient->display_name = 'Delete revenue';
-        $deleteClient->name = 'revenue-delete';
-        $deleteClient->description = 'Permission to delete revenue';
-        $deleteClient->save();
+        $deleteRevenue = new Permissions;
+        $deleteRevenue->display_name = 'Delete revenue';
+        $deleteRevenue->name = 'revenue-delete';
+        $deleteRevenue->description = 'Permission to delete revenue';
+        $deleteRevenue->save();
 
         /**
-         * Group Permissions (32-34)
+         * Group Permissions
          */
         
-        $createClient = new Permissions;
-        $createClient->display_name = 'Create group';
-        $createClient->name = 'group-create';
-        $createClient->description = 'Permission to create group';
-        $createClient->save();
+        $createGroup = new Permissions;
+        $createGroup->display_name = 'Create group';
+        $createGroup->name = 'group-create';
+        $createGroup->description = 'Permission to create group';
+        $createGroup->save();
 
-        $updateClient = new Permissions;
-        $updateClient->display_name = 'Update group';
-        $updateClient->name = 'group-update';
-        $updateClient->description = 'Permission to update group';
-        $updateClient->save();
+        $updateGroup = new Permissions;
+        $updateGroup->display_name = 'Update group';
+        $updateGroup->name = 'group-update';
+        $updateGroup->description = 'Permission to update group';
+        $updateGroup->save();
 
-        $deleteClient = new Permissions;
-        $deleteClient->display_name = 'Delete group';
-        $deleteClient->name = 'group-delete';
-        $deleteClient->description = 'Permission to delete group';
-        $deleteClient->save();
+        $deleteGroup = new Permissions;
+        $deleteGroup->display_name = 'Delete group';
+        $deleteGroup->name = 'group-delete';
+        $deleteGroup->description = 'Permission to delete group';
+        $deleteGroup->save();
+
+        /**
+         * Organization Permissions
+         */
+        
+        $createGroup = new Permissions;
+        $createGroup->display_name = 'Create organization';
+        $createGroup->name = 'org-create';
+        $createGroup->description = 'Permission to create organization';
+        $createGroup->save();
+
+        $updateGroup = new Permissions;
+        $updateGroup->display_name = 'Update organization';
+        $updateGroup->name = 'org-update';
+        $updateGroup->description = 'Permission to update organization';
+        $updateGroup->save();
+
+        $deleteGroup = new Permissions;
+        $deleteGroup->display_name = 'Delete organization';
+        $deleteGroup->name = 'org-delete';
+        $deleteGroup->description = 'Permission to delete organization';
+        $deleteGroup->save();
 
         
         

@@ -90,7 +90,7 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function create($requestData)
     {
-        $member = Member::create($requestData);
+        $member = User::create($requestData);
         Session()->flash('flash_message', 'Member successfully added');
         event(new \App\Events\MemberAction($member, self::CREATED));
     }

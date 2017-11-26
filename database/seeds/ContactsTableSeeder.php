@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class MembersTableSeeder extends Seeder
+class ContactsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,7 @@ class MembersTableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('members')->insert(array (
+        \DB::table('contacts')->insert(array (
             0 =>
             array (
                 'id' => 1,
@@ -24,11 +24,12 @@ class MembersTableSeeder extends Seeder
                 'city' => 'McLean',
                 'state' => 'VA',
                 'company_name' => 'Merrill Lynch',
+                'is_guest' => 0,
                 'group_id' => 1,
                 'user_id' => 1,
                 'industry_id' => 1,
-                'created_at' => '2016-06-04 13:51:10',
-                'updated_at' => '2016-06-04 13:51:10',
+                'created_at' => '2017-11-26 13:51:10',
+                'updated_at' => '2017-11-26 13:51:10',
             ),
             1 =>
             array (
@@ -42,11 +43,12 @@ class MembersTableSeeder extends Seeder
                 'city' => 'Ashburn',
                 'state' => 'VA',
                 'company_name' => 'LNI Digital Marketing',
+                'is_guest' => 0,
                 'group_id' => 1,
                 'user_id' => 1,
                 'industry_id' => 1,
-                'created_at' => '2016-06-04 13:51:10',
-                'updated_at' => '2016-06-04 13:51:10',
+                'created_at' => '2017-11-26 13:51:10',
+                'updated_at' => '2017-11-26 13:51:10',
             ),
             2 =>
             array (
@@ -60,11 +62,31 @@ class MembersTableSeeder extends Seeder
                 'city' => 'Springfield',
                 'state' => 'VA',
                 'company_name' => 'Luk Financial Group',
+                'is_guest' => 0,
                 'group_id' => 1,
                 'user_id' => 1,
                 'industry_id' => 1,
-                'created_at' => '2016-06-04 13:51:10',
-                'updated_at' => '2016-06-04 13:51:10',
+                'created_at' => '2017-11-26 13:51:10',
+                'updated_at' => '2017-11-26 13:51:10',
+            ),
+            3 =>
+            array (
+                'id' => 4,
+                'name' => 'Dave Estep',
+                'email' => 'destep@olmstedfoundation.org',
+                'primary_number' => '240-386-9508',
+                'secondary_number' => '',
+                'address' => '6608 Green Ash ct',
+                'zipcode' => '22152',
+                'city' => 'Springfield',
+                'state' => 'VA',
+                'company_name' => 'The Olmsted Foundation',
+                'is_guest' => 1,
+                'group_id' => 1,
+                'user_id' => 1,
+                'industry_id' => 1,
+                'created_at' => '2017-11-26 13:51:10',
+                'updated_at' => '2017-11-26 13:51:10',
             ),
         ));
     }
