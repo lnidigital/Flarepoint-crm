@@ -4,30 +4,30 @@ namespace App\Http\Controllers;
 use Config;
 use Dinero;
 use Datatables;
-use App\Models\Guest;
 use App\Models\Contact;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Http\Requests\Guest\StoreGuestRequest;
-use App\Http\Requests\Guest\UpdateGuestRequest;
+use App\Http\Requests\Contact\StoreContactRequest;
+use App\Http\Requests\Contact\UpdateContactRequest;
 use App\Repositories\User\UserRepositoryContract;
-use App\Repositories\Member\MemberRepositoryContract;
 use App\Repositories\Contact\ContactRepositoryContract;
-use App\Repositories\Guest\GuestRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 
-class GuestController extends Controller
+class MembersController extends Controller
 {
 
-    protected $contacts;
+    protected $users;
+    protected $members;
     protected $settings;
 
     public function __construct(
-        ContactRepositoryContract $contacts,
+        UserRepositoryContract $users,
+        ContactRepositoryContract $members,
         SettingRepositoryContract $settings
     )
     {
-        $this->contacts = $contacts;
+        $this->users = $users;
+        $this->members = $members;
         $this->settings = $settings;
         $this->middleware('contact.create', ['only' => ['create']]);
         $this->middleware('contact.update', ['only' => ['edit']]);
@@ -38,7 +38,7 @@ class GuestController extends Controller
      */
     public function index()
     {
-        return view('guests.index');
+        return view('members.index');
     }
 
     /**
@@ -49,18 +49,18 @@ class GuestController extends Controller
     {
         $group_id = 1;
 
-        $guests = Contact::select(['id', 'name', 'company_name', 'email', 'primary_number'])
+        $members = Contact::select(['id', 'name', 'company_name', 'email', 'primary_number'])
                     ->where('group_id', $group_id)
-                    ->where('is_guest', '1');
-
-        return Datatables::of($guests)
-            ->addColumn('namelink', function ($guests) {
-                return '<a href="guests/' . $guests->id . '" ">' . $guests->name . '</a>';
+                    ->where('is_guest', '0');
+                    
+        return Datatables::of($members)
+            ->addColumn('namelink', function ($members) {
+                return '<a href="/members/'.$members->id.'">'.$members->name.'</a>';
             })
             ->add_column('edit', '
-                <a href="{{ route(\'guests.edit\', $id) }}" class="btn btn-success" >Edit</a>')
+                <a href="{{ route(\'members.edit\', $id) }}" class="btn btn-success" >Edit</a>')
             ->add_column('delete', '
-                <form action="{{ route(\'guests.destroy\', $id) }}" method="POST">
+                <form action="{{ route(\'members.destroy\', $id) }}" method="POST">
             <input type="hidden" name="_method" value="DELETE">
             <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
 
@@ -76,21 +76,18 @@ class GuestController extends Controller
      */
     public function create()
     {
-        $group_id = 1;
-
-        return view('guests.create')
-            ->withMembers($this->contacts->getAllMembersSelect($group_id))
-            ->withIndustries($this->contacts->listAllIndustries());
+        return view('contacts.create')
+            ->withIndustries($this->members->listAllIndustries());
     }
 
     /**
      * @param StoreClientRequest $request
      * @return mixed
      */
-    public function store(StoreGuestRequest $request)
+    public function store(StoreContactRequest $request, String $route = '')
     {
-        $this->contacts->create($request->all());
-        return redirect()->route('guests.index');
+        $this->members->create($request->all());
+        return redirect()->route('members.index');
     }
 
     /**
@@ -101,8 +98,8 @@ class GuestController extends Controller
      */
     public function show($id)
     {
-        return view('guests.show')
-            ->with('guest', $this->contacts->find($id));
+        return view('contacts.show')
+            ->withContact($this->members->find($id));
     }
 
     /**
@@ -113,11 +110,9 @@ class GuestController extends Controller
      */
     public function edit($id)
     {
-        return view('guests.edit')
-            ->withGuest($this->guests->find($id))
-            ->withMembers($this->members->listAllMembers())
-            ->withUsers($this->users->getAllUsersWithDepartments())
-            ->withIndustries($this->guests->listAllIndustries());
+        return view('members.edit')
+            ->with('contact', $this->members->find($id))
+            ->withIndustries($this->members->listAllIndustries());
     }
 
     /**
@@ -125,11 +120,11 @@ class GuestController extends Controller
      * @param UpdateClientRequest $request
      * @return mixed
      */
-    public function update($id, UpdateGuestRequest $request)
+    public function update($id, UpdateContactRequest $request)
     {
-        $this->guests->update($id, $request);
-        Session()->flash('flash_message', 'Guest successfully updated');
-        return redirect()->route('guests.index');
+        $this->members->update($id, $request);
+        Session()->flash('flash_message', 'Member successfully updated');
+        return redirect()->route('members.index');
     }
 
     /**
@@ -138,9 +133,9 @@ class GuestController extends Controller
      */
     public function destroy($id)
     {
-        $this->guests->destroy($id);
+        $this->members->destroy($id);
 
-        return redirect()->route('guests.index');
+        return redirect()->route('members.index');
     }
 
     /**
@@ -150,8 +145,8 @@ class GuestController extends Controller
      */
     public function updateAssign($id, Request $request)
     {
-        $this->clients->updateAssign($id, $request);
-        Session()->flash('flash_message', 'New user is assigned');
+        $this->contacts->updateAssign($id, $request);
+        Session()->flash('flash_message', 'New contact is assigned');
         return redirect()->back();
     }
 

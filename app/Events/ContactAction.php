@@ -8,18 +8,18 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Models\Member;
+use App\Models\Contact;
 
-class MemberAction
+class ContactAction
 {
-    private $member;
+    private $contact;
     private $action;
 
     use InteractsWithSockets, SerializesModels;
 
-    public function getMember()
+    public function getContact()
     {
-        return $this->member;
+        return $this->contact;
     }
     public function getAction()
     {
@@ -32,9 +32,9 @@ class MemberAction
      * @param Client $client
      * @param $action
      */
-    public function __construct(Member $member, $action)
+    public function __construct(Contact $contact, $action)
     {
-        $this->member = $member;
+        $this->contact = $contact;
         $this->action = $action;
     }
 

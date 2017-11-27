@@ -35,21 +35,10 @@ class MeetingRepository implements MeetingRepositoryContract
         return Meeting::pluck('name', 'id');
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getInvoices($id)
-    {
-        $invoice = Meeting::findOrFail($id)->invoices()->with('invoiceLines')->get();
-
-        return $invoice;
-    }
-
-    public function getAllMembers() 
+    public function getAllMeetingsSelect() 
     {   
         return Meeting::all()
-        ->pluck('name', 'id');
+        ->pluck('meeting_date', 'id');
     }
 
     /**

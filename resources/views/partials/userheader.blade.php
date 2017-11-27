@@ -1,7 +1,9 @@
 <div class="col-lg-6">
 
     <div class="profilepic"><img class="profilepicsize" src="../{{ $user->avatar }}" /></div>
-    <h1>{{ $user->nameAndDepartment }} </h1>
+    <h1>{{ $user->name }} 
+            <a href="{{ route('users.edit',$user->id) }}" class="btn btn-secondary btn-sm">Edit</a>
+    </h1>
 
     <!--MAIL-->
     <p><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>

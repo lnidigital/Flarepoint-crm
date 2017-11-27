@@ -1,14 +1,14 @@
 @extends('layouts.master')
 @section('heading')
-    Edit Member ({{$contact->name}})
+    Edit Contact: ({{$contact->name}})
 @stop
 
 @section('content')
     {!! Form::model($contact, [
             'method' => 'PATCH',
-            'route' => ['members.update', $contact->id],
+            'route' => ['contacts.update', $contact->id],
             ]) !!}
-    @include('members.form', ['submitButtonText' => __('Update member')])
+    @include('contacts.form', ['submitButtonText' => __('Update contact')])
 
     {!! Form::close() !!}
 

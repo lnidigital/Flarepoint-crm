@@ -37,19 +37,19 @@ class User extends Authenticatable
 
     protected $primaryKey = 'id';
 
-    public function tasks()
-    {
-        return $this->hasMany(Task::class, 'user_assigned_id', 'id');
-    }
+    // public function tasks()
+    // {
+    //     return $this->hasMany(Task::class, 'user_assigned_id', 'id');
+    // }
 
-    public function leads()
-    {
-        return $this->hasMany(Lead::class, 'user_id', 'id');
-    }
+    // public function leads()
+    // {
+    //     return $this->hasMany(Lead::class, 'user_id', 'id');
+    // }
     
-    public function department()
+    public function group()
     {
-        return $this->belongsToMany(Department::class, 'department_user')->withPivot('department_id');
+        return $this->belongsToMany(Group::class, 'group_user')->withPivot('group_id');
     }
 
     public function userRole()

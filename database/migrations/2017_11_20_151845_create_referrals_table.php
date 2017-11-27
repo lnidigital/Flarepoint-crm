@@ -19,12 +19,11 @@ class CreateReferralsTable extends Migration
             $table->foreign('from_contact_id')->references('id')->on('contacts');
             $table->integer('to_contact_id')->unsigned();
             $table->foreign('to_contact_id')->references('id')->on('contacts');
-            // $table->integer('from_member_id')->unsigned();
-            // $table->integer('to_member_id')->unsigned();
             $table->datetime('referral_date');
+            $table->integer('meeting_id')->unsigned()->nullable();
+            $table->foreign('meeting_id')->references('id')->on('meetings');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
-            //$table->integer('group_id')->unsigned();
             $table->text('description');
             $table->timestamps();
         });

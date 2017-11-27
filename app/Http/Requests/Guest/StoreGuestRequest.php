@@ -13,7 +13,7 @@ class StoreGuestRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('guest-create');
+        return auth()->user()->can('contact-create');
     }
 
     /**

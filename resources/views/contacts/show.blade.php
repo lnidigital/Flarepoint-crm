@@ -2,13 +2,13 @@
     @section('content')
     @include('partials.contactheader')
 <div class="col-sm-8">
-  <el-tabs active-name="tasks" style="width:100%">
-    <el-tab-pane label="Tasks" name="tasks">
-        <table class="table table-hover" id="tasks-table">
-        <h3>{{ __('Tasks assigned') }}</h3>
+  <el-tabs active-name="referrals" style="width:100%">
+    <el-tab-pane label="Referrals" name="referrals">
+        <table class="table table-hover" id="referrals-table">
+        <h3>{{ __('Referrals made') }}</h3>
             <thead>
-                    <th>{{ __('Title') }}</th>
-                    <th>{{ __('Client') }}</th>
+                    <th>{{ __('Name') }}</th>
+                    <th>{{ __('Date') }}</th>
                     <th>{{ __('Created at') }}</th>
                     <th>{{ __('Deadline') }}</th>
                     <th>
@@ -23,10 +23,10 @@
             </thead>
         </table>
     </el-tab-pane>
-    <el-tab-pane label="Leads" name="leads">
+    <el-tab-pane label="1-on-1s" name="oneonones">
       <table class="table table-hover">
-        <table class="table table-hover" id="leads-table">
-                <h3>{{ __('Leads assigned') }}</h3>
+        <table class="table table-hover" id="oneonones-table">
+                <h3>{{ __('1-on-1s completed') }}</h3>
                 <thead>
                 <tr>
                     <th>{{ __('Title') }}</th>
@@ -45,9 +45,21 @@
                 </thead>
             </table>
     </el-tab-pane>
-    <el-tab-pane label="Clients" name="clients">
-         <table class="table table-hover" id="clients-table">
-                <h3>{{ __('Clients assigned') }}</h3>
+    <el-tab-pane label="Guests" name="guests">
+         <table class="table table-hover" id="guests-table">
+                <h3>{{ __('Guests invited') }}</h3>
+                <thead>
+                <tr>
+                    <th>{{ __('Name') }}</th>
+                    <th>{{ __('Company') }}</th>
+                    <th>{{ __('Primary number') }}</th>
+                </tr>
+                </thead>
+            </table>
+    </el-tab-pane>
+    <el-tab-pane label="Revenues" name="revenues">
+         <table class="table table-hover" id="revenues-table">
+                <h3>{{ __('Revenues reported') }}</h3>
                 <thead>
                 <tr>
                     <th>{{ __('Name') }}</th>
@@ -59,13 +71,6 @@
     </el-tab-pane>
   </el-tabs>
   </div>
-  <div class="col-sm-4">
-  <h4>{{ __('Tasks') }}</h4>
-
-<h4>{{ __('Leads') }}</h4>
-
-  </div>
-
    @stop 
 @push('scripts')
         <script>
@@ -81,7 +86,7 @@
               var table = $('#tasks-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: '{!! route('users.taskdata', ['id' => $user->id]) !!}',
+                    ajax: '{!! route('users.taskdata', ['id' => $contact->id]) !!}',
                     columns: [
 
                         {data: 'titlelink', name: 'title'},
@@ -108,7 +113,7 @@
                 $('#clients-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: '{!! route('users.clientdata', ['id' => $user->id]) !!}',
+                    ajax: '{!! route('users.clientdata', ['id' => $contact->id]) !!}',
                     columns: [
 
                         {data: 'clientlink', name: 'name'},
@@ -123,7 +128,7 @@
               var table = $('#leads-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: '{!! route('users.leaddata', ['id' => $user->id]) !!}',
+                    ajax: '{!! route('users.leaddata', ['id' => $contact->id]) !!}',
                     columns: [
 
                         {data: 'titlelink', name: 'title'},

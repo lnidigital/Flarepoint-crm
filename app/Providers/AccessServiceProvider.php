@@ -28,24 +28,20 @@ class AccessServiceProvider extends ServiceProvider
             \App\Repositories\User\UserRepository::class
         );
         $this->app->bind(
+            \App\Repositories\Contact\ContactRepositoryContract::class,
+            \App\Repositories\Contact\ContactRepository::class
+        );
+        $this->app->bind(
             \App\Repositories\Role\RoleRepositoryContract::class,
             \App\Repositories\Role\RoleRepository::class
         );
         $this->app->bind(
-            \App\Repositories\Department\DepartmentRepositoryContract::class,
-            \App\Repositories\Department\DepartmentRepository::class
+            \App\Repositories\Group\GroupRepositoryContract::class,
+            \App\Repositories\Group\GroupRepository::class
         );
         $this->app->bind(
             \App\Repositories\Setting\SettingRepositoryContract::class,
             \App\Repositories\Setting\SettingRepository::class
-        );
-        $this->app->bind(
-            \App\Repositories\Member\MemberRepositoryContract::class,
-            \App\Repositories\Member\MemberRepository::class
-        );
-        $this->app->bind(
-            \App\Repositories\Guest\GuestRepositoryContract::class,
-            \App\Repositories\Guest\GuestRepository::class
         );
         $this->app->bind(
             \App\Repositories\Referral\ReferralRepositoryContract::class,

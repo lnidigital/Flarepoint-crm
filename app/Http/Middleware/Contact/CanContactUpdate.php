@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Middleware\Meeting;
+namespace App\Http\Middleware\Contact;
 
 use Closure;
 
-class CanMemberUpdate
+class CanContactUpdate
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,8 @@ class CanMemberUpdate
      */
     public function handle($request, Closure $next)
     {
-        if (!auth()->user()->can('member-update')) {
-            Session()->flash('flash_message_warning', 'Not allowed to update member!');
+        if (!auth()->user()->can('contact-update')) {
+            Session()->flash('flash_message_warning', 'Not allowed to update contact!');
             return redirect()->route('members.index');
         }
 

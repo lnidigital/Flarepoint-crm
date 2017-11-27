@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories\Guest;
 
-interface GuestRepositoryContract
+interface Guest1RepositoryContract
 {
     public function find($id);
 

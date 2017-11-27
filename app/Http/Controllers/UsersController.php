@@ -14,26 +14,26 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Role\RoleRepositoryContract;
-use App\Repositories\Department\DepartmentRepositoryContract;
+use App\Repositories\Group\GroupRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 
 class UsersController extends Controller
 {
     protected $users;
     protected $roles;
-    protected $departments;
+    protected $groups;
     protected $settings;
 
     public function __construct(
         UserRepositoryContract $users,
         RoleRepositoryContract $roles,
-        DepartmentRepositoryContract $departments,
+        GroupRepositoryContract $groups,
         SettingRepositoryContract $settings
     )
     {
         $this->users = $users;
         $this->roles = $roles;
-        $this->departments = $departments;
+        $this->groups = $groups;
         $this->settings = $settings;
         $this->middleware('user.create', ['only' => ['create']]);
     }
@@ -181,8 +181,8 @@ class UsersController extends Controller
     public function show($id)
     {
         return view('users.show')
-            ->withUser($this->users->find($id))
-            ->withCompanyname($this->settings->getCompanyName());
+            ->withUser($this->users->find($id));
+            //->withCompanyname($this->settings->getCompanyName());
     }
 
     /**
@@ -191,10 +191,12 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
+        $org_id = 1;
+
         return view('users.edit')
             ->withUser($this->users->find($id))
             ->withRoles($this->roles->listAllRoles())
-            ->withDepartments($this->departments->listAllDepartments());
+            ->withGroups($this->groups->listAllGroups($org_id));
     }
 
     /**

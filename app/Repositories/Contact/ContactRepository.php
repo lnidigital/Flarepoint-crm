@@ -1,18 +1,19 @@
 <?php
-namespace App\Repositories\Member;
+namespace App\Repositories\Contact;
 
-use App\Models\Member;
+use App\Models\Contact;
 use App\Models\Industry;
 use App\Models\Invoice;
 use App\Models\User;
 use DB;
+use Carbon;
 use Illuminate\Support\Facades\Log;
 
 /**
  * Class ClientRepository
  * @package App\Repositories\Client
  */
-class MemberRepository implements MemberRepositoryContract
+class ContactRepository implements ContactRepositoryContract
 {
     const CREATED = 'created';
     const UPDATED_ASSIGN = 'updated_assign';
@@ -23,7 +24,7 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function find($id)
     {
-        return Member::findOrFail($id);
+        return Contact::findOrFail($id);
     }
 
     /**
@@ -31,41 +32,38 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function listAllMembers()
     {
-        return Member::pluck('name', 'id');
+        return Contact::pluck('name', 'id');
     }
 
     /**
      * @return mixed
      */
-    public function getMembers($group_id)
+    public function getAllMembers($group_id)
     {
-        return Member::where('group_id',$group_id)->get();
+        return Contact::where('group_id',$group_id)->where('is_guest',0)->get();
     }
 
     /**
      * @return mixed
      */
-    public function getMembersSelect($group_id)
+    public function getAllGuests($group_id)
     {
-        Log::info('getMembersSelect group_id: '.$group_id);
+        return Contact::where('group_id',$group_id)->where('is_guest',1)->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllMembersSelect($group_id)
+    {
+        //Log::info('getMembersSelect group_id: '.$group_id);
         
-        return Member::where('group_id',$group_id)->pluck('name','id');
+        return Contact::where('group_id',$group_id)->where('is_guest',0)->pluck('name','id');
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getInvoices($id)
+    public function getAllMembersNameId() 
     {
-        $invoice = Member::findOrFail($id)->invoices()->with('invoiceLines')->get();
-
-        return $invoice;
-    }
-
-    public function getAllMembers() 
-    {
-        return Member::all()
+        return Contact::all()   
         ->pluck('name', 'id');
     }
 
@@ -90,9 +88,9 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function create($requestData)
     {
-        $member = User::create($requestData);
-        Session()->flash('flash_message', 'Member successfully added');
-        event(new \App\Events\MemberAction($member, self::CREATED));
+        $contact = Contact::create($requestData);
+        Session()->flash('flash_message', 'Contact successfully added');
+        event(new \App\Events\ContactAction($contact, self::CREATED));
     }
 
     /**
@@ -101,7 +99,7 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function update($id, $requestData)
     {
-        $member = Member::findOrFail($id);
+        $member = Contact::findOrFail($id);
         $member->fill($requestData->all())->save();
     }
 
@@ -111,7 +109,7 @@ class MemberRepository implements MemberRepositoryContract
     public function destroy($id)
     {
         try {
-            $client = Member::findorFail($id);
+            $client = Contact::findorFail($id);
             $client->delete();
             Session()->flash('flash_message', 'Member successfully deleted');
         } catch (\Illuminate\Database\QueryException $e) {
@@ -125,10 +123,21 @@ class MemberRepository implements MemberRepositoryContract
      */
     public function updateAssign($id, $requestData)
     {
-        $member = Member::with('user')->findOrFail($id);
+        $member = Contact::with('user')->findOrFail($id);
         $member->user_id = $requestData->get('user_assigned_id');
         $member->save();
 
         event(new \App\Events\ClientAction($member, self::UPDATED_ASSIGN));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function guestsMadeThisMonth()
+    {
+        return DB::table('contacts')
+            ->select(DB::raw('count(*) as total, updated_at'))
+            ->where('is_guest', 1)
+            ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
 }

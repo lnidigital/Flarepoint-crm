@@ -6,36 +6,47 @@ use Dinero;
 use Datatables;
 use Carbon;
 use App\Models\Meeting;
+use App\Models\Attendance;
 use App\Http\Requests;
 use App\Helpers\Helper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\Meeting\StoreMeetingRequest;
 use App\Http\Requests\Meeting\UpdateMeetingRequest;
-use App\Repositories\Member\MemberRepositoryContract;
+use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Meeting\MeetingRepositoryContract;
-use App\Repositories\Guest\GuestRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
+use App\Repositories\Referral\ReferralRepositoryContract;
+use App\Repositories\Onetoone\OnetoOneRepositoryContract;
+use App\Repositories\Revenue\RevenueRepositoryContract;
 
 class MeetingsController extends Controller
 {
 
     protected $settings;
-    protected $guests;
-    protected $members;
     protected $meetings;
     protected $attendance;
+    protected $contacts;
+    protected $referrals;
+    protected $onetoones;
+    protected $revenues;
 
     public function __construct(
-        MemberRepositoryContract $members,
-        GuestRepositoryContract $guests,
+        ContactRepositoryContract $contacts,
         SettingRepositoryContract $settings,
-        MeetingRepositoryContract $meetings
+        MeetingRepositoryContract $meetings,
+        ReferralRepositoryContract $referrals,
+        OnetoOneRepositoryContract $onetoones,
+        RevenueRepositoryContract $revenues
+
     )
     {
-        $this->members = $members;
-        $this->guests = $guests;
+        $this->contacts = $contacts;
         $this->settings = $settings;
         $this->meetings = $meetings;
+        $this->onetoones = $onetoones;
+        $this->revenues = $revenues;
+        $this->referrals = $referrals;
         $this->middleware('meeting.create', ['only' => ['create']]);
         $this->middleware('meeting.update', ['only' => ['edit']]);
     }
@@ -60,6 +71,9 @@ class MeetingsController extends Controller
                 $date = Carbon::parse($meetings->meeting_date);
                 return '<a href="meetings/' . $meetings->id . '" ">' . $date->format('F d, Y') . '</a>';
             })
+            ->addColumn('meeting_notes_short', function ($meetings) {
+                return substr($meetings->meeting_notes, 0, 200) . "...";
+            })
             ->add_column('edit', '
                 <a href="{{ route(\'meetings.edit\', $id) }}" class="btn btn-success" >Edit</a>')
             ->add_column('delete', '
@@ -82,8 +96,8 @@ class MeetingsController extends Controller
     	$group_id = 1;
 
         return view('meetings.create')
-            ->withMembers($this->members->getAllMembers($group_id))
-            ->withGuests($this->guests->listAllGuests($group_id));
+            ->withMembers($this->contacts->getAllMembers($group_id))
+            ->withGuests($this->contacts->getAllGuests($group_id));
     }
 
     /**
@@ -107,26 +121,35 @@ class MeetingsController extends Controller
         $group_id = 1;
 
         $attendedMembers = array();
-        $groupMembers = $this->members->getMembers($group_id);
+        $groupMembers = $this->contacts->getAllMembers($group_id);
 
         foreach ($groupMembers as $groupMember) {
-            if (Helper::checkMeetingAttended($id, $groupMember->id)) {
+            $attendance = Attendance::where('meeting_id',$id)->where('contact_id',$groupMember->id)->first();
+            if ($attendance !=null) {
                 $attendedMembers[] = $groupMember;
             }
         }
 
         $attendedGuests = array();
-        $groupMembers = $this->guests->getMeetingGuests($group_id);
+        $groupGuests = $this->contacts->getAllGuests($group_id);
 
-        foreach ($groupMembers as $groupMember) {
-            if (Helper::checkMeetingAttended($id, $groupMember->id)) {
-                $attendedMembers[] = $groupMember;
+        foreach ($groupGuests as $groupGuest) {
+            $attendance = Attendance::where('meeting_id',$id)->where('contact_id',$groupGuest->id)->first();
+            if ($attendance !=null) {
+                $attendedGuests[] = $groupGuest;
             }
         }
 
+        $referralsMade = array();
+        $meetingReferrals = $this->referrals->getReferralsByMeeting($id);
+
+        Log::info('referralId:'.$id.'||referrals='.json_encode($meetingReferrals));
+
         return view('meetings.show')
             ->withMeeting($this->meetings->find($id))
-            ->with('attendedMembers', $attendedMembers);
+            ->with('attendedMembers', $attendedMembers)
+            ->with('attendedGuests', $attendedGuests)
+            ->with('meetingReferrals', $meetingReferrals);
     }
 
     /**

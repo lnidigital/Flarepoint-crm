@@ -4,37 +4,34 @@ namespace App\Http\Controllers;
 use Config;
 use Dinero;
 use Datatables;
-use App\Models\Client;
+use App\Models\Contact;
 use App\Models\Attendance;
 use App\Models\Meeting;
 use App\Http\Requests;
 use App\Http\Requests\Attendance\StoreAttendanceRequest;
 use Illuminate\Http\Request;
-use App\Repositories\Member\MemberRepositoryContract;
+use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Meeting\MeetingRepositoryContract;
-use App\Repositories\Guest\GuestRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
+use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
 {
 
     protected $settings;
-    protected $guests;
-    protected $members;
+    protected $contacts;
 
     public function __construct(
-        MemberRepositoryContract $members,
-        GuestRepositoryContract $guests,
+        ContactRepositoryContract $contacts,
         SettingRepositoryContract $settings,
         MeetingRepositoryContract $meetings
     )
     {
-        $this->members = $members;
-        $this->guests = $guests;
+        $this->contacts = $contacts;
         $this->settings = $settings;
         $this->meetings = $meetings;
-        // $this->middleware('attendance.create', ['only' => ['create']]);
-        // $this->middleware('attendance.update', ['only' => ['edit']]);
+        $this->middleware('attendance.create', ['only' => ['create']]);
+        $this->middleware('attendance.update', ['only' => ['edit']]);
     }
 
     /**
@@ -89,20 +86,23 @@ class AttendanceController extends Controller
     public function store(StoreAttendanceRequest $request)
     {
         //$this->clients->create($request->all());
-        $attendedPersons =  $request->input('member');
+        $attendedMembers =  $request->input('member');
+        $attendedGuests =  $request->input('guest');
+        $attendedPersons = $attendedMembers + $attendedGuests;
+
         $meetingId = $request->input('meeting_id');
         $meeting = Meeting::find($meetingId);
 
+        Log::info('attendance='.json_encode($attendedPersons));
+
+        $attendedArray = array();
         foreach ($attendedPersons as $attendedPerson) {
-            if (isset($attendedPerson)) {
-                $attendance = new Attendance;
-                $attendance->meeting_id = $meetingId;
-                $attendance->member_id = $attendedPerson;
-                $attendance->group_id = $meeting->group_id;
-                $attendance->save();
-            }
-            
-        }
+            $attendance = Attendance::firstOrNew(array('meeting_id' => $meetingId, 'contact_id'=>$attendedPerson));
+            $attendance->save();
+            $attendedArray[] = $attendedPerson;
+        } 
+
+        Attendance::where('meeting_id',$meetingId)->whereNotIn('contact_id', $attendedArray)->delete();
 
         return redirect()->route('meetings.show', $request->meeting_id);
     }
@@ -132,7 +132,8 @@ class AttendanceController extends Controller
     {
         $group_id = 1;
         return view('attendance.edit')
-            ->withMembers($this->members->getMembers($group_id))
+            ->withMembers($this->contacts->getAllMembers($group_id))
+            ->withGuests($this->contacts->getAllGuests($group_id))
             ->withMeeting($this->meetings->find($id));
     }
 

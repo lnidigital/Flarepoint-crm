@@ -35,21 +35,15 @@ class ReferralRepository implements ReferralRepositoryContract
         return Referral::pluck('name', 'id');
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getInvoices($id)
-    {
-        $invoice = Referral::findOrFail($id)->invoices()->with('invoiceLines')->get();
-
-        return $invoice;
+    
+    public function getReferralsByGroup($groupId) 
+    {   
+        return Referral::where('group_id', $groupId)->get();
     }
 
-    public function getAllMembers() 
+    public function getReferralsByMeeting($meetingId) 
     {   
-        return Referral::all()
-        ->pluck('name', 'id');
+        return Referral::where('meeting_id', $meetingId)->get();
     }
 
     /**

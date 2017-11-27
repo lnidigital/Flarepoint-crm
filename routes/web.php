@@ -37,15 +37,36 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('roles', 'RolesController');
     
     /**
+     * Contacts
+     */
+    Route::group(['prefix' => 'contacts'], function () {
+        Route::get('/data', 'ContactsController@anyData')->name('contacts.data');
+        Route::post('/create/cvrapi', 'ContactsController@cvrapiStart');
+        Route::post('/upload/{id}', 'DocumentsController@upload');
+        Route::patch('/updateassign/{id}', 'ContactsController@updateAssign');
+    });
+        Route::resource('contacts', 'ContactsController');
+    
+    /**
      * Members
      */
     Route::group(['prefix' => 'members'], function () {
         Route::get('/data', 'MembersController@anyData')->name('members.data');
-        Route::post('/create/cvrapi', 'MembersController@cvrapiStart');
         Route::post('/upload/{id}', 'DocumentsController@upload');
         Route::patch('/updateassign/{id}', 'MembersController@updateAssign');
     });
         Route::resource('members', 'MembersController');
+
+    /**
+     * Guests
+     */
+    Route::group(['prefix' => 'guests'], function () {
+        Route::get('/data', 'GuestController@anyData')->name('guests.data');
+        Route::post('/upload/{id}', 'DocumentsController@upload');
+        Route::patch('/updateassign/{id}', 'GuestController@updateAssign');
+    });
+        Route::resource('guests', 'GuestController');
+    
     
     /**
      * Meetings
@@ -68,16 +89,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('attendance', 'AttendanceController');
 
     /**
-     * Guests
-     */
-    Route::group(['prefix' => 'guests'], function () {
-        Route::get('/data', 'GuestController@anyData')->name('guests.data');
-        Route::post('/upload/{id}', 'GuestController@upload');
-        Route::patch('/updateassign/{id}', 'GuestController@updateAssign');
-    });
-        Route::resource('guests', 'GuestController');
-    
-    /**
      * Referral
      */
     Route::group(['prefix' => 'referral'], function () {
@@ -88,7 +99,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('referrals', 'ReferralController');
     
     /**
-     * Referral
+     * 1-to-1s
      */
     Route::group(['prefix' => 'onetoones'], function () {
         Route::get('/data', 'OnetoOneController@anyData')->name('onetoones.data');
@@ -106,7 +117,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::patch('/updateassign/{id}', 'RevenueController@updateAssign');
     });
         Route::resource('revenues', 'RevenueController');
-    
       
     
     /**

@@ -30,8 +30,8 @@
             ajax: '{!! route('referrals.data') !!}',
             columns: [
 
-                {data: 'from_name', name: 'from_member_id'},
-                {data: 'to_name', name: 'to_member_id'},
+                {data: 'from_name', name: 'from_contact_id'},
+                {data: 'to_name', name: 'to_contact_id'},
                 {data: 'referral_date', name: 'referral_date'},
                 @if(Entrust::can('referral-update'))   
                 { data: 'edit', name: 'edit', orderable: false, searchable: false},

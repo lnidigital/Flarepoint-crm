@@ -7,8 +7,6 @@ interface MeetingRepositoryContract
 
     public function listAllMembers();
 
-    public function getInvoices($id);
-
     public function getAllMembersCount();
 
     public function listAllIndustries();

@@ -24,10 +24,11 @@ class StoreReferralRequest extends FormRequest
     public function rules()
     {
         return [
-            'from_member_id' => 'required',
-            'to_member_id' => 'required',
+            'from_contact_id' => 'required',
+            'to_contact_id' => 'required',
             'referral_date' => 'required',
             'group_id' => 'required',
+            'meeting_id' =>''
             'description' => ''
         ];
     }

@@ -4,6 +4,8 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\Log;
 use App\Models\Attendance;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Contact;
 
 class Helper
 {
@@ -30,7 +32,7 @@ class Helper
 
     public static function checkMeetingAttended($meetingId, $memberId)
     {
-        $attendance = Attendance::where('meeting_id',$meetingId)->where('member_id',$memberId)->first();
+        $attendance = Attendance::where('meeting_id',$meetingId)->where('contact_id',$memberId)->first();
 
         if ($attendance != null)
             return 'checked';
@@ -58,21 +60,15 @@ class Helper
             return date_format($date,"M d, Y");
     }
 
-    public static function formatVenueDay($dayType)
+    public static function isLoggedinUser($id) 
     {
-        $formattedText = "";
+        return Auth::id() == $id;
+    }
 
-        if ($dayType == 1) {
-            $formattedText = "Mon-Thu";
-        }
-        elseif ($dayType == 2) {
-            $formattedText = "Fri-Sun";
-        }
-        elseif ($dayType == 3) {
-            $formattedText = "Holiday";
-        }
-
-        return $formattedText;
+    public static function getContactName($id)
+    {
+        $contact = Contact::find($id);
+        return $contact->name;
     }
 }
 

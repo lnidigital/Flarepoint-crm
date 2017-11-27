@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Middleware\Member;
+namespace App\Http\Middleware\Attendance;
 
 use Closure;
 
-class CanMemberCreate
+class CanAttendanceCreate
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,9 @@ class CanMemberCreate
      */
     public function handle($request, Closure $next)
     {
-        if (!auth()->user()->can('member-create')) {
-            Session()->flash('flash_message_warning', 'Not allowed to create member!');
-            return redirect()->route('members.index');
+        if (!auth()->user()->can('attendance-create')) {
+            Session()->flash('flash_message_warning', 'Not allowed to create attendance!');
+            return redirect()->route('attendance.index');
         }
 
         return $next($request);

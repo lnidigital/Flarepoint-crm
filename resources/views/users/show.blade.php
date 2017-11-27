@@ -2,67 +2,9 @@
     @section('content')
     @include('partials.userheader')
 <div class="col-sm-8">
-  <el-tabs active-name="tasks" style="width:100%">
-    <el-tab-pane label="Tasks" name="tasks">
-        <table class="table table-hover" id="tasks-table">
-        <h3>{{ __('Tasks assigned') }}</h3>
-            <thead>
-                    <th>{{ __('Title') }}</th>
-                    <th>{{ __('Client') }}</th>
-                    <th>{{ __('Created at') }}</th>
-                    <th>{{ __('Deadline') }}</th>
-                    <th>
-                        <select name="status" id="status-task">
-                        <option value="" disabled selected>{{ __('Status') }}</option>
-                            <option value="open">Open</option>
-                            <option value="closed">Closed</option>
-                            <option value="all">All</option>
-                        </select>
-                    </th>
-                </tr>
-            </thead>
-        </table>
-    </el-tab-pane>
-    <el-tab-pane label="Leads" name="leads">
-      <table class="table table-hover">
-        <table class="table table-hover" id="leads-table">
-                <h3>{{ __('Leads assigned') }}</h3>
-                <thead>
-                <tr>
-                    <th>{{ __('Title') }}</th>
-                    <th>{{ __('Client') }}</th>
-                    <th>{{ __('Created at') }}</th>
-                    <th>{{ __('Deadline') }}</th>
-                    <th>
-                        <select name="status" id="status-lead">
-                        <option value="" disabled selected>{{ __('Status') }}</option>
-                            <option value="open">Open</option>
-                            <option value="closed">Closed</option>
-                            <option value="all">All</option>
-                        </select>
-                    </th>
-                </tr>
-                </thead>
-            </table>
-    </el-tab-pane>
-    <el-tab-pane label="Clients" name="clients">
-         <table class="table table-hover" id="clients-table">
-                <h3>{{ __('Clients assigned') }}</h3>
-                <thead>
-                <tr>
-                    <th>{{ __('Name') }}</th>
-                    <th>{{ __('Company') }}</th>
-                    <th>{{ __('Primary number') }}</th>
-                </tr>
-                </thead>
-            </table>
-    </el-tab-pane>
-  </el-tabs>
+  
   </div>
   <div class="col-sm-4">
-  <h4>{{ __('Tasks') }}</h4>
-
-<h4>{{ __('Leads') }}</h4>
 
   </div>
 

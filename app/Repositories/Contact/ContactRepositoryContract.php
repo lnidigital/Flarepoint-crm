@@ -1,13 +1,11 @@
 <?php
-namespace App\Repositories\Member;
+namespace App\Repositories\Contact;
 
-interface MemberRepositoryContract
+interface ContactRepositoryContract
 {
     public function find($id);
 
     public function listAllMembers();
-
-    public function getInvoices($id);
 
     public function getAllMembersCount();
 

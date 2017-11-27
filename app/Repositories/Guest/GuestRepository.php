@@ -12,7 +12,7 @@ use Carbon;
  * Class ClientRepository
  * @package App\Repositories\Client
  */
-class GuestRepository implements GuestRepositoryContract
+class Guest1Repository implements GuestRepositoryContract
 {
     const CREATED = 'created';
     const UPDATED_ASSIGN = 'updated_assign';

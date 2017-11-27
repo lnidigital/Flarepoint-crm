@@ -6,17 +6,17 @@ use Carbon;
 use App\Http\Requests;
 use App\Repositories\Referral\ReferralRepositoryContract;
 use App\Repositories\Onetoone\OnetoOneRepositoryContract;
-use App\Repositories\Guest\GuestRepositoryContract;
 use App\Repositories\Revenue\RevenueRepositoryContract;
 use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
-use App\Repositories\Member\MemberRepositoryContract;
+use App\Repositories\Contact\ContactRepositoryContract;
 use Illuminate\Support\Facades\Log;
 
 class PagesController extends Controller
 {
 
     protected $users;
+    protected $cntacts;
     protected $settings;
     protected $referrals;
 
@@ -25,17 +25,15 @@ class PagesController extends Controller
         SettingRepositoryContract $settings,
         ReferralRepositoryContract $referrals,
         OnetoOneRepositoryContract $onetoones,
-        GuestRepositoryContract $guests,
-        RevenueRepositoryContract $revenues,
-        MemberRepositoryContract $members
+        ContactRepositoryContract $contacts,
+        RevenueRepositoryContract $revenues
     ) {
         $this->users = $users;
         $this->settings = $settings;
         $this->referrals = $referrals;
         $this->onetoones = $onetoones;
-        $this->guests = $guests;
         $this->revenues = $revenues;
-        $this->members = $members;
+        $this->contacts = $contacts;
     }
 
     /**
@@ -46,14 +44,13 @@ class PagesController extends Controller
     {
       $group_id = 1;
 
-
-      $members = $this->members->getMembers($group_id);
+      $members = $this->contacts->getAllMembers($group_id);
 
       $referralsThisMonth = $this->referrals->referralsMadeThisMonth();
 
       $onetoonesThisMonth = $this->onetoones->onetoonesMadeThisMonth();
 
-      $guestsThisMonth = $this->guests->guestsMadeThisMonth();
+      $guestsThisMonth = $this->contacts->guestsMadeThisMonth();
 
       $revenuesThisMonth = $this->revenues->revenuesMadeThisMonth();
 

@@ -30,6 +30,22 @@ class UserGroupTableSeeder extends Seeder
                 'created_at' => null,
                 'updated_at' => null,
             ),
+            2 =>
+            array (
+                'id' => 3,
+                'user_id' => 3,
+                'group_id' => 1,
+                'created_at' => null,
+                'updated_at' => null,
+            ),
+            3 =>
+            array (
+                'id' => 4,
+                'user_id' => 4,
+                'group_id' => 1,
+                'created_at' => null,
+                'updated_at' => null,
+            ),
         ));
     }
 }

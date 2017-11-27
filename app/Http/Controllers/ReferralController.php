@@ -9,9 +9,10 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Requests\Referral\StoreReferralRequest;
 use App\Http\Requests\Referral\UpdateReferralRequest;
-use App\Repositories\Member\MemberRepositoryContract;
+use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Referral\ReferralRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
+use App\Repositories\Meeting\MeetingRepositoryContract;
 
 class ReferralController extends Controller
 {
@@ -19,18 +20,21 @@ class ReferralController extends Controller
     protected $settings;
     protected $referrals;
     protected $members;
+    protected $meetings;
 
     public function __construct(
-        MemberRepositoryContract $members,
+        ContactRepositoryContract $members,
         ReferralRepositoryContract $referrals,
-        SettingRepositoryContract $settings
+        SettingRepositoryContract $settings,
+        MeetingRepositoryContract $meetings
     )
     {
         $this->members = $members;
         $this->referrals = $referrals;
         $this->settings = $settings;
-        // $this->middleware('attendance.create', ['only' => ['create']]);
-        // $this->middleware('attendance.update', ['only' => ['edit']]);
+        $this->meetings = $meetings;
+        $this->middleware('referral.create', ['only' => ['create']]);
+        $this->middleware('referral.update', ['only' => ['edit']]);
     }
 
     /**
@@ -47,13 +51,17 @@ class ReferralController extends Controller
      */
     public function anyData()
     {
-        $referrals = Referral::select(['id', 'from_member_id', 'to_member_id', 'referral_date', 'description']);
+        $group_id = 1;
+
+        $referrals = Referral::select(['id', 'from_contact_id', 'to_contact_id', 'referral_date', 'description'])
+                ->where('group_id', $group_id);
+
         return Datatables::of($referrals)
             ->addColumn('from_name', function ($referrals) {
-                return $this->members->find($referrals->from_member_id)->name;
+                return $this->members->find($referrals->from_contact_id)->name;
             })
             ->addColumn('to_name', function ($referrals) {
-                return $this->members->find($referrals->to_member_id)->name;
+                return $this->members->find($referrals->to_contact_id)->name;
             })
             ->add_column('edit', '
                 <a href="{{ route(\'referrals.edit\', $id) }}" class="btn btn-success" >Edit</a>')
@@ -77,7 +85,8 @@ class ReferralController extends Controller
     	$group_id = 1;
 
         return view('referrals.create')
-            ->withMembers($this->members->getAllMembers($group_id));
+            ->withMembers($this->members->getAllMembersSelect($group_id))
+            ->withMeetings($this->meetings->getAllMeetingsSelect($group_id));
     }
 
     /**
@@ -88,16 +97,6 @@ class ReferralController extends Controller
     {
         $this->referrals->create($request->all());
         return redirect()->route('referrals.index');
-    }
-
-    /**
-     * @param Request $vatRequest
-     * @return mixed
-     */
-    public function cvrapiStart(Request $vatRequest)
-    {
-        return redirect()->back()
-            ->with('data', $this->clients->vat($vatRequest));
     }
 
     /**
@@ -127,7 +126,8 @@ class ReferralController extends Controller
 
         return view('referrals.edit')
             ->withReferral($this->referrals->find($id))
-            ->withMembers($this->members->getAllMembers($group_id));
+            ->withMembers($this->members->getAllMembersSelect($group_id))
+            ->withMeetings($this->meetings->getAllMeetingsSelect($group_id));
     }
 
     /**

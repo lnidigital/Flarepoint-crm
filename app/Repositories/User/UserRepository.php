@@ -91,7 +91,7 @@ class UserRepository implements UserRepositoryContract
         $user = User::findorFail($id);
         $password = bcrypt($requestData->password);
         $role = $requestData->roles;
-        $department = $requestData->departments;
+        $group = $requestData->groups;
 
         if ($requestData->hasFile('image_path')) {
             $settings = Setting::findOrFail(1);
@@ -117,7 +117,7 @@ class UserRepository implements UserRepositoryContract
 
         $user->fill($input)->save();
         $user->roles()->sync([$role]);
-        $user->department()->sync([$department]);
+        //$user->department()->sync([$department]);
 
         Session::flash('flash_message', 'User successfully updated!');
 
@@ -131,18 +131,8 @@ class UserRepository implements UserRepositoryContract
     public function destroy($request, $id)
     {
         $user = User::findorFail($id);
-        if ($user->hasRole('super_administrator')) {
+        if ($user->hasRole('super')) {
             return Session()->flash('flash_message_warning', 'Not allowed to delete super admin');
-        }
-
-        if ($request->tasks == "move_all_tasks" && $request->task_user != "" ) {
-            $user->moveTasks($request->task_user);
-        }
-        if($request->leads == "move_all_leads" && $request->lead_user != "") {
-            $user->moveLeads($request->lead_user);
-        }
-        if($request->clients == "move_all_clients" && $request->client_user != "") {
-            $user->moveClients($request->client_user);
         }
 
         try {

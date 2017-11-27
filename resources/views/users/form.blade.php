@@ -45,13 +45,13 @@
         isset($user->role->role_id) ? $user->role->role_id : null,
         ['class' => 'form-control']) !!}
 
-    {!! Form::label('departments', __('Assign department'), ['class' => 'control-label']) !!}
+    {!! Form::label('groups', __('Assign group'), ['class' => 'control-label']) !!}
 
     {!!
-        Form::select('departments',
-        $departments,
+        Form::select('groups',
+        $groups,
         isset($user)
-        ? $user->department->first()->id : null,
+        ? $user->group->first()->id : null,
         ['class' => 'form-control']) !!}
 </div>
 

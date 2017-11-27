@@ -27,17 +27,17 @@
             processing: true,
             serverSide: true,
 
-            ajax: '{!! route('members.data') !!}',
+            ajax: '{!! route('contacts.data') !!}',
             columns: [
 
                 {data: 'namelink', name: 'name'},
                 {data: 'company_name', name: 'company_name'},
                 {data: 'email', name: 'email'},
                 {data: 'primary_number', name: 'primary_number'},
-                @if(Entrust::can('contact-update'))   
+                @if(Entrust::can('client-update'))   
                 { data: 'edit', name: 'edit', orderable: false, searchable: false},
                 @endif
-                @if(Entrust::can('contact-delete'))   
+                @if(Entrust::can('client-delete'))   
                 { data: 'delete', name: 'delete', orderable: false, searchable: false},
                 @endif
 

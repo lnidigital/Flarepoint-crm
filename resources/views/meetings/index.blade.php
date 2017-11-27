@@ -29,7 +29,7 @@
             columns: [
 
                 {data: 'namelink', name: 'meeting_date'},
-                {data: 'meeting_notes', name: 'meeting_notes'},
+                {data: 'meeting_notes_short', name: 'meeting_notes'},
                 @if(Entrust::can('meeting-update'))   
                 { data: 'edit', name: 'edit', orderable: false, searchable: false},
                 @endif

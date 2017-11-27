@@ -19,12 +19,9 @@ class CreateOneToOnesTable extends Migration
             $table->foreign('first_contact_id')->references('id')->on('contacts');
             $table->integer('second_contact_id')->unsigned();
             $table->foreign('second_contact_id')->references('id')->on('contacts');
-            // $table->integer('from_member_id')->unsigned();
-            // $table->integer('to_member_id')->unsigned();
             $table->datetime('onetoone_date');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
-            //$table->integer('group_id')->unsigned();
             $table->text('description');
             $table->timestamps();
         });
