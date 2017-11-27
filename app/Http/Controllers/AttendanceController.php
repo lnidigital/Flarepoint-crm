@@ -85,10 +85,15 @@ class AttendanceController extends Controller
      */
     public function store(StoreAttendanceRequest $request)
     {
-        //$this->clients->create($request->all());
+        $attendedPersons = array();
         $attendedMembers =  $request->input('member');
         $attendedGuests =  $request->input('guest');
-        $attendedPersons = $attendedMembers + $attendedGuests;
+
+        if (is_array($attendedMembers))
+            $attendedPersons = array_merge($attendedPersons, $attendedMembers);
+
+        if (is_array($attendedGuests))
+            $attendedPersons = array_merge($attendedPersons, $attendedGuests);
 
         $meetingId = $request->input('meeting_id');
         $meeting = Meeting::find($meetingId);

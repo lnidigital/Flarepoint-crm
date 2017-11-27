@@ -9,7 +9,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Requests\Onetoone\StoreOnetoOneRequest;
 use App\Http\Requests\Referral\UpdateReferralRequest;
-use App\Repositories\Member\MemberRepositoryContract;
+use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Onetoone\OnetoOneRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 
@@ -21,7 +21,7 @@ class OnetoOneController extends Controller
     protected $members;
 
     public function __construct(
-        MemberRepositoryContract $members,
+        ContactRepositoryContract $members,
         OnetoOneRepositoryContract $onetoones,
         SettingRepositoryContract $settings
     )
@@ -29,8 +29,8 @@ class OnetoOneController extends Controller
         $this->members = $members;
         $this->onetoones = $onetoones;
         $this->settings = $settings;
-        // $this->middleware('attendance.create', ['only' => ['create']]);
-        // $this->middleware('attendance.update', ['only' => ['edit']]);
+        $this->middleware('onetoone.create', ['only' => ['create']]);
+        $this->middleware('onetoone.update', ['only' => ['edit']]);
     }
 
     /**
@@ -47,7 +47,7 @@ class OnetoOneController extends Controller
      */
     public function anyData()
     {
-        $onetoones = OnetoOne::select(['id', 'first_member_id', 'second_member_id', 'onetoone_date', 'description']);
+        $onetoones = OnetoOne::select(['id', 'first_contact_id', 'second_contact_id', 'onetoone_date', 'description']);
         return Datatables::of($onetoones)
             ->addColumn('first_member_name', function ($onetoones) {
                 return $this->members->find($onetoones->first_member_id)->name;

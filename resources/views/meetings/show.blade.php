@@ -44,7 +44,8 @@
                         </tr>
                     @endforeach
                 </table>
-                <a href="{{ url('/attendance/' . $meeting->id . '/edit') }}" class="btn btn-primary">Update Attendance</a>
+                <a href="{{ url('/attendance/' . $meeting->id . '/edit') }}" class="btn btn-primary">Update Attendance</a> 
+
             </el-tab-pane>
             <el-tab-pane label="Guests ({{count($attendedGuests)}})" name="guests">
                 <table class="table table-hover" id="guests-table">
@@ -67,6 +68,7 @@
                     @endforeach
                 </table>
                 <a href="{{ url('/attendance/' . $meeting->id . '/edit') }}" class="btn btn-primary">Update Attendance</a>
+                <a href="{{ route('guests.create', 'referrer=/meetings/'.$meeting->id) }}" class="btn btn-primary">Add New Guest</a>
             </el-tab-pane>
             <el-tab-pane label="Referrals ({{count($meetingReferrals)}})" name="referrals">
               <table class="table table-hover">

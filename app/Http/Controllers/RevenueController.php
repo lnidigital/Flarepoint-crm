@@ -9,7 +9,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Requests\Revenue\StoreRevenueRequest;
 use App\Http\Requests\Revenue\UpdateRevenueRequest;
-use App\Repositories\Member\MemberRepositoryContract;
+use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Revenue\RevenueRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +22,7 @@ class RevenueController extends Controller
     protected $members;
 
     public function __construct(
-        MemberRepositoryContract $members,
+        ContactRepositoryContract $members,
         RevenueRepositoryContract $revenues,
         SettingRepositoryContract $settings
     )
@@ -30,8 +30,8 @@ class RevenueController extends Controller
         $this->members = $members;
         $this->revenues = $revenues;
         $this->settings = $settings;
-        //$this->middleware('revenue.create', ['only' => ['create']]);
-        //$this->middleware('revenue.update', ['only' => ['edit']]);
+        $this->middleware('revenue.create', ['only' => ['create']]);
+        $this->middleware('revenue.update', ['only' => ['edit']]);
     }
 
     /**
@@ -48,7 +48,7 @@ class RevenueController extends Controller
      */
     public function anyData()
     {
-        $revenue = Revenue::select(['id', 'member_id', 'amount', 'report_date', 'group_id', 'description']);
+        $revenue = Revenue::select(['id', 'contact_id', 'amount', 'report_date', 'group_id', 'description']);
         return Datatables::of($revenue)
             ->addColumn('name', function ($revenue) {
                 return $this->members->find($revenue->member_id)->name;
