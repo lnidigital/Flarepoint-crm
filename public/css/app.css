@@ -8386,4 +8386,9 @@ a.list-group-item:hover {
   height: 150px;
 }
 
+.group-select {
+  height: 18px;
+  padding: 0;
+}
+
 /*# sourceMappingURL=app.css.map */

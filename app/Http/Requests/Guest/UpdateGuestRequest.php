@@ -13,7 +13,7 @@ class UpdateGuestRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('guest-update');
+        return auth()->user()->can('contact-update');
     }
 
     /**
@@ -25,14 +25,14 @@ class UpdateGuestRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'company_name' => 'required',
-            'email' => 'required',
+            'company_name' => '',
+            'email' => '',
             'address' => '',
             'zipcode' => 'max:6',
             'city' => '',
             'primary_number' => 'max:12',
             'secondary_number' => 'max:12',
-            'industry_id' => 'required'
+            'industry_id' => ''
         ];
     }
 }

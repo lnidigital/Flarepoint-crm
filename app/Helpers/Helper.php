@@ -60,6 +60,14 @@ class Helper
             return date_format($date,"M d, Y");
     }
 
+    public static function formatRevenue($revenue)
+    {
+        if ($revenue == null || $revenue == "")
+            return "0";
+        else
+            return $revenue;
+    }
+
     public static function isLoggedinUser($id) 
     {
         return Auth::id() == $id;

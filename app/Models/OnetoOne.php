@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class OnetoOne extends Model
 {
     protected $fillable = [
-        'first_member_id',
-        'second_member_id',
+        'first_contact_id',
+        'second_contact_id',
         'onetoone_date',
         'group_id',
+        'meeting_id',
         'description'
     ];
 

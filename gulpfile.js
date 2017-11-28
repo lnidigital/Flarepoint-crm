@@ -35,5 +35,7 @@ elixir(mix => {
     .webpack('app.js')
     .version('public/js/app.js')
     .copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap')
+    .styles(['AdminLTE.css'],'public/css/AdminLTE.css')
+    .styles(['skins/_all-skins.css'],'public/css/skins/_all-skins.css')
     //.browserSync({proxy : 'localhost:1337/Flarepoint-crm/public/tasks'});
 });

@@ -12,7 +12,7 @@ class GroupRepository implements GroupRepositoryContract
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getAllGroups()
+    public function getAllGroups($userId)
     {
         return Group::all();
     }

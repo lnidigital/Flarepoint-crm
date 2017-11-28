@@ -35,6 +35,12 @@ class OnetoOneRepository implements OnetoOneRepositoryContract
         return OnetoOne::pluck('name', 'id');
     }
 
+    public function getOnetoOnesByMeeting($meetingId) 
+    {   
+        return OnetoOne::where('meeting_id', $meetingId)->get();
+    }
+
+
     /**
      * @param $id
      * @return mixed

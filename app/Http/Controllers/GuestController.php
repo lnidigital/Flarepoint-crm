@@ -13,7 +13,6 @@ use App\Http\Requests\Guest\UpdateGuestRequest;
 use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Member\MemberRepositoryContract;
 use App\Repositories\Contact\ContactRepositoryContract;
-use App\Repositories\Guest\GuestRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 
 class GuestController extends Controller
@@ -113,11 +112,12 @@ class GuestController extends Controller
      */
     public function edit($id)
     {
+        $group_id = 1;
+
         return view('guests.edit')
-            ->withGuest($this->guests->find($id))
-            ->withMembers($this->members->listAllMembers())
-            ->withUsers($this->users->getAllUsersWithDepartments())
-            ->withIndustries($this->guests->listAllIndustries());
+            ->withGuest($this->contacts->find($id))
+            ->withMembers($this->contacts->getAllMembersSelect($group_id))
+            ->withIndustries($this->contacts->listAllIndustries());
     }
 
     /**
@@ -127,7 +127,7 @@ class GuestController extends Controller
      */
     public function update($id, UpdateGuestRequest $request)
     {
-        $this->guests->update($id, $request);
+        $this->contacts->update($id, $request);
         Session()->flash('flash_message', 'Guest successfully updated');
         return redirect()->route('guests.index');
     }

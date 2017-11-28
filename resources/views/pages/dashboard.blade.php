@@ -86,7 +86,7 @@
                 <div class="small-box bg-red">
                     <div class="inner">
                         <h3>@foreach($revenuesThisMonth as $thisMonth)
-                                ${{$thisMonth->total}}
+                                ${{Helper::formatRevenue($thisMonth->total)}}
                             @endforeach</h3>
                         <p>{{ __('Total revenue generated') }}</p>
                     </div>

@@ -31,8 +31,8 @@ class StoreGuestRequest extends FormRequest
             'zipcode' => 'max:6',
             'city' => '',
             'primary_number' => 'max:10',
-            'secondary_number' => 'max:10'
-            
+            'secondary_number' => 'max:10',
+            'industry_id' => ''
         ];
     }
 }

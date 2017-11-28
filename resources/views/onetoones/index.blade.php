@@ -30,9 +30,9 @@
             ajax: '{!! route('onetoones.data') !!}',
             columns: [
 
-                {data: 'first_member_name', name: 'first_member_id'},    
-                {data: 'second_member_name', name: 'second_member_id'},
-                {data: 'onetoone_date', name: 'onetoone_date'},
+                {data: 'first_contact_name', name: 'first_contact_id'},    
+                {data: 'second_contact_name', name: 'second_contact_id'},
+                {data: 'onetoone_date_formatted', name: 'onetoone_date'},
                 @if(Entrust::can('onetoone-update'))   
                 { data: 'edit', name: 'edit', orderable: false, searchable: false},
                 @endif

@@ -92,16 +92,25 @@
                         @endforeach
                     </table>
             </el-tab-pane>
-            <el-tab-pane label="1-to-1s" name="onetoones">
+            <el-tab-pane label="1-to-1s ({{count($onetoones)}})" name="onetoones">
                  <table class="table table-hover" id="onetoones-table">
                         <h3>{{ __('1-to-1s made') }}</h3>
                         <thead>
                         <tr>
                             <th>{{ __('Name') }}</th>
-                            <th>{{ __('Company') }}</th>
-                            <th>{{ __('Primary number') }}</th>
+                            <th>{{ __('Name') }}</th>
+                            <th>{{ __('Date') }}</th>
+                            <th>{{ __('Description') }}</th>
                         </tr>
                         </thead>
+                        @foreach ($onetoones as $onetoone)
+                            <tr>
+                                <td>{{Helper::getContactName($onetoone->first_contact_id)}}</td>
+                                <td>{{Helper::getContactName($onetoone->second_contact_id)}}</td>
+                                <td>{{Helper::formatDate($onetoone->onetoone_date)}}</td>
+                                <td>{{$onetoone->description}}</td>
+                            </tr>
+                        @endforeach
                     </table>
             </el-tab-pane>
           </el-tabs>

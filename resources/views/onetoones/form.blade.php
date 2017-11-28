@@ -4,16 +4,19 @@
         
     </div>
     <div class="form-inline">
-        <div class="form-group col-sm-6 removeleft ">
-            {!! Form::label('first_member_id', __('First member'), ['class' => 'control-label']) !!}
-            {!! Form::select('first_member_id', $members, null, ['class' => 'form-control']) !!}
+        <div class="form-group col-sm-4 removeleft ">
+            {!! Form::label('first_contact_id', __('First member'), ['class' => 'control-label']) !!}
+            {!! Form::select('first_contact_id', $members, null, ['class' => 'form-control']) !!}
         </div>
 
-        <div class="form-group col-sm-6 removeleft ">
-            {!! Form::label('second_member_id', __('Second member'), ['class' => 'control-label']) !!}
-            {!! Form::select('second_member_id', $members, null, ['class' => 'form-control']) !!}
+        <div class="form-group col-sm-4 removeleft ">
+            {!! Form::label('second_contact_id', __('Second member'), ['class' => 'control-label']) !!}
+            {!! Form::select('second_contact_id', $members, null, ['class' => 'form-control']) !!}
         </div>
-        
+        <div class="form-group col-sm-4 removeleft ">
+            {!! Form::label('meeting_id', __('Associated Meeting'), ['class' => 'control-label']) !!}
+            {!! Form::select('meeting_id', $meetings, null, ['placeholder'=>'Select meeting', 'class' => 'form-control']) !!}
+        </div>
      </div>
 
 
@@ -24,5 +27,5 @@
 
 
      {{ Form::hidden('group_id', '1') }}
-    
+
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}

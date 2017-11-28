@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Carbon;
 use Config;
 use Dinero;
 use Datatables;
@@ -58,10 +59,22 @@ class ReferralController extends Controller
 
         return Datatables::of($referrals)
             ->addColumn('from_name', function ($referrals) {
-                return $this->members->find($referrals->from_contact_id)->name;
+                if ($this->members->find($referrals->from_contact_id)->is_guest) {
+                    return '<a href="' . route('guests.show', $referrals->from_contact_id) . '">'.$this->members->find($referrals->from_contact_id)->name.'</a>';
+                } else {
+                    return '<a href="' . route('members.show', $referrals->from_contact_id) . '">'.$this->members->find($referrals->from_contact_id)->name.'</a>';
+                }
             })
             ->addColumn('to_name', function ($referrals) {
-                return $this->members->find($referrals->to_contact_id)->name;
+                if ($this->members->find($referrals->to_contact_id)->is_guest) {
+                    return '<a href="' . route('guests.show', $referrals->to_contact_id) . '">'.$this->members->find($referrals->to_contact_id)->name.'</a>';
+                } else {
+                    return '<a href="' . route('members.show', $referrals->to_contact_id) . '">'.$this->members->find($referrals->to_contact_id)->name.'</a>';
+                }
+            })
+            ->addColumn('referral_date_formatted', function ($referrals) {
+                $date = Carbon::parse($referrals->referral_date);
+                return $date->format('F d, Y');
             })
             ->add_column('edit', '
                 <a href="{{ route(\'referrals.edit\', $id) }}" class="btn btn-success" >Edit</a>')

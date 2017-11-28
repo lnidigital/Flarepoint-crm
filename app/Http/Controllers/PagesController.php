@@ -44,6 +44,8 @@ class PagesController extends Controller
     {
       $group_id = 1;
 
+      $groups = array('group 1'=>'1', 'group 2'=>'2'); //$this->groups->getAllGroups(Auth::id());
+
       $members = $this->contacts->getAllMembers($group_id);
 
       $referralsThisMonth = $this->referrals->referralsMadeThisMonth();
@@ -142,7 +144,8 @@ class PagesController extends Controller
             'createdOnetoOnesMonthly',
             'users',
             'members',
-            'companyname'
+            'companyname',
+            'groups'
         ));
     }
 }

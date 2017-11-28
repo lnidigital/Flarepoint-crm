@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Carbon;
 use Config;
 use Dinero;
 use Datatables;
@@ -8,10 +9,12 @@ use App\Models\OnetoOne;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Requests\Onetoone\StoreOnetoOneRequest;
+use App\Http\Requests\Onetoone\UpdateOnetoOneRequest;
 use App\Http\Requests\Referral\UpdateReferralRequest;
 use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Onetoone\OnetoOneRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
+use App\Repositories\Meeting\MeetingRepositoryContract;
 
 class OnetoOneController extends Controller
 {
@@ -23,12 +26,14 @@ class OnetoOneController extends Controller
     public function __construct(
         ContactRepositoryContract $members,
         OnetoOneRepositoryContract $onetoones,
-        SettingRepositoryContract $settings
+        SettingRepositoryContract $settings,
+        MeetingRepositoryContract $meetings
     )
     {
         $this->members = $members;
         $this->onetoones = $onetoones;
         $this->settings = $settings;
+        $this->meetings = $meetings;
         $this->middleware('onetoone.create', ['only' => ['create']]);
         $this->middleware('onetoone.update', ['only' => ['edit']]);
     }
@@ -47,18 +52,22 @@ class OnetoOneController extends Controller
      */
     public function anyData()
     {
-        $onetoones = OnetoOne::select(['id', 'first_contact_id', 'second_contact_id', 'onetoone_date', 'description']);
+        $onetoones = OnetoOne::select(['oneto_ones.id', 'first_contact_id', 'second_contact_id', 'onetoone_date', 'description'])->join('contacts', 'oneto_ones.first_contact_id', '=', 'contacts.id');
         return Datatables::of($onetoones)
-            ->addColumn('first_member_name', function ($onetoones) {
-                return $this->members->find($onetoones->first_member_id)->name;
+            ->addColumn('first_contact_name', function ($onetoones) {
+                return $this->members->find($onetoones->first_contact_id)->name;
             })
-            ->addColumn('second_member_name', function ($onetoones) {
-                return $this->members->find($onetoones->second_member_id)->name;
+            ->addColumn('second_contact_name', function ($onetoones) {
+                return $this->members->find($onetoones->second_contact_id)->name;
+            })
+            ->addColumn('onetoone_date_formatted', function ($onetoones) {
+                $date = Carbon::parse($onetoones->onetoone_date);
+                return $date->format('F d, Y');
             })
             ->add_column('edit', '
-                <a href="{{ route(\'referrals.edit\', $id) }}" class="btn btn-success" >Edit</a>')
+                <a href="{{ route(\'onetoones.edit\', $id) }}" class="btn btn-success" >Edit</a>')
             ->add_column('delete', '
-                <form action="{{ route(\'referrals.destroy\', $id) }}" method="POST">
+                <form action="{{ route(\'onetoones.destroy\', $id) }}" method="POST">
             <input type="hidden" name="_method" value="DELETE">
             <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
 
@@ -77,7 +86,8 @@ class OnetoOneController extends Controller
     	$group_id = 1;
 
         return view('onetoones.create')
-            ->withMembers($this->members->getAllMembers($group_id));
+            ->withMembers($this->members->getAllMembersSelect($group_id))
+            ->withMeetings($this->meetings->getAllMeetingsSelect($group_id));
     }
 
     /**
@@ -113,8 +123,9 @@ class OnetoOneController extends Controller
         $group_id = 1;
 
         return view('onetoones.edit')
-            ->withOnetoOne($this->onetoones->find($id))
-            ->withMembers($this->members->getAllMembers($group_id));
+            ->with('onetoone', $this->onetoones->find($id))
+            ->withMembers($this->members->getAllMembersSelect($group_id))
+            ->withMeetings($this->meetings->getAllMeetingsSelect($group_id));
     }
 
     /**

@@ -70,7 +70,7 @@
             @endpush
             <!--NOTIFICATIONS END-->
             <button type="button" id="mobile-toggle" class="navbar-toggle mobile-toggle" data-toggle="offcanvas" data-target="#myNavmenu">
-            <span class="icon-bar"></span>
+            <span class="icon-bar">hello</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
@@ -81,6 +81,9 @@
          <nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
             <div class="list-group panel">
                <p class=" list-group-item siderbar-top" title=""><img src="{{url('images/grow-crm-logo.png')}}" alt="" width="160px"></p>
+               
+               {!! Form::select('group_id', $groups, null, ['class' => 'form-control group-select']) !!}
+
                <a href="{{route('dashboard', \Auth::id())}}" class=" list-group-item" data-parent="#MainMenu"><i
                   class="glyphicon sidebar-icon glyphicon-dashboard"></i><span id="menu-txt">{{ __('Dashboard') }}</span> </a>
                <a href="#addnew" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i

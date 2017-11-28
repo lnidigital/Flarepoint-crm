@@ -143,12 +143,15 @@ class MeetingsController extends Controller
         $referralsMade = array();
         $meetingReferrals = $this->referrals->getReferralsByMeeting($id);
 
-        Log::info('referralId:'.$id.'||referrals='.json_encode($meetingReferrals));
+        $onetoonesCompleted = array();
+        $onetoones = $this->onetoones->getOnetoOnesByMeeting($id);
+
 
         return view('meetings.show')
             ->withMeeting($this->meetings->find($id))
             ->with('attendedMembers', $attendedMembers)
             ->with('attendedGuests', $attendedGuests)
+            ->with('onetoones', $onetoones)
             ->with('meetingReferrals', $meetingReferrals);
     }
 

@@ -22,6 +22,8 @@ class CreateOneToOnesTable extends Migration
             $table->datetime('onetoone_date');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
+            $table->integer('meeting_id')->unsigned()->nullable();
+            $table->foreign('meeting_id')->references('id')->on('meetings');
             $table->text('description');
             $table->timestamps();
         });
