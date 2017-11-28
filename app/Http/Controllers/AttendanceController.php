@@ -72,11 +72,15 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-    	$group_id = 1;
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         return view('attendance.create')
-            ->withMembers($this->members->getAllMembers($group_id))
-            ->withGuests($this->guests->listAllGuests($group_id));
+            ->withMembers($this->members->getAllMembers($groupId))
+            ->withGuests($this->guests->listAllGuests($groupId));
     }
 
     /**
@@ -135,10 +139,15 @@ class AttendanceController extends Controller
      */
     public function edit($id)
     {
-        $group_id = 1;
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
+        
         return view('attendance.edit')
-            ->withMembers($this->contacts->getAllMembers($group_id))
-            ->withGuests($this->contacts->getAllGuests($group_id))
+            ->withMembers($this->contacts->getAllMembers($groupId))
+            ->withGuests($this->contacts->getAllGuests($groupId))
             ->withMeeting($this->meetings->find($id));
     }
 

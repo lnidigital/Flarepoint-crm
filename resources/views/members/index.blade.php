@@ -30,8 +30,15 @@
         $('#members-table').DataTable({
             processing: true,
             serverSide: true,
-
             ajax: '{!! route('members.data') !!}',
+            dom: 'Blfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            "bLengthChange": false,
             columns: [
 
                 {data: 'namelink', name: 'name'},

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Auth;
 use Config;
 use Dinero;
 use Datatables;
@@ -101,11 +102,15 @@ class MeetingsController extends Controller
      */
     public function create()
     {
-    	$group_id = 1;
+    	$groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         return view('meetings.create')
-            ->withMembers($this->contacts->getAllMembers($group_id))
-            ->withGuests($this->contacts->getAllGuests($group_id));
+            ->withMembers($this->contacts->getAllMembers($groupId))
+            ->withGuests($this->contacts->getAllGuests($groupId));
     }
 
     /**
@@ -126,10 +131,14 @@ class MeetingsController extends Controller
      */
     public function show($id)
     {
-        $group_id = 1;
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         $attendedMembers = array();
-        $groupMembers = $this->contacts->getAllMembers($group_id);
+        $groupMembers = $this->contacts->getAllMembers($groupId);
 
         foreach ($groupMembers as $groupMember) {
             $attendance = Attendance::where('meeting_id',$id)->where('contact_id',$groupMember->id)->first();
@@ -139,7 +148,7 @@ class MeetingsController extends Controller
         }
 
         $attendedGuests = array();
-        $groupGuests = $this->contacts->getAllGuests($group_id);
+        $groupGuests = $this->contacts->getAllGuests($groupId);
 
         foreach ($groupGuests as $groupGuest) {
             $attendance = Attendance::where('meeting_id',$id)->where('contact_id',$groupGuest->id)->first();

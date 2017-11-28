@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Revenue extends Model
 {
     protected $fillable = [
-        'member_id',
+        'contact_id',
         'amount',
         'report_date',
         'group_id',
@@ -16,6 +16,6 @@ class Revenue extends Model
 
     public function member()
     {
-        return $this->belongsTo(Member::class, 'member_id', 'id');
+        return $this->belongsTo(Member::class, 'contact_id', 'id');
     }
 }

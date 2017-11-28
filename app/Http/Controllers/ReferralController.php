@@ -53,10 +53,14 @@ class ReferralController extends Controller
      */
     public function anyData()
     {
-        $group_id = 1;
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         $referrals = Referral::select(['id', 'from_contact_id', 'to_contact_id', 'referral_date', 'description'])
-                ->where('group_id', $group_id);
+                ->where('group_id', $groupId);
 
         return Datatables::of($referrals)
             ->addColumn('from_name', function ($referrals) {
@@ -96,12 +100,15 @@ class ReferralController extends Controller
      */
     public function create(Request $request)
     {
-    	$group_id = 1;
-        //$referrer = $request->uri;
+    	$groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         return view('referrals.create')
-            ->withMembers($this->members->getAllMembersSelect($group_id))
-            ->withMeetings($this->meetings->getAllMeetingsSelect($group_id));
+            ->withMembers($this->members->getAllMembersSelect($groupId))
+            ->withMeetings($this->meetings->getAllMeetingsSelect($groupId));
     }
 
     /**
@@ -142,12 +149,16 @@ class ReferralController extends Controller
      */
     public function edit($id)
     {
-        $group_id = 1;
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         return view('referrals.edit')
             ->withReferral($this->referrals->find($id))
-            ->withMembers($this->members->getAllMembersSelect($group_id))
-            ->withMeetings($this->meetings->getAllMeetingsSelect($group_id));
+            ->withMembers($this->members->getAllMembersSelect($groupId))
+            ->withMeetings($this->meetings->getAllMeetingsSelect($groupId));
     }
 
     /**

@@ -45,7 +45,6 @@
     </table>
 
 
-{{ Form::hidden('group_id', '1') }}
 {{ Form::hidden('meeting_id', $meeting->id) }}
 {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
 {!! Form::close() !!}

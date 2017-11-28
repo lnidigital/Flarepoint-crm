@@ -17,13 +17,13 @@ class Guest extends Model
         'secondary_number',
         'industry_id',
         'user_id',
-        'member_id',
+        'contact_id',
         'group_id'
     ];
 
     public function member()
     {
-        return $this->belongsTo(Member::class, 'member_id', 'id');
+        return $this->belongsTo(Member::class, 'contact_id', 'id');
     }
 
 

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Carbon;
 use Config;
 use Dinero;
 use Datatables;
@@ -13,6 +14,7 @@ use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Revenue\RevenueRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 use Illuminate\Support\Facades\Log;
+use App\Helpers\Helper;
 
 class RevenueController extends Controller
 {
@@ -48,10 +50,24 @@ class RevenueController extends Controller
      */
     public function anyData()
     {
-        $revenue = Revenue::select(['id', 'contact_id', 'amount', 'report_date', 'group_id', 'description']);
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
+
+        $revenue = Revenue::select(['id', 'contact_id', 'amount', 'report_date', 'group_id', 'description'])
+                ->where('group_id', $groupId);
         return Datatables::of($revenue)
             ->addColumn('name', function ($revenue) {
-                return $this->members->find($revenue->member_id)->name;
+                return $this->members->find($revenue->contact_id)->name;
+            })
+            ->addColumn('amount_formatted', function ($revenue) {
+                return Helper::formatRevenue($revenue->amount);
+            })
+            ->addColumn('report_date_formatted', function ($revenue) {
+                $date = Carbon::parse($revenue->report_date);
+                return $date->format('F d, Y');
             })
             ->add_column('edit', '
                 <a href="{{ route(\'revenues.edit\', $id) }}" class="btn btn-success" >Edit</a>')
@@ -72,10 +88,14 @@ class RevenueController extends Controller
      */
     public function create()
     {
-    	$group_id = 1;
+    	$groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         return view('revenues.create')
-            ->withMembers($this->members->getAllMembers($group_id));
+            ->withMembers($this->members->getAllMembersSelect($groupId));
     }
 
     /**
@@ -84,7 +104,6 @@ class RevenueController extends Controller
      */
     public function store(StoreRevenueRequest $request)
     {
-        Log::info('revenue request:'.json_encode($request->all()));
         $this->revenues->create($request->all());
         return redirect()->route('revenues.index');
     }
@@ -112,11 +131,15 @@ class RevenueController extends Controller
      */
     public function edit($id)
     {
-        $group_id = 1;
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         return view('revenues.edit')
             ->withRevenue($this->revenues->find($id))
-            ->withMembers($this->members->getAllMembers($group_id));
+            ->withMembers($this->members->getAllMembersSelect($groupId));
     }
 
     /**

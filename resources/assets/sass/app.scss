@@ -12,6 +12,17 @@
 @import 'components/sidebar';
 @import 'components/dashboard';
 
+.main-header  {
+
+	.navbar {
+		margin-bottom: 0px;
+	}
+
+	.navbar-custom-menu {
+		float: right;
+	}
+	
+}
 
 .group-select {
 	padding-top: 10px;
@@ -21,4 +32,5 @@
 	border-radius: 0px;
 	border: none;
 	height: auto;
+	font-size: 11px;
 }

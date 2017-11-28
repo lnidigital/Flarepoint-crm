@@ -13,7 +13,6 @@
             <th>{{ __('Report Date') }}</th>
             <th></th>
             <th></th>
-            <th></th>
         </tr>
         </thead>
     </table>
@@ -29,13 +28,20 @@
         $('#revenues-table').DataTable({
             processing: true,
             serverSide: true,
-
+            dom: 'Blfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            "bLengthChange": false,
             ajax: '{!! route('revenues.data') !!}',
             columns: [
 
-                {data: 'name', name: 'member_id'},
-                {data: 'amount', render: $.fn.dataTable.render.number( ',', '.', 2 )},
-                {data: 'report_date', name: 'report_date'},
+                {data: 'name', name: 'contact_id'},
+                {data: 'amount_formatted', name: 'amount'},
+                {data: 'report_date_formatted', name: 'report_date'},
                 @if(Entrust::can('revenue-update'))   
                 { data: 'edit', name: 'edit', orderable: false, searchable: false},
                 @endif

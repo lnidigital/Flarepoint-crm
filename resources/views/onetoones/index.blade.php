@@ -13,7 +13,6 @@
             <th>{{ __('Date') }}</th>
             <th></th>
             <th></th>
-            <th></th>
         </tr>
         </thead>
     </table>
@@ -29,7 +28,14 @@
         $('#onetoones-table').DataTable({
             processing: true,
             serverSide: true,
-
+            dom: 'Blfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            "bLengthChange": false,
             ajax: '{!! route('onetoones.data') !!}',
             columns: [
 

@@ -86,14 +86,14 @@
                 <div class="small-box bg-red">
                     <div class="inner">
                         <h3>@foreach($revenuesThisMonth as $thisMonth)
-                                ${{Helper::formatRevenue($thisMonth->total)}}
+                                {{Helper::formatRevenue($thisMonth->total)}}
                             @endforeach</h3>
                         <p>{{ __('Total revenue generated') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer"> {{ __('More info') }} <i
+                    <a href="{{route('revenues.index')}}" class="small-box-footer"> {{ __('More info') }} <i
                                 class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>

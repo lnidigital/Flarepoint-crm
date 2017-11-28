@@ -10,72 +10,67 @@
       <link href="{{ URL::asset('css/jquery.atwho.min.css') }}" rel="stylesheet" type="text/css">
       <link rel="stylesheet" href="{{ asset(elixir('css/app.css')) }}">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+      <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
       <meta name="csrf-token" content="{{ csrf_token() }}"/>
    </head>
    <body>
       <div id="wrapper">
-         <button type="button" class="navbar-toggle menu-txt-toggle" style=""><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
-         <div class="navbar navbar-default navbar-top">
-            <!--NOTIFICATIONS START-->
-            <div class="menu">
-               <div class="notifications-header">
-                  <p>Notifications</p>
-               </div>
-               <!-- Menu -->
-               <ul>
-                  <?php $notifications = auth()->user()->unreadNotifications; ?>
-                  @foreach($notifications as $notification)
-                  <a href="{{ route('notification.read', ['id' => $notification->id])  }}" onClick="postRead({{ $notification->id }})">
-                     <li>
-                        <img src="/{{ auth()->user()->avatar }}" class="notification-profile-image">
-                        <p>{{ $notification->data['message']}}</p>
+         <header class="main-header">
+            <button type="button" class="navbar-toggle menu-txt-toggle" style=""><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
+            <div class="navbar navbar-default navbar-top">
+               <div class="navbar-custom-menu">
+                  <ul class="nav navbar-nav">
+                     <li class="dropdown messages-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                          <i class="fa fa-envelope-o"></i>
+                          <span class="label label-success">4</span>
+                        </a>
                      </li>
-                  </a>
-                  @endforeach 
-               </ul>
+                     <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                          <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                          <span class="hidden-xs">Alexander Pierce</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <!-- User image -->
+                          <li class="user-header">
+                            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                            <p>
+                              Alexander Pierce - Web Developer
+                              <small>Member since Nov. 2012</small>
+                            </p>
+                          </li>
+                          <!-- Menu Body -->
+                          <li class="user-body">
+                            <div class="row">
+                              <div class="col-xs-4 text-center">
+                                <a href="#">Followers</a>
+                              </div>
+                              <div class="col-xs-4 text-center">
+                                <a href="#">Sales</a>
+                              </div>
+                              <div class="col-xs-4 text-center">
+                                <a href="#">Friends</a>
+                              </div>
+                            </div>
+                            <!-- /.row -->
+                          </li>
+                          <!-- Menu Footer-->
+                          <li class="user-footer">
+                            <div class="pull-left">
+                              <a href="{{route('users.show', \Auth::id())}}" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                              <a href="{{ url('/logout') }}">Sign out</a>
+                            </div>
+                          </li>
+                        </ul>
+                      </li>
+                  </ul>
+               </div>
             </div>
-            <div class="dropdown" id="nav-toggle">
-               <a id="notification-clock" role="button" data-toggle="dropdown">
-               <i class="glyphicon glyphicon-bell"><span id="notifycount">{{ $notifications->count() }}</span></i>
-               </a>
-            </div>
-            @push('scripts')
-            <script>
-               $('#notification-clock').click(function(e) {
-                 e.stopPropagation();
-                 $(".menu").toggleClass('bar')
-               });
-               $('body').click(function(e) {
-                 if ($('.menu').hasClass('bar')) {
-                   $(".menu").toggleClass('bar')
-                 }
-               })      
-                                 id = {};
-                                       function postRead(id) {
-                                           $.ajax({
-                                               type: 'post',
-                                               url: '{{url('/notifications/markread')}}',
-                                               data: {
-                                                   id: id,
-                                               },
-                                               headers: {
-                                                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                               }
-                                           });
-               
-                                       }
-               
-                                   
-            </script>
-            @endpush
-            <!--NOTIFICATIONS END-->
-            <button type="button" id="mobile-toggle" class="navbar-toggle mobile-toggle" data-toggle="offcanvas" data-target="#myNavmenu">
-            <span class="icon-bar">hello</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            </button>
-         </div>
-         
+         </header>
          <!-- /#sidebar-wrapper -->
          <!-- Sidebar menu -->
          <nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
@@ -89,16 +84,18 @@
 
                <a href="{{route('dashboard', \Auth::id())}}" class=" list-group-item" data-parent="#MainMenu"><i
                   class="sidebar-icon fa fa-bar-chart"></i><span id="menu-txt">{{ __('Dashboard') }}</span> </a>
-               <a href="{{route('meetings.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="sidebar-icon fa fa-pencil"></i><span id="menu-txt">{{ __('Meetings') }}</span> </a>
-               <a href="{{route('referrals.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-transfer"></i><span id="menu-txt">{{ __('Referrals') }}</span> </a>
-               <a href="{{route('onetoones.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-flash"></i><span id="menu-txt">{{ __('1-to-1s') }}</span> </a>
-               <a href="{{route('revenues.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-usd"></i><span id="menu-txt">{{ __('Revenues') }}</span> </a>
-               <a href="{{route('guests.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-sunglasses"></i><span id="menu-txt">{{ __('Guests') }}</span> </a>
+               <a href="{{route('meetings.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="sidebar-icon fa fa-pencil"></i><span id="menu-txt"> {{ __('Meetings') }}</span> </a>
+               
                <a href="{{route('members.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="sidebar-icon fa fa-users"></i><span id="menu-txt">{{ __('Members') }}</span> </a>
-               <a href="{{route('users.show', \Auth::id())}}" class=" list-group-item" data-parent="#MainMenu"><i
-                  class="glyphicon sidebar-icon glyphicon-user"></i><span id="menu-txt">{{ __('Profile') }}</span> </a>
-               <a href="{{ url('/logout') }}" class=" list-group-item impmenu" data-parent="#MainMenu"><i
-                  class="glyphicon sidebar-icon glyphicon-log-out"></i><span id="menu-txt">{{ __('Sign Out') }}</span> </a>
+
+               <a href="{{route('referrals.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-transfer"></i><span id="menu-txt">{{ __('Referrals') }}</span> </a>
+               
+               <a href="{{route('onetoones.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-flash"></i><span id="menu-txt">{{ __('1-to-1s') }}</span> </a>
+               
+               <a href="{{route('revenues.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-usd"></i><span id="menu-txt">{{ __('Revenues') }}</span> </a>
+               
+               <a href="{{route('guests.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-sunglasses"></i><span id="menu-txt">{{ __('Guests') }}</span> </a>
+               
             </div>
             @if(Entrust::hasRole('administrator'))
             <div class="list-group panel">
@@ -196,7 +193,8 @@
       <script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
       <script type="text/javascript" src="{{ URL::asset('js/jasny-bootstrap.min.js') }}"></script>
       <script type="text/javascript" src="{{ URL::asset('js/jquery.caret.min.js') }}"></script>
-      <script type="text/javascript" src="{{ URL::asset('js/jquery.atwho.min.js') }}"></script>
+      <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+      <script src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.html5.min.js"></script>
       @stack('scripts')
    </body>
 </html>

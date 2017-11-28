@@ -114,6 +114,5 @@
     !!}
 </div>
 
-{{ Form::hidden('group_id', '1') }}
 {{ Form::hidden('user_id', '1') }}
 {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}

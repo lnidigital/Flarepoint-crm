@@ -46,10 +46,14 @@ class GuestController extends Controller
      */
     public function anyData()
     {
-        $group_id = 1;
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         $guests = Contact::select(['id', 'name', 'company_name', 'email', 'primary_number'])
-                    ->where('group_id', $group_id)
+                    ->where('group_id', $groupId)
                     ->where('is_guest', '1');
 
         return Datatables::of($guests)
@@ -75,10 +79,14 @@ class GuestController extends Controller
      */
     public function create()
     {
-        $group_id = 1;
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         return view('guests.create')
-            ->withMembers($this->contacts->getAllMembersSelect($group_id))
+            ->withMembers($this->contacts->getAllMembersSelect($groupId))
             ->withIndustries($this->contacts->listAllIndustries());
     }
 
@@ -112,11 +120,15 @@ class GuestController extends Controller
      */
     public function edit($id)
     {
-        $group_id = 1;
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         return view('guests.edit')
             ->withGuest($this->contacts->find($id))
-            ->withMembers($this->contacts->getAllMembersSelect($group_id))
+            ->withMembers($this->contacts->getAllMembersSelect($groupId))
             ->withIndustries($this->contacts->listAllIndustries());
     }
 

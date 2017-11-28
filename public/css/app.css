@@ -8386,6 +8386,14 @@ a.list-group-item:hover {
   height: 150px;
 }
 
+.main-header .navbar {
+  margin-bottom: 0px;
+}
+
+.main-header .navbar-custom-menu {
+  float: right;
+}
+
 .group-select {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -8394,6 +8402,7 @@ a.list-group-item:hover {
   border-radius: 0px;
   border: none;
   height: auto;
+  font-size: 11px;
 }
 
 /*# sourceMappingURL=app.css.map */

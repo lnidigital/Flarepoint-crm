@@ -5,8 +5,8 @@
     </div>
     <div class="form-inline">
         <div class="form-group col-sm-6 removeleft ">
-            {!! Form::label('member_id', __('Member'), ['class' => 'control-label']) !!}
-            {!! Form::select('member_id', $members, null, ['class' => 'form-control']) !!}
+            {!! Form::label('contact_id', __('Member'), ['class' => 'control-label']) !!}
+            {!! Form::select('contact_id', $members, null, ['class' => 'form-control']) !!}
         </div>
 
         <div class="form-group col-sm-6 removeleft ">
@@ -26,7 +26,5 @@
         {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
     </div>
 
-
-     {{ Form::hidden('group_id', '1') }}
-    
+    {{ Form::hidden('group_id', Helper::getGroupId()) }}
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}

@@ -11,9 +11,12 @@
             <th>{{ __('From') }}</th>
             <th>{{ __('To') }}</th>
             <th>{{ __('Date') }}</th>
-            <th></th>
-            <th></th>
-            <th></th>
+            @if(Entrust::can('referral-update'))
+                <th></th>
+            @endif
+            @if(Entrust::can('referral-delete')) 
+                <th></th>
+            @endif
         </tr>
         </thead>
     </table>
@@ -28,7 +31,14 @@
         $('#referrals-table').DataTable({
             processing: true,
             serverSide: true,
-
+            dom: 'Blfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            "bLengthChange": false,
             ajax: '{!! route('referrals.data') !!}',
             columns: [
 

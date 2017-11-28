@@ -51,10 +51,15 @@ class PagesController extends Controller
      */
     public function dashboard()
     {
-      $group_id = 1;
+     
+      $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
       
-      $members = $this->contacts->getAllMembers($group_id);
+      $members = $this->contacts->getAllMembers($groupId);
 
       $referralsThisMonth = $this->referrals->referralsMadeThisMonth();
 

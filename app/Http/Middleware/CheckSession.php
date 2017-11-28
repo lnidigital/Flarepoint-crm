@@ -23,10 +23,12 @@ class CheckSession
           else 
             $selectedGroup = null;
 
-        $groups = new GroupRepository();
-        $userGroups = $groups->getAllGroups($request->user()->id); //Auth::user()->id
-        View::share('groups', $userGroups);
-        View::share('selectedGroup', $selectedGroup);
+        if (\Auth::check()) {
+            $groups = new GroupRepository();
+            $userGroups = $groups->getAllGroups($request->user()->id); //Auth::user()->id
+            View::share('groups', $userGroups);
+            View::share('selectedGroup', $selectedGroup);
+        }
 
         return $next($request);
     }

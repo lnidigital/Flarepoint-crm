@@ -63,9 +63,9 @@ class Helper
     public static function formatRevenue($revenue)
     {
         if ($revenue == null || $revenue == "")
-            return "0";
+            return "$0";
         else
-            return $revenue;
+            return '$'.number_format($revenue);
     }
 
     public static function isLoggedinUser($id) 
@@ -77,6 +77,17 @@ class Helper
     {
         $contact = Contact::find($id);
         return $contact->name;
+    }
+
+    public static function getGroupId() 
+    {
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
+
+        return $groupId;
     }
 }
 

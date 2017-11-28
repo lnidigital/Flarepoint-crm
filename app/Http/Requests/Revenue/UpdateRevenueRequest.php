@@ -24,7 +24,7 @@ class UpdateRevenueRequest extends FormRequest
     public function rules()
     {
         return [
-            'member_id' => 'required',
+            'contact_id' => 'required',
             'amount' => 'required',
             'report_date' => 'required',
             'group_id' => 'required',

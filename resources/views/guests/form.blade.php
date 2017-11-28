@@ -109,7 +109,7 @@
     
 </div>
 
-{{ Form::hidden('group_id', '1') }}
 {{ Form::hidden('is_guest', '1') }}
-{{ Form::hidden('user_id', '1') }}
+{{ Form::hidden('user_id', Auth::user()->id) }}
+{{ Form::hidden('group_id', Helper::getGroupId()) }}
 {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}

@@ -52,7 +52,16 @@ class OnetoOneController extends Controller
      */
     public function anyData()
     {
-        $onetoones = OnetoOne::select(['oneto_ones.id', 'first_contact_id', 'second_contact_id', 'onetoone_date', 'description'])->join('contacts', 'oneto_ones.first_contact_id', '=', 'contacts.id');
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
+
+        $onetoones = OnetoOne::select(['oneto_ones.id', 'first_contact_id', 'second_contact_id', 'onetoone_date', 'description'])
+                ->join('contacts', 'oneto_ones.first_contact_id', '=', 'contacts.id')
+                ->where('oneto_ones.group_id', $groupId);
+
         return Datatables::of($onetoones)
             ->addColumn('first_contact_name', function ($onetoones) {
                 return $this->members->find($onetoones->first_contact_id)->name;
@@ -83,11 +92,15 @@ class OnetoOneController extends Controller
      */
     public function create()
     {
-    	$group_id = 1;
+    	$groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         return view('onetoones.create')
-            ->withMembers($this->members->getAllMembersSelect($group_id))
-            ->withMeetings($this->meetings->getAllMeetingsSelect($group_id));
+            ->withMembers($this->members->getAllMembersSelect($groupId))
+            ->withMeetings($this->meetings->getAllMeetingsSelect($groupId));
     }
 
     /**
@@ -125,12 +138,16 @@ class OnetoOneController extends Controller
      */
     public function edit($id)
     {
-        $group_id = 1;
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
 
         return view('onetoones.edit')
             ->with('onetoone', $this->onetoones->find($id))
-            ->withMembers($this->members->getAllMembersSelect($group_id))
-            ->withMeetings($this->meetings->getAllMeetingsSelect($group_id));
+            ->withMembers($this->members->getAllMembersSelect($groupId))
+            ->withMeetings($this->meetings->getAllMeetingsSelect($groupId));
     }
 
     /**
