@@ -25,7 +25,8 @@ class CreateContactsTable extends Migration
             $table->string('state')->nullable();
             $table->string('company_name');
             $table->string('image_path')->nullable();
-            $table->string('is_guest')->default(0);
+            $table->datetime('member_since')->nullable();
+            $table->string('is_guest')->default(0); 
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
             $table->integer('referrer_id')->nullable()->unsigned();

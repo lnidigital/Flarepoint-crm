@@ -17,6 +17,10 @@
         </tr>
         </thead>
     </table>
+    
+    @if(Entrust::can('contact-create'))
+        <a href="{{ route('members.create')}}" class="btn btn-primary">{{ __('+ Add New') }}</a>
+    @endif
 
 @stop
 

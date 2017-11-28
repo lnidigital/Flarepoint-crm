@@ -17,7 +17,9 @@
         </tr>
         </thead>
     </table>
-
+    @if(Entrust::can('referral-create'))
+      <a href="{{ route('referrals.create')}}" class="btn btn-primary">{{ __('+ Add New') }}</a>
+    @endif
 @stop
 
 @push('scripts')

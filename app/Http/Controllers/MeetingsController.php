@@ -65,7 +65,15 @@ class MeetingsController extends Controller
      */
     public function anyData()
     {
-        $meetings = Meeting::select(['id', 'meeting_date', 'meeting_notes', 'group_id']);
+        $groupId = session('user_group_id');
+
+        if ($groupId == null) {
+            $groupId = Auth::user()->group_id;
+        }
+
+        $meetings = Meeting::select(['id', 'meeting_date', 'meeting_notes', 'group_id'])
+                    ->where('group_id',$groupId);
+
         return Datatables::of($meetings)
             ->addColumn('namelink', function ($meetings) {
                 $date = Carbon::parse($meetings->meeting_date);

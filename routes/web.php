@@ -18,6 +18,7 @@ Route::group(['middleware' => ['auth']], function () {
      */
         Route::get('/', 'PagesController@dashboard');
         Route::get('dashboard', 'PagesController@dashboard')->name('dashboard');
+        Route::post('dashboard', 'PagesController@store')->name('dashboard.store');
         
     /**
      * Users
@@ -131,7 +132,7 @@ Route::group(['middleware' => ['auth']], function () {
     /**
      * Departments
      */
-        Route::resource('departments', 'DepartmentsController'); 
+        Route::resource('groups', 'GroupsController'); 
 
     /**
      * Integrations

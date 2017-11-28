@@ -10,7 +10,11 @@ use App\Repositories\Revenue\RevenueRepositoryContract;
 use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 use App\Repositories\Contact\ContactRepositoryContract;
+use App\Repositories\Group\GroupRepositoryContract;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Contracts\Auth\Guard;
 
 class PagesController extends Controller
 {
@@ -19,6 +23,7 @@ class PagesController extends Controller
     protected $cntacts;
     protected $settings;
     protected $referrals;
+    protected $groups;
 
     public function __construct(
         UserRepositoryContract $users,
@@ -26,7 +31,9 @@ class PagesController extends Controller
         ReferralRepositoryContract $referrals,
         OnetoOneRepositoryContract $onetoones,
         ContactRepositoryContract $contacts,
-        RevenueRepositoryContract $revenues
+        RevenueRepositoryContract $revenues,
+        GroupRepositoryContract $groups,
+        Guard $guard
     ) {
         $this->users = $users;
         $this->settings = $settings;
@@ -34,6 +41,8 @@ class PagesController extends Controller
         $this->onetoones = $onetoones;
         $this->revenues = $revenues;
         $this->contacts = $contacts;
+        $this->groups = $groups;
+
     }
 
     /**
@@ -44,8 +53,7 @@ class PagesController extends Controller
     {
       $group_id = 1;
 
-      $groups = array('group 1'=>'1', 'group 2'=>'2'); //$this->groups->getAllGroups(Auth::id());
-
+      
       $members = $this->contacts->getAllMembers($group_id);
 
       $referralsThisMonth = $this->referrals->referralsMadeThisMonth();
@@ -144,8 +152,14 @@ class PagesController extends Controller
             'createdOnetoOnesMonthly',
             'users',
             'members',
-            'companyname',
-            'groups'
+            'companyname'
         ));
+    }
+
+    public function store() {
+      $groupId = Input::get('group_id');
+      Log::info('store session='.$groupId);
+      session(['user_group_id'=>$groupId]);
+      return redirect()->route('dashboard');
     }
 }

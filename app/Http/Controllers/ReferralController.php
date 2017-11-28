@@ -14,6 +14,7 @@ use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Referral\ReferralRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 use App\Repositories\Meeting\MeetingRepositoryContract;
+use Illuminate\Support\Facades\Log;
 
 class ReferralController extends Controller
 {
@@ -93,9 +94,10 @@ class ReferralController extends Controller
      *
      * @return mixed
      */
-    public function create()
+    public function create(Request $request)
     {
     	$group_id = 1;
+        //$referrer = $request->uri;
 
         return view('referrals.create')
             ->withMembers($this->members->getAllMembersSelect($group_id))
@@ -109,7 +111,12 @@ class ReferralController extends Controller
     public function store(StoreReferralRequest $request)
     {
         $this->referrals->create($request->all());
-        return redirect()->route('referrals.index');
+        $referrer = $request->input('referrer');
+
+        if ($referrer != null)
+            return redirect()->to($referrer);
+        else 
+            return redirect()->route('referrals.index');
     }
 
     /**

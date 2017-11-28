@@ -37,7 +37,7 @@
                     </thead>
                     @foreach ($attendedMembers as $attendedMember)
                         <tr>
-                            <td>{{$attendedMember->name}}</td>
+                            <td><a href="{{ route('members.show',$attendedMember->id)}}">{{$attendedMember->name}}</a></td>
                             <td>{{$attendedMember->company_name}}</td>
                             <td>{{$attendedMember->email}}</td>
                             <td>{{$attendedMember->primary_number}}</td>
@@ -60,7 +60,7 @@
                     </thead>
                     @foreach ($attendedGuests as $attendedGuest)
                         <tr>
-                            <td>{{$attendedGuest->name}}</td>
+                            <td><a href="{{ route('guests.show',$attendedGuest->id)}}">{{$attendedGuest->name}}</a></td>
                             <td>{{$attendedGuest->company_name}}</td>
                             <td>{{$attendedGuest->email}}</td>
                             <td>{{$attendedGuest->primary_number}}</td>
@@ -91,6 +91,7 @@
                             </tr>
                         @endforeach
                     </table>
+                    <a href="{{ route('referrals.create', 'referrer=/meetings/'.$meeting->id) }}" class="btn btn-primary">Add New Referral</a>
             </el-tab-pane>
             <el-tab-pane label="1-to-1s ({{count($onetoones)}})" name="onetoones">
                  <table class="table table-hover" id="onetoones-table">
@@ -112,6 +113,7 @@
                             </tr>
                         @endforeach
                     </table>
+                    <a href="{{ route('onetoones.create', 'referrer=/meetings/'.$meeting->id) }}" class="btn btn-primary">Add New 1-to-1</a>
             </el-tab-pane>
           </el-tabs>
 

@@ -4,7 +4,6 @@
 @stop
 
 @section('content')
-
     <table class="table table-hover " id="meetings-table">
         <thead>
         <tr>
@@ -15,6 +14,10 @@
         </tr>
         </thead>
     </table>
+
+    @if(Entrust::can('meeting-create'))
+      <a href="{{ route('meetings.create')}}" class="btn btn-primary">{{ __('+ Add New') }}</a>
+    @endif
 
 @stop
 

@@ -18,6 +18,10 @@
         </thead>
     </table>
 
+    @if(Entrust::can('contact-create'))
+      <a href="{{ route('guests.create')}}" class="btn btn-primary">{{ __('+ Add New') }}</a>
+    @endif
+      
 @stop
 
 @push('scripts')

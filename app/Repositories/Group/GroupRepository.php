@@ -14,7 +14,10 @@ class GroupRepository implements GroupRepositoryContract
      */
     public function getAllGroups($userId)
     {
-        return Group::all();
+        return Group::select('groups.name', 'groups.id')
+                ->join('group_user', 'groups.id', 'group_user.group_id')
+                ->where('group_user.user_id',$userId)
+                ->pluck('groups.name', 'groups.id');
     }
 
     /**

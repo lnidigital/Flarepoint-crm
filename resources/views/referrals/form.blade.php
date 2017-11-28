@@ -27,6 +27,7 @@
     </div>
 
 
-     {{ Form::hidden('group_id', '1') }}
+    {{ Form::hidden('group_id', '1') }}
+    {{ Form::hidden('referrer', '') }}
     
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}

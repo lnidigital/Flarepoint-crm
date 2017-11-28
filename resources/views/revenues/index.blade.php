@@ -18,6 +18,9 @@
         </thead>
     </table>
 
+      @if(Entrust::can('revenue-create'))
+      <a href="{{ route('revenues.create')}}" class="btn btn-primary">{{ __('+ Add New') }}</a>
+      @endif
 @stop
 
 @push('scripts')

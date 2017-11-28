@@ -47,7 +47,7 @@ class User extends Authenticatable
     //     return $this->hasMany(Lead::class, 'user_id', 'id');
     // }
     
-    public function group()
+    public function groups()
     {
         return $this->belongsToMany(Group::class, 'group_user')->withPivot('group_id');
     }
@@ -62,7 +62,7 @@ class User extends Authenticatable
         return Cache::has('user-is-online-' . $this->id);
     }
 
-    public function getNameAndDepartmentAttribute()
+    public function getNameAndGroupAttribute()
     {
         return $this->name . ' ' . '(' . $this->department()->first()->name . ')';
     }

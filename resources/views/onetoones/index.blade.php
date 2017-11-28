@@ -4,7 +4,7 @@
 @stop
 
 @section('content')
-
+    
     <table class="table table-hover " id="onetoones-table">
         <thead>
         <tr>
@@ -17,7 +17,10 @@
         </tr>
         </thead>
     </table>
-
+    
+    @if(Entrust::can('onetoone-create'))
+      <a href="{{ route('onetoones.create')}}" class="btn btn-primary">{{ __('+ Add New') }}</a>
+    @endif
 @stop
 
 @push('scripts')

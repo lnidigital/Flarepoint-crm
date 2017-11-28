@@ -97,7 +97,12 @@ class OnetoOneController extends Controller
     public function store(StoreOnetoOneRequest $request)
     {
         $this->onetoones->create($request->all());
-        return redirect()->route('onetoones.index');
+        $referrer = $request->input('referrer');
+
+        if ($referrer != null)
+            return redirect()->to($referrer);
+        else 
+            return redirect()->route('onetoones.index');
     }
 
     /**

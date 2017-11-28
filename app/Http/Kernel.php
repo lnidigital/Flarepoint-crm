@@ -15,6 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+
     ];
 
     /**
@@ -31,6 +32,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \App\Http\Middleware\LogLastUserActivity::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\CheckSession::class,
             ],
         'meeting.create' => [ \App\Http\Middleware\Meeting\CanMeetingCreate::class ],
         'meeting.update' => [ \App\Http\Middleware\Meeting\CanMeetingUpdate::class ],

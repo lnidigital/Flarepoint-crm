@@ -82,35 +82,14 @@
             <div class="list-group panel">
                <p class=" list-group-item siderbar-top" title=""><img src="{{url('images/grow-crm-logo.png')}}" alt="" width="160px"></p>
                
-               {!! Form::select('group_id', $groups, null, ['class' => 'form-control group-select']) !!}
+               {!! Form::open(['route' => 'dashboard.store']) !!}
+               {!! Form::select('group_id', $groups, $selectedGroup, ['class' => 'form-control group-select','onchange'=>'this.form.submit();']) !!}
+               {{ csrf_field() }}
+               {!! Form::close() !!}
 
                <a href="{{route('dashboard', \Auth::id())}}" class=" list-group-item" data-parent="#MainMenu"><i
-                  class="glyphicon sidebar-icon glyphicon-dashboard"></i><span id="menu-txt">{{ __('Dashboard') }}</span> </a>
-               <a href="#addnew" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                  class="glyphicon sidebar-icon glyphicon-pencil"></i><span id="menu-txt">{{ __('Add New') }}</span>
-               <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-               <div class="collapse" id="addnew">
-                  @if(Entrust::can('meeting-create'))
-                  <a href="{{ route('meetings.create')}}" class="list-group-item childlist">{{ __('Meeting') }}</a>
-                  @endif
-                  @if(Entrust::can('contact-create'))
-                  <a href="{{ route('members.create')}}"
-                     class="list-group-item childlist">{{ __('Member') }}</a>
-                  @endif
-                  @if(Entrust::can('contact-create'))
-                  <a href="{{ route('guests.create')}}" class="list-group-item childlist">{{ __('Guest') }}</a>
-                  @endif
-                  @if(Entrust::can('referral-create'))
-                  <a href="{{ route('referrals.create')}}" class="list-group-item childlist">{{ __('Referral') }}</a>
-                  @endif
-                  @if(Entrust::can('onetoone-create'))
-                  <a href="{{ route('onetoones.create')}}" class="list-group-item childlist">{{ __('1-to-1') }}</a>
-                  @endif
-                  @if(Entrust::can('revenue-create'))
-                  <a href="{{ route('revenues.create')}}" class="list-group-item childlist">{{ __('Revnue') }}</a>
-                  @endif
-               </div>
-               <a href="{{route('meetings.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-user"></i><span id="menu-txt">{{ __('Meetings') }}</span> </a>
+                  class="sidebar-icon fa fa-bar-chart"></i><span id="menu-txt">{{ __('Dashboard') }}</span> </a>
+               <a href="{{route('meetings.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="sidebar-icon fa fa-pencil"></i><span id="menu-txt">{{ __('Meetings') }}</span> </a>
                <a href="{{route('referrals.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-transfer"></i><span id="menu-txt">{{ __('Referrals') }}</span> </a>
                <a href="{{route('onetoones.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-flash"></i><span id="menu-txt">{{ __('1-to-1s') }}</span> </a>
                <a href="{{route('revenues.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-usd"></i><span id="menu-txt">{{ __('Revenues') }}</span> </a>
