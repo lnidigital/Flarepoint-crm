@@ -13,6 +13,8 @@ class CreateOneToOnesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('oneto_ones');
+        
         Schema::create('oneto_ones', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('first_contact_id')->unsigned();

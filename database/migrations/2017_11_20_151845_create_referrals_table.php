@@ -13,7 +13,7 @@ class CreateReferralsTable extends Migration
      */
     public function up()
     {
-        Schema::drop('referrals');
+        Schema::dropIfExists('referrals');
         
         Schema::create('referrals', function (Blueprint $table) {
             $table->increments('id');
@@ -39,7 +39,7 @@ class CreateReferralsTable extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::drop('referrals');
+        Schema::dropIfExists('referrals');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
