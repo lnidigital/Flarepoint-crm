@@ -84,7 +84,7 @@ class Helper
         $groupId = session('user_group_id');
 
         if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
+            $groupId = Auth::user()->default_group;
         }
 
         return $groupId;

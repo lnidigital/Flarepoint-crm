@@ -1,8 +1,10 @@
-$primary-color: #424242;
-$darker-primary-color: #3A3A3A;
+$primary-color: #FFF;
+$darker-primary-color: #e6e6e6;
 $secondary-color: #008ae6;
 $link-color:#337ab7;
 $top-bar-color:#2196F3;
+$button-primary-color: #337ab7;
+
 a{
     color: $link-color;
     text-decoration: none;
@@ -106,7 +108,7 @@ body {
 
 .btn-primary
 {
-	background-color: $primary-color; //#D18551 Ornage
+	background-color: $button-primary-color; //#D18551 Ornage
 	border-color: $primary-color; // #D18551 Ornage
 }
 

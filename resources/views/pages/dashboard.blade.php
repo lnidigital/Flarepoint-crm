@@ -36,7 +36,7 @@
                         <p>{{ __('Referrals this month') }}</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-ios-book-outline"></i>
+                        <i class="ion ion-arrow-swap"></i>
                     </div>
                     <a href="{{route('referrals.index')}}" class="small-box-footer">{{ __('All Referrals') }} <i
                                 class="fa fa-arrow-circle-right"></i></a>
@@ -56,7 +56,7 @@
                         <p>{{ __('1-to-1s completed this month') }}</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="ion ion-chatboxes"></i>
                     </div>
                     <a href="{{route('onetoones.index')}}" class="small-box-footer">{{ __('All 1-to-1s') }} <i
                                 class="fa fa-arrow-circle-right"></i></a>
@@ -74,7 +74,7 @@
                         <p>{{ __('Guests this month') }}</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-person"></i>
+                        <i class="ion ion-person-stalker"></i>
                     </div>
                     <a href="{{route('guests.index')}}" class="small-box-footer">{{ __('All guests') }} <i
                                 class="fa fa-arrow-circle-right"></i></a>
@@ -91,7 +91,7 @@
                         <p>{{ __('Total revenue generated') }}</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
+                        <i class="ion ion-social-usd"></i>
                     </div>
                     <a href="{{route('revenues.index')}}" class="small-box-footer"> {{ __('More info') }} <i
                                 class="fa fa-arrow-circle-right"></i></a>

@@ -8,6 +8,7 @@
       <link href="{{ URL::asset('css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
       <link href="{{ URL::asset('css/dropzone.css') }}" rel="stylesheet" type="text/css">
       <link href="{{ URL::asset('css/jquery.atwho.min.css') }}" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" href="{{ URL::asset('css/AdminLTE.css') }}">
       <link rel="stylesheet" href="{{ asset(elixir('css/app.css')) }}">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
       <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
@@ -17,52 +18,32 @@
       <div id="wrapper">
          <header class="main-header">
             <button type="button" class="navbar-toggle menu-txt-toggle" style=""><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
-            <div class="navbar navbar-default navbar-top">
+            <div class="navbar navbar-custom navbar-top">
                <div class="navbar-custom-menu">
                   <ul class="nav navbar-nav">
-                     <li class="dropdown messages-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                          <i class="fa fa-envelope-o"></i>
-                          <span class="label label-success">4</span>
-                        </a>
-                     </li>
                      <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                          <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                          <span class="hidden-xs">Alexander Pierce</span>
+                          <img src="{{Auth::user()->getPicture()}}" class="user-image" alt="User Image">
+                          <span class="hidden-xs">{{Auth::user()->name}}</span>
                         </a>
                         <ul class="dropdown-menu">
                           <!-- User image -->
                           <li class="user-header">
-                            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                            <img src="{{Auth::user()->getPicture()}}" class="img-circle" alt="User Image">
 
                             <p>
-                              Alexander Pierce - Web Developer
+                              {{Auth::user()->name}}
                               <small>Member since Nov. 2012</small>
                             </p>
                           </li>
                           <!-- Menu Body -->
-                          <li class="user-body">
-                            <div class="row">
-                              <div class="col-xs-4 text-center">
-                                <a href="#">Followers</a>
-                              </div>
-                              <div class="col-xs-4 text-center">
-                                <a href="#">Sales</a>
-                              </div>
-                              <div class="col-xs-4 text-center">
-                                <a href="#">Friends</a>
-                              </div>
-                            </div>
-                            <!-- /.row -->
-                          </li>
                           <!-- Menu Footer-->
                           <li class="user-footer">
                             <div class="pull-left">
                               <a href="{{route('users.show', \Auth::id())}}" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
-                              <a href="{{ url('/logout') }}">Sign out</a>
+                              <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Sign out</a>
                             </div>
                           </li>
                         </ul>

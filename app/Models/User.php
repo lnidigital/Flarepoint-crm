@@ -62,6 +62,14 @@ class User extends Authenticatable
         return Cache::has('user-is-online-' . $this->id);
     }
 
+    public function getPicture()
+    {
+        if ($this->image_path == "" || $this->image_path == null)
+            return "/images/default-avatar.png";
+        else
+            return $this->image_path;
+    }
+
     public function getNameAndGroupAttribute()
     {
         return $this->name . ' ' . '(' . $this->department()->first()->name . ')';
