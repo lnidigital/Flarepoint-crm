@@ -33,7 +33,7 @@
 
                             <p>
                               {{Auth::user()->name}}
-                              <small>Member since Nov. 2012</small>
+                              <small>{{Helper::getOrganizationName()}}</small>
                             </p>
                           </li>
                           <!-- Menu Body -->
@@ -56,7 +56,7 @@
          <!-- Sidebar menu -->
          <nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
             <div class="list-group panel">
-               <p class=" list-group-item siderbar-top" title=""><img src="{{url('images/grow-crm-logo.png')}}" alt="" width="160px"></p>
+               <p class=" list-group-item siderbar-top" title=""><img src="{{url('images/chamberedge-logo.png')}}" alt="" width="160px"></p>
                
                {!! Form::open(['route' => 'dashboard.store']) !!}
                {!! Form::select('group_id', $groups, $selectedGroup, ['class' => 'form-control group-select','onchange'=>'this.form.submit();']) !!}

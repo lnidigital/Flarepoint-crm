@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Contact;
+use App\Models\Organization;
 
 class Helper
 {
@@ -88,6 +89,16 @@ class Helper
         }
 
         return $groupId;
+    }
+
+    public static function getOrganizationName()
+    {
+        $organization = Organization::find(Auth::user()->default_group)->name;
+
+        //Log::info('groups='.json_encode($groups));
+
+        return $organization;
+        //return $groups->organization()->name;
     }
 }
 

@@ -67,7 +67,7 @@ class User extends Authenticatable
         if ($this->image_path == "" || $this->image_path == null)
             return "/images/default-avatar.png";
         else
-            return $this->image_path;
+            return "/images/Media/".$this->image_path;
     }
 
     public function getNameAndGroupAttribute()

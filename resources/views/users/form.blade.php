@@ -49,9 +49,7 @@
 
     {!!
         Form::select('groups',
-        $groups,
-        isset($user)
-        ? $user->group->first()->id : null,
+        $groups, null,
         ['class' => 'form-control']) !!}
 </div>
 
