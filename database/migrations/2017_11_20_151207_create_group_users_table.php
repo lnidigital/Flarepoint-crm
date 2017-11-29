@@ -13,6 +13,8 @@ class CreateGroupUsersTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('group_user');
+        
         Schema::create('group_user', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();

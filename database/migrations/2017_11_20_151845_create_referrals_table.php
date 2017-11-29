@@ -13,6 +13,8 @@ class CreateReferralsTable extends Migration
      */
     public function up()
     {
+        Schema::drop('referrals');
+        
         Schema::create('referrals', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('from_contact_id')->unsigned();

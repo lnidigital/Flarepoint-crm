@@ -13,6 +13,8 @@ class CreateRevenuesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('revenues');
+
         Schema::create('revenues', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('contact_id')->unsigned();
@@ -35,6 +37,9 @@ class CreateRevenuesTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('revenues');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+        
     }
 }

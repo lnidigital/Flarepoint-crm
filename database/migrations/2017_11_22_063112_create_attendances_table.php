@@ -13,6 +13,8 @@ class CreateAttendancesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('attendances');
+
         Schema::create('attendances', function (Blueprint $table) {
             $table->integer('meeting_id')->unsigned();
             $table->foreign('meeting_id')->references('id')->on('meetings');
@@ -30,6 +32,9 @@ class CreateAttendancesTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('attendances');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+        
     }
 }

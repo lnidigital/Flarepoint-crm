@@ -13,6 +13,8 @@ class CreateMeetingsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('meetings');
+        
         Schema::create('meetings', function (Blueprint $table) {
             $table->increments('id');
             $table->datetime('meeting_date');
