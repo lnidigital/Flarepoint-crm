@@ -133,11 +133,12 @@ class ContactRepository implements ContactRepositoryContract
     /**
      * @return mixed
      */
-    public function guestsMadeThisMonth()
+    public function guestsMadeThisMonth($groupId)
     {
         return DB::table('contacts')
             ->select(DB::raw('count(*) as total, updated_at'))
             ->where('status', 2)
+            ->where('group_id',$groupId)
             ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
 }

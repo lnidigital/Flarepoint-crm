@@ -56,16 +56,15 @@ class PagesController extends Controller
       $groupId = Helper::getGroupId();
       
       $members = $this->contacts->getAllMembers($groupId);
-      $referralsThisMonth = $this->referrals->referralsMadeThisMonth();
-      $onetoonesThisMonth = $this->onetoones->onetoonesMadeThisMonth();
-      $guestsThisMonth = $this->contacts->guestsMadeThisMonth();
-      $revenuesThisMonth = $this->revenues->revenuesMadeThisMonth();
-      $companyname = $this->settings->getCompanyName();
+      $referralsThisMonth = $this->referrals->referralsMadeThisMonth($groupId);
+      $onetoonesThisMonth = $this->onetoones->onetoonesMadeThisMonth($groupId);
+      $guestsThisMonth = $this->contacts->guestsMadeThisMonth($groupId);
+      $revenuesThisMonth = $this->revenues->revenuesMadeThisMonth($groupId);
       $users = $this->users->getAllUsers();
 
-      $createdReferralsMonthly = $this->referrals->createdReferralsMothly();
-      $createdRevenuesMonthly = $this->revenues->createdRevenuesMothly();
-      $createdOnetoOnesMonthly = $this->onetoones->createdOnetoOnesMothly();
+      $createdReferralsMonthly = $this->referrals->createdReferralsMothly($groupId);
+      $createdRevenuesMonthly = $this->revenues->createdRevenuesMothly($groupId);
+      $createdOnetoOnesMonthly = $this->onetoones->createdOnetoOnesMothly($groupId);
 
       return view('pages.dashboard', compact(
             'onetoonesThisMonth',
@@ -76,8 +75,7 @@ class PagesController extends Controller
             'createdRevenuesMonthly',
             'createdOnetoOnesMonthly',
             'users',
-            'members',
-            'companyname'
+            'members'
         ));
 
       //Log::info("dashboard members: " . json_encode($members));

@@ -104,7 +104,7 @@
 <!-- Info boxes -->
 <div class="row movedown">
 
-    <div class="col-sm-12">
+    <div class="col-sm-6">
 
         <div class="box box-primary">
             <div class="box-header with-border">

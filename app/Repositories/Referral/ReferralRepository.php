@@ -131,21 +131,23 @@ class ReferralRepository implements ReferralRepositoryContract
     /**
      * @return mixed
      */
-    public function referralsMadeThisMonth()
+    public function referralsMadeThisMonth($groupId)
     {
         return DB::table('referrals')
             ->select(DB::raw('count(*) as total, updated_at'))
+            ->where('group_id', $groupId)
             ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
 
     /**
      * @return mixed
      */
-    public function createdReferralsMothly()
+    public function createdReferralsMothly($groupId)
     {
         return DB::table('referrals')
-            ->select(DB::raw('count(*) as month, created_at'))
-            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+            ->select(DB::raw('count(*) as month, referral_date'))
+            ->where('group_id', $groupId)
+            ->groupBy(DB::raw('YEAR(referral_date), MONTH(referral_date)'))
             ->get();
     }
 }

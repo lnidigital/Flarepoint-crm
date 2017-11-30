@@ -53,7 +53,7 @@
                             @endforeach
                         </h3>
 
-                        <p>{{ __('1-to-1s completed this month') }}</p>
+                        <p>{{ __('1-to-1s this month') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-chatboxes"></i>
@@ -103,7 +103,7 @@
 
         <?php $createdReferralsEachMonths = array(); $referralCreated = array();?>
         @foreach($createdReferralsMonthly as $referral)
-            <?php $createdReferralsEachMonths[] = date('F', strTotime($referral->created_at)) ?>
+            <?php $createdReferralsEachMonths[] = date('F', strTotime($referral->referral_date)) ?>
             <?php $referralCreated[] = $referral->month;?>
         @endforeach
 

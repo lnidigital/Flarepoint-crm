@@ -44,10 +44,11 @@ class Guest1Repository implements GuestRepositoryContract
     /**
      * @return mixed
      */
-    public function guestsMadeThisMonth()
+    public function guestsMadeThisMonth($groupId)
     {
         return DB::table('guests')
             ->select(DB::raw('count(*) as total, updated_at'))
+            ->where('group_id',$groupId)
             ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
 

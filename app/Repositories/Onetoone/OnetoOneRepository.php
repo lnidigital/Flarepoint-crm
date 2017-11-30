@@ -111,20 +111,22 @@ class OnetoOneRepository implements OnetoOneRepositoryContract
     /**
      * @return mixed
      */
-    public function onetoOnesMadeThisMonth()
+    public function onetoOnesMadeThisMonth($groupId)
     {
         return DB::table('oneto_ones')
             ->select(DB::raw('count(*) as total, updated_at'))
+            ->where('group_id',$groupId)
             ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
 
     /**
      * @return mixed
      */
-    public function createdOnetoOnesMothly()
+    public function createdOnetoOnesMothly($groupId)
     {
         return DB::table('oneto_ones')
             ->select(DB::raw('count(*) as month, created_at'))
+            ->where('group_id',$groupId)
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
             ->get();
     }

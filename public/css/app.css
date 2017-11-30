@@ -8391,6 +8391,28 @@ body {
   color: #333;
 }
 
+body#app-layout {
+  height: 100%;
+  width: 100%;
+}
+
+body#app-layout #wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+body#app-layout #wrapper .login-screen {
+  display: table;
+  width: 100%;
+  height: 80%;
+}
+
+body#app-layout #wrapper .login-screen .wrapper {
+  display: table-cell;
+  height: 100%;
+  vertical-align: middle;
+}
+
 .main-header .navbar {
   margin-bottom: 0px;
   margin-left: 0px !important;
