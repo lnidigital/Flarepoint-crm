@@ -5,6 +5,7 @@ use Config;
 use Dinero;
 use Datatables;
 use App\Models\Guest;
+use App\Helpers\Helper;
 use App\Models\Contact;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -46,19 +47,44 @@ class GuestController extends Controller
      */
     public function anyData()
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         $guests = Contact::select(['id', 'name', 'company_name', 'email', 'primary_number'])
                     ->where('group_id', $groupId)
-                    ->where('is_guest', '1');
+                    ->where('status', '2');
 
         return Datatables::of($guests)
             ->addColumn('namelink', function ($guests) {
-                return '<a href="guests/' . $guests->id . '" ">' . $guests->name . '</a>';
+                return '<a href="/guests/' . $guests->id . '" ">' . $guests->name . '</a>';
+            })
+            ->add_column('edit', '
+                <a href="{{ route(\'guests.edit\', $id) }}" class="btn btn-success" >Edit</a>')
+            ->add_column('delete', '
+                <form action="{{ route(\'guests.destroy\', $id) }}" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
+
+            {{csrf_field()}}
+            </form>')
+            ->make(true);
+    }
+
+    /**
+     * Make json respnse for datatables
+     * @return mixed
+     */
+    public function contactData($contactId)
+    {
+        $groupId = Helper::getGroupId();
+
+        $guests = Contact::select(['id', 'name', 'company_name', 'email', 'primary_number'])
+                    ->where('group_id', $groupId)
+                    ->where('status', '2')
+                    ->where('referrer_id', $contactId);
+
+        return Datatables::of($guests)
+            ->addColumn('namelink', function ($guests) {
+                return '<a href="/guests/' . $guests->id . '" ">' . $guests->name . '</a>';
             })
             ->add_column('edit', '
                 <a href="{{ route(\'guests.edit\', $id) }}" class="btn btn-success" >Edit</a>')
@@ -79,11 +105,7 @@ class GuestController extends Controller
      */
     public function create()
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         return view('guests.create')
             ->withMembers($this->contacts->getAllMembersSelect($groupId))

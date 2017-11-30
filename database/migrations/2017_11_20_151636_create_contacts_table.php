@@ -18,7 +18,7 @@ class CreateContactsTable extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
             $table->string('primary_number')->nullable();
             $table->string('secondary_number')->nullable();
             $table->string('address')->nullable();
@@ -27,8 +27,8 @@ class CreateContactsTable extends Migration
             $table->string('state')->nullable();
             $table->string('company_name');
             $table->string('image_path')->nullable();
-            $table->datetime('member_since')->nullable();
-            $table->string('is_guest')->default(0); 
+            $table->datetime('join_date')->nullable();
+            $table->string('status')->default(1); // 1=member, 2=guest, 3=ex-member
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
             $table->integer('referrer_id')->nullable()->unsigned();
@@ -37,6 +37,7 @@ class CreateContactsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('industry_id')->nullable()->unsigned();
             $table->foreign('industry_id')->references('id')->on('industries');
+            $table->unique(array('email','group_id'));
             $table->timestamps();
         });
     }

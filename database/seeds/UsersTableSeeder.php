@@ -77,6 +77,21 @@ class UsersTableSeeder extends Seeder
                 'created_at' => '2016-06-04 13:42:19',
                 'updated_at' => '2016-06-04 13:42:19',
             ),
+            4 =>
+            array (
+                'id' => 5,
+                'name' => 'Seong Bae',
+                'email' => 'restonchamber@lnidigital.com',
+                'password' => bcrypt('password'),
+                'address' => '',
+                'work_number' => 0,
+                'personal_number' => 0,
+                'image_path' => '',
+                'remember_token' => null,
+                'default_group' => null,
+                'created_at' => '2016-06-04 13:42:19',
+                'updated_at' => '2016-06-04 13:42:19',
+            ),
         ));
     }
 }

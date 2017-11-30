@@ -11,6 +11,7 @@ class Revenue extends Model
         'amount',
         'report_date',
         'group_id',
+        'referral_id',
         'description'
     ];
 

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Contracts\Auth\Guard;
+use App\Helpers\Helper;
 
 class PagesController extends Controller
 {
@@ -52,23 +53,32 @@ class PagesController extends Controller
     public function dashboard()
     {
      
-      $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
-
+      $groupId = Helper::getGroupId();
       
       $members = $this->contacts->getAllMembers($groupId);
-
       $referralsThisMonth = $this->referrals->referralsMadeThisMonth();
-
       $onetoonesThisMonth = $this->onetoones->onetoonesMadeThisMonth();
-
       $guestsThisMonth = $this->contacts->guestsMadeThisMonth();
-
       $revenuesThisMonth = $this->revenues->revenuesMadeThisMonth();
+      $companyname = $this->settings->getCompanyName();
+      $users = $this->users->getAllUsers();
 
+      $createdReferralsMonthly = $this->referrals->createdReferralsMothly();
+      $createdRevenuesMonthly = $this->revenues->createdRevenuesMothly();
+      $createdOnetoOnesMonthly = $this->onetoones->createdOnetoOnesMothly();
+
+      return view('pages.dashboard', compact(
+            'onetoonesThisMonth',
+            'referralsThisMonth',
+            'guestsThisMonth',
+            'revenuesThisMonth',
+            'createdReferralsMonthly',
+            'createdRevenuesMonthly',
+            'createdOnetoOnesMonthly',
+            'users',
+            'members',
+            'companyname'
+        ));
 
       //Log::info("dashboard members: " . json_encode($members));
       
@@ -76,8 +86,7 @@ class PagesController extends Controller
          * Other Statistics
          *
          */
-        $companyname = $this->settings->getCompanyName();
-        $users = $this->users->getAllUsers();
+        
         
      /**
       * Statistics for all-time tasks.
@@ -113,11 +122,7 @@ class PagesController extends Controller
         // $createdTasksMonthly = $this->tasks->createdTasksMothly();
         // $completedTasksMonthly = $this->tasks->completedTasksMothly();
 
-     $createdReferralsMonthly = $this->referrals->createdReferralsMothly();
-
-     $createdRevenuesMonthly = $this->revenues->createdRevenuesMothly();
-
-     $createdOnetoOnesMonthly = $this->onetoones->createdOnetoOnesMothly();
+     
 
      /**
       * Statistics for all-time Leads.
@@ -147,23 +152,12 @@ class PagesController extends Controller
         // $completedLeadsMonthly = $this->leads->createdLeadsMonthly();
         // $createdLeadsMonthly = $this->leads->completedLeadsMonthly();
        
-        return view('pages.dashboard', compact(
-            'onetoonesThisMonth',
-            'referralsThisMonth',
-            'guestsThisMonth',
-            'revenuesThisMonth',
-            'createdReferralsMonthly',
-            'createdRevenuesMonthly',
-            'createdOnetoOnesMonthly',
-            'users',
-            'members',
-            'companyname'
-        ));
+        
     }
 
     public function store() {
       $groupId = Input::get('group_id');
-      Log::info('store session='.$groupId);
+      Log::info('PagesController->store->groupId: '.$groupId);
       session(['user_group_id'=>$groupId]);
       return redirect()->route('dashboard');
     }

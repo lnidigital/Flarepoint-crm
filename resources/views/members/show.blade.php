@@ -2,150 +2,155 @@
     @section('content')
     @include('partials.contactheader')
 <div class="col-sm-8">
-  <el-tabs active-name="tasks" style="width:100%">
-    <el-tab-pane label="Tasks" name="tasks">
-        <table class="table table-hover" id="tasks-table">
-        <h3>{{ __('Tasks assigned') }}</h3>
-            <thead>
-                    <th>{{ __('Title') }}</th>
-                    <th>{{ __('Client') }}</th>
-                    <th>{{ __('Created at') }}</th>
-                    <th>{{ __('Deadline') }}</th>
-                    <th>
-                        <select name="status" id="status-task">
-                        <option value="" disabled selected>{{ __('Status') }}</option>
-                            <option value="open">Open</option>
-                            <option value="closed">Closed</option>
-                            <option value="all">All</option>
-                        </select>
-                    </th>
-                </tr>
-            </thead>
-        </table>
+  <el-tabs active-name="referrals-given" style="width:100%">
+    <el-tab-pane label="Referrals given" name="referrals-given">
+        <table class="table table-hover " id="referrals-given-table">
+        <thead>
+        <tr>
+            <th>{{ __('From') }}</th>
+            <th>{{ __('To') }}</th>
+            <th>{{ __('Date') }}</th>
+        </tr>
+        </thead>
+    </table>
     </el-tab-pane>
-    <el-tab-pane label="Leads" name="leads">
+    <el-tab-pane label="Referrals received" name="referrals-received">
+        <table class="table table-hover " id="referrals-received-table">
+            <thead>
+            <tr>
+                <th>{{ __('From') }}</th>
+                <th>{{ __('To') }}</th>
+                <th>{{ __('Date') }}</th>
+            </tr>
+            </thead>
+    </table>
+    </el-tab-pane>
+    <el-tab-pane label="1-on-1s" name="oneonones">
       <table class="table table-hover">
-        <table class="table table-hover" id="leads-table">
-                <h3>{{ __('Leads assigned') }}</h3>
-                <thead>
-                <tr>
-                    <th>{{ __('Title') }}</th>
-                    <th>{{ __('Client') }}</th>
-                    <th>{{ __('Created at') }}</th>
-                    <th>{{ __('Deadline') }}</th>
-                    <th>
-                        <select name="status" id="status-lead">
-                        <option value="" disabled selected>{{ __('Status') }}</option>
-                            <option value="open">Open</option>
-                            <option value="closed">Closed</option>
-                            <option value="all">All</option>
-                        </select>
-                    </th>
-                </tr>
-                </thead>
+        <table class="table table-hover" id="oneonones-table">
+            <thead>
+            <tr>
+                <th>{{ __('Name') }}</th>
+                <th>{{ __('Name') }}</th>
+                <th>{{ __('Date') }}</th>
+            </tr>
+            </thead>
             </table>
     </el-tab-pane>
-    <el-tab-pane label="Clients" name="clients">
-         <table class="table table-hover" id="clients-table">
-                <h3>{{ __('Clients assigned') }}</h3>
+    <el-tab-pane label="Guests" name="guests">
+         <table class="table table-hover" id="guests-table">
                 <thead>
                 <tr>
                     <th>{{ __('Name') }}</th>
                     <th>{{ __('Company') }}</th>
-                    <th>{{ __('Primary number') }}</th>
+                    <th>{{ __('Date') }}</th>
+                </tr>
+                </thead>
+            </table>
+    </el-tab-pane>
+    <el-tab-pane label="Revenues reported" name="revenues">
+         <table class="table table-hover" id="revenues-table">
+                <thead>
+                <tr>
+                    <th>{{ __('Name') }}</th>
+                    <th>{{ __('Date') }}</th>
+                    <th>{{ __('Amount') }}</th>
                 </tr>
                 </thead>
             </table>
     </el-tab-pane>
   </el-tabs>
   </div>
-  <div class="col-sm-4">
-  <h4>{{ __('Tasks') }}</h4>
 
-<h4>{{ __('Leads') }}</h4>
 
-  </div>
-
+  
    @stop 
 @push('scripts')
-        <script>
-        $('#pagination a').on('click', function (e) {
-            e.preventDefault();
-            var url = $('#search').attr('action') + '?page=' + page;
-            $.post(url, $('#search').serialize(), function (data) {
-                $('#posts').html(data);
-            });
+<script>
+        
+
+    $(function () {
+        $('#referrals-given-table').DataTable({
+            processing: true,
+            serverSide: true,
+            searching:false,
+            "bLengthChange": false,
+            ajax: '{!! route('referrals.datagiven', ['id' => $contact->id]) !!}',
+            columns: [
+
+                {data: 'from_name', name: 'from_contact_id'},
+                {data: 'to_name', name: 'to_contact_id'},
+                {data: 'referral_date_formatted', name: 'referral_date'}
+            ]
         });
+    });
 
-            $(function () {
-              var table = $('#tasks-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: '{!! route('users.taskdata', ['id' => $user->id]) !!}',
-                    columns: [
+    $(function () {
+        $('#referrals-received-table').DataTable({
+            processing: true,
+            serverSide: true,
+            searching:false,
+            bLengthChange: false,
+            ajax: '{!! route('referrals.datareceived', ['id' => $contact->id]) !!}',
+            columns: [
 
-                        {data: 'titlelink', name: 'title'},
-                        {data: 'client_id', name: 'Client', orderable: false, searchable: false},
-                        {data: 'created_at', name: 'created_at'},
-                        {data: 'deadline', name: 'deadline'},
-                        {data: 'status', name: 'status', orderable: false},
-                    ]
-                });
+                {data: 'from_name', name: 'from_contact_id'},
+                {data: 'to_name', name: 'to_contact_id'},
+                {data: 'referral_date_formatted', name: 'referral_date'}
+            ]
+        });
+    });
 
-                $('#status-task').change(function() {
-                selected = $("#status-task option:selected").val();
-                    if(selected == 'open') {
-                        table.columns(4).search(1).draw();
-                    } else if(selected == 'closed') {
-                        table.columns(4).search(2).draw();
-                    } else {
-                         table.columns(4).search( '' ).draw();
-                    }
-              });  
+    $(function () {
+        $('#oneonones-table').DataTable({
+            processing: true,
+            serverSide: true,
+            searching:false,
+            bLengthChange: false,
+            ajax: '{!! route('onetoones.contactdata', ['id' => $contact->id]) !!}',
+            columns: [
 
-          });
-            $(function () {
-                $('#clients-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: '{!! route('users.clientdata', ['id' => $user->id]) !!}',
-                    columns: [
+                {data: 'first_contact_name', name: 'first_contact_id'},    
+                {data: 'second_contact_name', name: 'second_contact_id'},
+                {data: 'onetoone_date_formatted', name: 'onetoone_date'}
 
-                        {data: 'clientlink', name: 'name'},
-                        {data: 'company_name', name: 'company_name'},
-                        {data: 'primary_number', name: 'primary_number'},
+            ]
+        });
+    });
 
-                    ]
-                });
-            });
+    $(function () {
+        $('#guests-table').DataTable({
+            processing: true,
+            serverSide: true,
+            searching:false,
+            bLengthChange: false,
+            ajax: '{!! route('guests.contactdata', ['id' => $contact->id]) !!}',
+            columns: [
 
-            $(function () {
-              var table = $('#leads-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: '{!! route('users.leaddata', ['id' => $user->id]) !!}',
-                    columns: [
+                {data: 'namelink', name: 'name'},
+                {data: 'company_name', name: 'company_name'},
+                {data: 'email', name: 'email'}
+            ]
+        });
+    });  
 
-                        {data: 'titlelink', name: 'title'},
-                        {data: 'client_id', name: 'Client', orderable: false, searchable: false},
-                        {data: 'created_at', name: 'created_at'},
-                        {data: 'contact_date', name: 'contact_date'},
-                        {data: 'status', name: 'status', orderable: false},
-                    ]
-                });
+    $(function () {
+        $('#revenues-table').DataTable({
+            processing: true,
+            serverSide: true,
+            bLengthChange: false,
+            searching:false,
+            bLengthChange: false,
+            ajax: '{!! route('revenues.contactdata', ['id' => $contact->id]) !!}',
+            columns: [
 
-              $('#status-lead').change(function() {
-                selected = $("#status-lead option:selected").val();
-                    if(selected == 'open') {
-                        table.columns(4).search(1).draw();
-                    } else if(selected == 'closed') {
-                        table.columns(4).search(2).draw();
-                    } else {
-                         table.columns(4).search( '' ).draw();
-                    }
-              });  
-          });
-        </script>
+                {data: 'name', name: 'contact_id'},
+                {data: 'amount_formatted', name: 'amount'},
+                {data: 'report_date_formatted', name: 'report_date'}
+            ]
+        });
+    });
+</script>
 @endpush
 
 

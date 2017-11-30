@@ -2,7 +2,7 @@
 <html lang="en">
    <head>
       <meta charset="UTF-8">
-      <title>Grow CRM</title>
+      <title>{{config('app.name')}}</title>
       <link href="{{ URL::asset('css/jasny-bootstrap.css') }}" rel="stylesheet" type="text/css">
       <link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
       <link href="{{ URL::asset('css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
@@ -58,90 +58,42 @@
             <div class="list-group panel">
                <p class=" list-group-item siderbar-top" title=""><img src="{{url('images/chamberedge-logo.png')}}" alt="" width="160px"></p>
                
-               {!! Form::open(['route' => 'dashboard.store']) !!}
-               {!! Form::select('group_id', $groups, $selectedGroup, ['class' => 'form-control group-select','onchange'=>'this.form.submit();']) !!}
-               {{ csrf_field() }}
-               {!! Form::close() !!}
+               <div class="group-picker">
+                 {!! Form::open(['route' => 'dashboard.store']) !!}
+                 {!! Form::select('group_id', $groups, $selectedGroup, ['class' => 'form-control group-select','onchange'=>'this.form.submit();']) !!}
+                 {{ csrf_field() }}
+                 {!! Form::close() !!}
+               </div>
 
-               <a href="{{route('dashboard', \Auth::id())}}" class=" list-group-item" data-parent="#MainMenu"><i
-                  class="sidebar-icon fa fa-bar-chart"></i><span id="menu-txt">{{ __('Dashboard') }}</span> </a>
-               <a href="{{route('meetings.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="sidebar-icon fa fa-pencil"></i><span id="menu-txt"> {{ __('Meetings') }}</span> </a>
-               
-               <a href="{{route('members.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="sidebar-icon fa fa-users"></i><span id="menu-txt">{{ __('Members') }}</span> </a>
+               <div class="side-menu">
 
-               <a href="{{route('referrals.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-transfer"></i><span id="menu-txt">{{ __('Referrals') }}</span> </a>
-               
-               <a href="{{route('onetoones.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-flash"></i><span id="menu-txt">{{ __('1-to-1s') }}</span> </a>
-               
-               <a href="{{route('revenues.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-usd"></i><span id="menu-txt">{{ __('Revenues') }}</span> </a>
-               
-               <a href="{{route('guests.index')}}" class=" list-group-item" data-parent="#MainMenu"><i class="glyphicon sidebar-icon glyphicon-sunglasses"></i><span id="menu-txt">{{ __('Guests') }}</span> </a>
-               
-            </div>
-            @if(Entrust::hasRole('administrator'))
-            <div class="list-group panel">
-               <a href="#departments" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                  class="sidebar-icon glyphicon glyphicon-list-alt"></i><span id="menu-txt">{{ __('Groups') }}</span>
-               <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-               <div class="collapse" id="departments">
-                  <a href="{{ route('departments.index')}}"
-                     class="list-group-item childlist">{{ __('All Departments') }}</a>
-                  @if(Entrust::hasRole('administrator'))
-                  <a href="{{ route('departments.create')}}"
-                     class="list-group-item childlist">{{ __('New Department') }}</a>
+                @if(Entrust::hasRole('administrator'))
+                  <el-tabs active-name="menu" style="width:100%">
+                    <el-tab-pane label="Menu" name="menu">
+                        @include('partials.usermenu')
+                    </el-tab-pane>
+                    <el-tab-pane label="Admin" name="admin">
+                        @include('partials.adminmenu')
+                    </el-tab-pane>
+                  </el-tabs>
+                 @elseif(Entrust::hasRole('super'))
+                    <el-tabs active-name="menu" style="width:100%">
+                      <el-tab-pane label="Menu" name="menu">
+                          @include('partials.usermenu')
+                      </el-tab-pane>
+                      <el-tab-pane label="Admin" name="admin">
+                          @include('partials.adminmenu')
+                      </el-tab-pane>
+                      <el-tab-pane label="Super" name="super">
+                          @include('partials.supermenu')
+                      </el-tab-pane>
+                    </el-tabs>
+                  @else
+                    @include('partials.usermenu')
                   @endif
-               </div>
-               <a href="#user" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                  class="sidebar-icon fa fa-users"></i><span id="menu-txt">{{ __('Users') }}</span>
-               <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-               <div class="collapse" id="user">
-                  <a href="{{ route('users.index')}}" class="list-group-item childlist">{{ __('Users All') }}</a>
-                  @if(Entrust::can('user-create'))
-                  <a href="{{ route('users.create')}}"
-                     class="list-group-item childlist">{{ __('New User') }}</a>
-                  @endif
-               </div>
+
+              </div>
             </div>
-            @endif
-            <div class="list-group panel">
-               @if(Entrust::hasRole('administrator'))
-               <a href="#settings" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                  class="glyphicon sidebar-icon glyphicon-cog"></i><span id="menu-txt">{{ __('Settings') }}</span>
-               <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-               <div class="collapse" id="settings">
-                  <a href="{{ route('settings.index')}}"
-                     class="list-group-item childlist">{{ __('Overall Settings') }}</a>
-                  <a href="{{ route('roles.index')}}"
-                     class="list-group-item childlist">{{ __('Role Management') }}</a>
-                  <a href="{{ route('integrations.index')}}"
-                     class="list-group-item childlist">{{ __('Integrations') }}</a>
-               </div>
-               @endif
-            </div>
-            @if(Entrust::hasRole('super'))
-            <div class="list-group panel">
-               <a href="#clients" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                  class="glyphicon sidebar-icon glyphicon-tag"></i><span id="menu-txt">{{ __('Clients') }}</span>
-               <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-               <div class="collapse" id="clients">
-                  <a href="{{ route('clients.index')}}" class="list-group-item childlist">{{ __('All Clients') }}</a>
-                  @if(Entrust::can('client-create'))
-                  <a href="{{ route('clients.create')}}"
-                     class="list-group-item childlist">{{ __('New Client') }}</a>
-                  @endif
-               </div>
-               <a href="#leads" class=" list-group-item" data-toggle="collapse" data-parent="#MainMenu"><i
-                  class="glyphicon sidebar-icon glyphicon-hourglass"></i><span id="menu-txt">{{ __('Leads') }}</span>
-               <i class="ion-chevron-up  arrow-up sidebar-arrow"></i></a>
-               <div class="collapse" id="leads">
-                  <a href="{{ route('leads.index')}}" class="list-group-item childlist">{{ __('All Leads') }}</a>
-                  @if(Entrust::can('lead-create'))
-                  <a href="{{ route('leads.create')}}"
-                     class="list-group-item childlist">{{ __('New Lead') }}</a>
-                  @endif
-               </div>
-            </div>
-            @endif
          </nav>
          <!-- Page Content -->
          <div id="page-content-wrapper">

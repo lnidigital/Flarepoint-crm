@@ -40,7 +40,7 @@ class ContactRepository implements ContactRepositoryContract
      */
     public function getAllMembers($group_id)
     {
-        return Contact::where('group_id',$group_id)->where('is_guest',0)->get();
+        return Contact::where('group_id',$group_id)->where('status',1)->get();
     }
 
     /**
@@ -48,7 +48,7 @@ class ContactRepository implements ContactRepositoryContract
      */
     public function getAllGuests($group_id)
     {
-        return Contact::where('group_id',$group_id)->where('is_guest',1)->get();
+        return Contact::where('group_id',$group_id)->where('status',2)->get();
     }
 
     /**
@@ -58,7 +58,7 @@ class ContactRepository implements ContactRepositoryContract
     {
         //Log::info('getMembersSelect group_id: '.$group_id);
         
-        return Contact::where('group_id',$group_id)->where('is_guest',0)->pluck('name','id');
+        return Contact::where('group_id',$group_id)->where('status',1)->pluck('name','id');
     }
 
     public function getAllMembersNameId() 
@@ -137,7 +137,7 @@ class ContactRepository implements ContactRepositoryContract
     {
         return DB::table('contacts')
             ->select(DB::raw('count(*) as total, updated_at'))
-            ->where('is_guest', 1)
+            ->where('status', 2)
             ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
 }

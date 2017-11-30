@@ -27,10 +27,7 @@
         $('#meetings-table').DataTable({
             processing: true,
             serverSide: true,
-            dom: 'T<"clear">lfrtip',
-            buttons: [
-                'pdf'
-            ],
+            order: [[0, "desc"]],
             ajax: '{!! route('meetings.data') !!}',
             columns: [
 

@@ -62,7 +62,7 @@ class GroupsTableSeeder extends Seeder
             5 =>
             array (
                 'id' => 6,
-                'name' => 'GRCC - Tuesday AM LeadShare 8-9am',
+                'name' => 'Tuesday AM LeadShare 8-9am',
                 'user_id' => 1,
                 'organization_id' => 4,
                 'created_at' => '2016-06-04 13:42:19',
@@ -71,7 +71,7 @@ class GroupsTableSeeder extends Seeder
             6 =>
             array (
                 'id' => 7,
-                'name' => 'GRCC - Tuesday PM LeadShare 11:30-12:30pm',
+                'name' => 'Tuesday PM LeadShare 11:30-12:30pm',
                 'user_id' => 1,
                 'organization_id' => 4,
                 'created_at' => '2016-06-04 13:42:19',
@@ -80,7 +80,7 @@ class GroupsTableSeeder extends Seeder
             7 =>
             array (
                 'id' => 8,
-                'name' => 'GRCC - Wednesday LeadShare 11:30am-12:30pm',
+                'name' => 'Wednesday LeadShare 11:30am-12:30pm',
                 'user_id' => 1,
                 'organization_id' => 4,
                 'created_at' => '2016-06-04 13:42:19',
@@ -89,7 +89,7 @@ class GroupsTableSeeder extends Seeder
             8 =>
             array (
                 'id' => 9,
-                'name' => 'GRCC - Thursday LeadShare 12:00pm-1:00pm',
+                'name' => 'Thursday LeadShare 12:00pm-1:00pm',
                 'user_id' => 1,
                 'organization_id' => 4,
                 'created_at' => '2016-06-04 13:42:19',

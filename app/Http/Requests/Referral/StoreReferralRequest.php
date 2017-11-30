@@ -29,6 +29,7 @@ class StoreReferralRequest extends FormRequest
             'referral_date' => 'required',
             'group_id' => 'required',
             'meeting_id' =>'',
+            'referral_id' =>'',
             'description' => ''
         ];
     }

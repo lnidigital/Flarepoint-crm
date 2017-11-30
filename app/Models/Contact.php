@@ -20,7 +20,7 @@ class Contact extends Model
         'industry_id',
         'user_id',
         'group_id',
-        'is_guest'
+        'status'
     ];
 
 }

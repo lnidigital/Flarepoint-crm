@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('heading')
-    <h1>Create Member</h1>
+    <h1>Add New Member</h1>
 @stop
 
 @section('content')

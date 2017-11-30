@@ -8436,8 +8436,12 @@ body {
   background-color: #fff;
 }
 
-.navmenu {
+.main-header .navmenu {
   background-color: #FFFFFF;
+}
+
+.side-menu {
+  margin-top: 20px;
 }
 
 .group-select {
@@ -8447,6 +8451,10 @@ body {
   border: none;
   height: auto;
   font-size: 11px;
+}
+
+span#menu-txt {
+  line-height: 30px;
 }
 
 /*# sourceMappingURL=app.css.map */

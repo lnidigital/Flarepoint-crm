@@ -47,15 +47,11 @@ class ContactsController extends Controller
      */
     public function getMembersData()
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         $members = Contact::select(['id', 'name', 'company_name', 'email', 'primary_number'])
                     ->where('group_id', $groupId)
-                    ->where('is_guest', '0');
+                    ->where('status', '1');
 
         return Datatables::of($members)
             ->addColumn('namelink', function ($members) {

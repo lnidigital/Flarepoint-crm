@@ -41,9 +41,26 @@ class ReferralRepository implements ReferralRepositoryContract
         return Referral::where('group_id', $groupId)->get();
     }
 
+    public function getReferralsByGroupSelect($groupId) 
+    {   
+        return Referral::where('group_id', $groupId)
+                ->pluck('from_contact_id', 'to_contact_id', 'referral_date');
+    }
+
     public function getReferralsByMeeting($meetingId) 
     {   
         return Referral::where('meeting_id', $meetingId)->get();
+    }
+
+    public function getReferralsByGiver($contactId) 
+    {   
+        return Referral::where('from_contact_id', $contactId)->get();
+    }
+
+    public function getReferralsByReceiverSelect($contactId) 
+    {   
+        return Referral::where('to_contact_id', $contactId)
+                ->pluck('from_contact_id', 'to_contact_id', 'referral_date');
     }
 
     /**

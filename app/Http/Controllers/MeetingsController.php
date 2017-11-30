@@ -66,11 +66,9 @@ class MeetingsController extends Controller
      */
     public function anyData()
     {
-        $groupId = session('user_group_id');
+        $groupId = Helper::getGroupId();
 
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        Log::info('MeetingsController->anyData->groupId: '.$groupId);
 
         $meetings = Meeting::select(['id', 'meeting_date', 'meeting_notes', 'group_id'])
                     ->where('group_id',$groupId);
@@ -81,7 +79,7 @@ class MeetingsController extends Controller
                 return '<a href="meetings/' . $meetings->id . '" ">' . $date->format('F d, Y') . '</a>';
             })
             ->addColumn('meeting_notes_short', function ($meetings) {
-                return substr($meetings->meeting_notes, 0, 200) . "...";
+                return substr($meetings->meeting_notes, 0, 80) . "...";
             })
             ->add_column('edit', '
                 <a href="{{ route(\'meetings.edit\', $id) }}" class="btn btn-success" >Edit</a>')

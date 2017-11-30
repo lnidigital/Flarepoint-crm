@@ -20,13 +20,24 @@
     </div>
 </div>
 
-<div class="form-group">
-    {!! Form::label('email', 'Email:', ['class' => 'control-label']) !!}
+<div class="form-inline">
+    <div class="form-group col-sm-6 removeleft">
+        {!! Form::label('email', 'Email:', ['class' => 'control-label']) !!}
     {!! 
         Form::email('email',
         isset($data['email']) ? $data['email'] : null, 
         ['class' => 'form-control']) 
     !!}
+    </div>
+
+    <div class="form-group col-sm-6 removeleft removeright">
+        {!! Form::label('join_date', 'Member Since:', ['class' => 'control-label']) !!}
+        {!! Form::date('join_date', \Carbon\Carbon::now(), ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+<div class="form-group">
+    
 </div>
 
 <div class="form-group">
@@ -97,5 +108,6 @@
     !!}
 </div>
 
+{{ Form::hidden('user_id', Auth::id()) }}
 {{ Form::hidden('group_id', Helper::getGroupId()) }}
 {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}

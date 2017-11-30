@@ -35,9 +35,10 @@ class MeetingRepository implements MeetingRepositoryContract
         return Meeting::pluck('name', 'id');
     }
 
-    public function getAllMeetingsSelect() 
+    public function getAllMeetingsSelect($groupId) 
     {   
-        return Meeting::all()
+        return Meeting::where('group_id',$groupId)
+        ->orderBy('meeting_date','desc')
         ->pluck('meeting_date', 'id');
     }
 

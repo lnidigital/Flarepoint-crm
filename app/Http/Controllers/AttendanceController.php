@@ -72,11 +72,7 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         return view('attendance.create')
             ->withMembers($this->members->getAllMembers($groupId))

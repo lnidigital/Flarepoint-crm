@@ -7,6 +7,7 @@ use Dinero;
 use Datatables;
 use App\Models\Referral;
 use App\Http\Requests;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Requests\Referral\StoreReferralRequest;
 use App\Http\Requests\Referral\UpdateReferralRequest;
@@ -53,25 +54,21 @@ class ReferralController extends Controller
      */
     public function anyData()
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         $referrals = Referral::select(['id', 'from_contact_id', 'to_contact_id', 'referral_date', 'description'])
-                ->where('group_id', $groupId);
+            ->where('group_id', $groupId);
 
         return Datatables::of($referrals)
             ->addColumn('from_name', function ($referrals) {
-                if ($this->members->find($referrals->from_contact_id)->is_guest) {
+                if ($this->members->find($referrals->from_contact_id)->status == 2) {
                     return '<a href="' . route('guests.show', $referrals->from_contact_id) . '">'.$this->members->find($referrals->from_contact_id)->name.'</a>';
                 } else {
                     return '<a href="' . route('members.show', $referrals->from_contact_id) . '">'.$this->members->find($referrals->from_contact_id)->name.'</a>';
                 }
             })
             ->addColumn('to_name', function ($referrals) {
-                if ($this->members->find($referrals->to_contact_id)->is_guest) {
+                if ($this->members->find($referrals->to_contact_id)->status == 2) {
                     return '<a href="' . route('guests.show', $referrals->to_contact_id) . '">'.$this->members->find($referrals->to_contact_id)->name.'</a>';
                 } else {
                     return '<a href="' . route('members.show', $referrals->to_contact_id) . '">'.$this->members->find($referrals->to_contact_id)->name.'</a>';
@@ -93,6 +90,101 @@ class ReferralController extends Controller
             ->make(true);
     }
 
+
+    /**
+     * Make json respnse for datatables
+     * @return mixed
+     */
+    public function referralsGivenData($contactId)
+    {
+        Log::info('ReferralController->referralsGivenData: entering');
+
+        $groupId = Helper::getGroupId();
+
+        $referrals = Referral::select(['id', 'from_contact_id', 'to_contact_id', 'referral_date', 'description'])
+                ->where('group_id', $groupId)
+                ->where('from_contact_id', $contactId);
+
+        return Datatables::of($referrals)
+            ->addColumn('from_name', function ($referrals) {
+                if ($this->members->find($referrals->from_contact_id)->status == 2) {
+                    return '<a href="' . route('guests.show', $referrals->from_contact_id) . '">'.$this->members->find($referrals->from_contact_id)->name.'</a>';
+                } else {
+                    return '<a href="' . route('members.show', $referrals->from_contact_id) . '">'.$this->members->find($referrals->from_contact_id)->name.'</a>';
+                }
+            })
+            ->addColumn('to_name', function ($referrals) {
+                if ($this->members->find($referrals->to_contact_id)->status == 2) {
+                    return '<a href="' . route('guests.show', $referrals->to_contact_id) . '">'.$this->members->find($referrals->to_contact_id)->name.'</a>';
+                } else {
+                    return '<a href="' . route('members.show', $referrals->to_contact_id) . '">'.$this->members->find($referrals->to_contact_id)->name.'</a>';
+                }
+            })
+            ->addColumn('referral_date_formatted', function ($referrals) {
+                $date = Carbon::parse($referrals->referral_date);
+                return $date->format('F d, Y');
+            })
+            ->add_column('edit', '
+                <a href="{{ route(\'referrals.edit\', $id) }}" class="btn btn-success" >Edit</a>')
+            ->add_column('delete', '
+                <form action="{{ route(\'referrals.destroy\', $id) }}" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
+
+            {{csrf_field()}}
+            </form>')
+            ->make(true);
+
+            Log::info('ReferralController->referralsGivenData: leaving');
+    }
+
+    /**
+     * Make json respnse for datatables
+     * @return mixed
+     */
+    public function referralsReceivedData($contactId)
+    {
+        Log::info('ReferralController->referralsReceivedData: entering');
+
+        $groupId = Helper::getGroupId();
+
+        $referrals = Referral::select(['id', 'from_contact_id', 'to_contact_id', 'referral_date', 'description'])
+                ->where('group_id', $groupId)
+                ->where('to_contact_id', $contactId);
+
+        return Datatables::of($referrals)
+            ->addColumn('from_name', function ($referrals) {
+                if ($this->members->find($referrals->from_contact_id)->status == 2) {
+                    return '<a href="' . route('guests.show', $referrals->from_contact_id) . '">'.$this->members->find($referrals->from_contact_id)->name.'</a>';
+                } else {
+                    return '<a href="' . route('members.show', $referrals->from_contact_id) . '">'.$this->members->find($referrals->from_contact_id)->name.'</a>';
+                }
+            })
+            ->addColumn('to_name', function ($referrals) {
+                if ($this->members->find($referrals->to_contact_id)->status == 2) {
+                    return '<a href="' . route('guests.show', $referrals->to_contact_id) . '">'.$this->members->find($referrals->to_contact_id)->name.'</a>';
+                } else {
+                    return '<a href="' . route('members.show', $referrals->to_contact_id) . '">'.$this->members->find($referrals->to_contact_id)->name.'</a>';
+                }
+            })
+            ->addColumn('referral_date_formatted', function ($referrals) {
+                $date = Carbon::parse($referrals->referral_date);
+                return $date->format('F d, Y');
+            })
+            ->add_column('edit', '
+                <a href="{{ route(\'referrals.edit\', $id) }}" class="btn btn-success" >Edit</a>')
+            ->add_column('delete', '
+                <form action="{{ route(\'referrals.destroy\', $id) }}" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
+
+            {{csrf_field()}}
+            </form>')
+            ->make(true);
+
+            Log::info('ReferralController->referralsReceivedData: leaving');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -100,11 +192,7 @@ class ReferralController extends Controller
      */
     public function create(Request $request)
     {
-    	$groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+    	$groupId = Helper::getGroupId();
 
         return view('referrals.create')
             ->withMembers($this->members->getAllMembersSelect($groupId))
@@ -149,11 +237,7 @@ class ReferralController extends Controller
      */
     public function edit($id)
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         return view('referrals.edit')
             ->withReferral($this->referrals->find($id))

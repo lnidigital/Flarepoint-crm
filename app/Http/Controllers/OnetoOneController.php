@@ -8,6 +8,7 @@ use Datatables;
 use App\Models\OnetoOne;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Helpers\Helper;
 use App\Http\Requests\Onetoone\StoreOnetoOneRequest;
 use App\Http\Requests\Onetoone\UpdateOnetoOneRequest;
 use App\Http\Requests\Referral\UpdateReferralRequest;
@@ -52,11 +53,7 @@ class OnetoOneController extends Controller
      */
     public function anyData()
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         $onetoones = OnetoOne::select(['oneto_ones.id', 'first_contact_id', 'second_contact_id', 'onetoone_date', 'description'])
                 ->join('contacts', 'oneto_ones.first_contact_id', '=', 'contacts.id')
@@ -64,10 +61,50 @@ class OnetoOneController extends Controller
 
         return Datatables::of($onetoones)
             ->addColumn('first_contact_name', function ($onetoones) {
-                return $this->members->find($onetoones->first_contact_id)->name;
+                return '<a href="'. route('members.show', $onetoones->first_contact_id).'">'.$this->members->find($onetoones->first_contact_id)->name.'</a>';
             })
             ->addColumn('second_contact_name', function ($onetoones) {
-                return $this->members->find($onetoones->second_contact_id)->name;
+                return '<a href="'. route('members.show', $onetoones->second_contact_id).'">'.$this->members->find($onetoones->second_contact_id)->name.'</a>';
+            })
+            ->addColumn('onetoone_date_formatted', function ($onetoones) {
+                $date = Carbon::parse($onetoones->onetoone_date);
+                return $date->format('F d, Y');
+            })
+            ->add_column('edit', '
+                <a href="{{ route(\'onetoones.edit\', $id) }}" class="btn btn-success" >Edit</a>')
+            ->add_column('delete', '
+                <form action="{{ route(\'onetoones.destroy\', $id) }}" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
+
+            {{csrf_field()}}
+            </form>')
+            ->make(true);
+    }
+
+    /**
+     * Make json respnse for datatables
+     * @return mixed
+     */
+    public function contactData($contactId)
+    {
+        $groupId = Helper::getGroupId();
+
+        $onetoones = OnetoOne::select(['oneto_ones.id', 'first_contact_id', 'second_contact_id', 'onetoone_date', 'description'])
+                ->join('contacts', 'oneto_ones.first_contact_id', '=', 'contacts.id')
+                ->where('oneto_ones.group_id', $groupId)
+                ->where('oneto_ones.first_contact_id', $contactId)
+                ->orWhere(function ($query) use($groupId, $contactId) {
+                    $query->where('oneto_ones.group_id', $groupId)
+                          ->where('oneto_ones.second_contact_id', $contactId);
+                });
+
+        return Datatables::of($onetoones)
+            ->addColumn('first_contact_name', function ($onetoones) {
+                return '<a href="'. route('members.show', $onetoones->first_contact_id).'">'.$this->members->find($onetoones->first_contact_id)->name.'</a>';
+            })
+            ->addColumn('second_contact_name', function ($onetoones) {
+                return '<a href="'. route('members.show', $onetoones->second_contact_id).'">'.$this->members->find($onetoones->second_contact_id)->name.'</a>';
             })
             ->addColumn('onetoone_date_formatted', function ($onetoones) {
                 $date = Carbon::parse($onetoones->onetoone_date);
@@ -92,11 +129,7 @@ class OnetoOneController extends Controller
      */
     public function create()
     {
-    	$groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+    	$groupId = Helper::getGroupId();
 
         return view('onetoones.create')
             ->withMembers($this->members->getAllMembersSelect($groupId))
@@ -138,11 +171,7 @@ class OnetoOneController extends Controller
      */
     public function edit($id)
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         return view('onetoones.edit')
             ->with('onetoone', $this->onetoones->find($id))

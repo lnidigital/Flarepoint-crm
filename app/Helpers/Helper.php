@@ -93,12 +93,12 @@ class Helper
 
     public static function getOrganizationName()
     {
-        $organization = Organization::find(Auth::user()->default_group)->name;
-
-        //Log::info('groups='.json_encode($groups));
+        if (Auth::user()->default_group == null)
+            $organization = "No organization";
+        else
+            $organization = Organization::find(Auth::user()->default_group)->name;
 
         return $organization;
-        //return $groups->organization()->name;
     }
 }
 

@@ -12,7 +12,8 @@
             <a href="{{ route('members.edit',$contact->id) }}" class="btn btn-secondary btn-sm">Edit</a>
         @endif
     </h1>
-
+    <p><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+        {{ $contact->company_name }}</p>
     <!--MAIL-->
     <p><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
         <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a></p>
@@ -28,5 +29,8 @@
 
     <!--Address-->
     <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-        {{ $contact->address }}  </p>
+        {{ $contact->address }} {{ $contact->city }} {{ $contact->state }} {{ $contact->zipcode }}  </p>
+
+    <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+        {{ $contact->address }} {{ $contact->city }} {{ $contact->state }} {{ $contact->zipcode }}  </p>
 </div>

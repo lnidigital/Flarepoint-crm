@@ -71,12 +71,17 @@ body {
 	a.list-group-item {
 		background-color: #fff;
 	}
+
+	.navmenu {
+		background-color: #FFFFFF;
+	}	
+
 	
 }
 
-.navmenu {
-	background-color: #FFFFFF;
-}
+.side-menu {
+		margin-top:20px;
+	}
 
 .group-select {
 	padding-top: 10px;
@@ -85,4 +90,8 @@ body {
 	border: none;
 	height: auto;
 	font-size: 11px;
+}
+
+span#menu-txt {
+	line-height: 30px;
 }

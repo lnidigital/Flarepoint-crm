@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'guests'], function () {
         Route::get('/data', 'GuestController@anyData')->name('guests.data');
+        Route::get('/contactdata/{id}', 'GuestController@anyData')->name('guests.contactdata');
         Route::post('/upload/{id}', 'DocumentsController@upload');
         Route::patch('/updateassign/{id}', 'GuestController@updateAssign');
     });
@@ -94,6 +95,8 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'referral'], function () {
         Route::get('/data', 'ReferralController@anyData')->name('referrals.data');
+        Route::get('/datagiven/{id}', 'ReferralController@referralsGivenData')->name('referrals.datagiven');
+        Route::get('/datareceived/{id}', 'ReferralController@referralsReceivedData')->name('referrals.datareceived');
         Route::post('/upload/{id}', 'ReferralController@upload');
         Route::patch('/updateassign/{id}', 'ReferralController@updateAssign');
     });
@@ -104,6 +107,7 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'onetoones'], function () {
         Route::get('/data', 'OnetoOneController@anyData')->name('onetoones.data');
+        Route::get('/contactdata{id}', 'OnetoOneController@contactData')->name('onetoones.contactdata');
         Route::post('/upload/{id}', 'OnetoOneController@upload');
         Route::patch('/updateassign/{id}', 'OnetoOneController@updateAssign');
     });
@@ -114,6 +118,7 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'revenues'], function () {
         Route::get('/data', 'RevenueController@anyData')->name('revenues.data');
+        Route::get('/contactdata/{id}', 'RevenueController@contactData')->name('revenues.contactdata');
         Route::post('/upload/{id}', 'RevenueController@upload');
         Route::patch('/updateassign/{id}', 'RevenueController@updateAssign');
     });

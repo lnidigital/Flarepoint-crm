@@ -6,6 +6,7 @@ use Dinero;
 use Datatables;
 use App\Models\Contact;
 use App\Http\Requests;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Requests\Contact\StoreContactRequest;
 use App\Http\Requests\Contact\UpdateContactRequest;
@@ -47,15 +48,11 @@ class MembersController extends Controller
      */
     public function anyData()
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         $members = Contact::select(['id', 'name', 'company_name', 'email', 'primary_number'])
                     ->where('group_id', $groupId)
-                    ->where('is_guest', '0');
+                    ->where('status', '1');
                     
         return Datatables::of($members)
             ->addColumn('namelink', function ($members) {
@@ -80,7 +77,7 @@ class MembersController extends Controller
      */
     public function create()
     {
-        return view('contacts.create')
+        return view('members.create')
             ->withIndustries($this->members->listAllIndustries());
     }
 
@@ -102,7 +99,7 @@ class MembersController extends Controller
      */
     public function show($id)
     {
-        return view('contacts.show')
+        return view('members.show')
             ->withContact($this->members->find($id));
     }
 

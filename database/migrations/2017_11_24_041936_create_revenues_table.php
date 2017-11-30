@@ -21,6 +21,8 @@ class CreateRevenuesTable extends Migration
             $table->foreign('contact_id')->references('id')->on('contacts');
             $table->double('amount');
             $table->datetime('report_date');
+            $table->integer('referral_id')->unsigned()->nullable();
+            $table->foreign('referral_id')->references('id')->on('referrals');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
             $table->integer('meeting_id')->unsigned()->nullable();
