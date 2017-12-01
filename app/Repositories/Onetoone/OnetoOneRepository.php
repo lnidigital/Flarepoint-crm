@@ -111,12 +111,28 @@ class OnetoOneRepository implements OnetoOneRepositoryContract
     /**
      * @return mixed
      */
+    public function numOnetoOnesByContact($groupId, $contactId)
+    {
+        return DB::table('oneto_ones')
+            ->select(DB::raw('count(*) as total'))
+            ->where('group_id', $groupId)
+            ->where('first_contact_id', $contactId)
+            ->orWhere(function ($query) use($groupId, $contactId) {
+                    $query->where('group_id', $groupId)
+                          ->where('second_contact_id', $contactId);
+                })
+            ->value('total');
+    }
+
+    /**
+     * @return mixed
+     */
     public function onetoOnesMadeThisMonth($groupId)
     {
         return DB::table('oneto_ones')
-            ->select(DB::raw('count(*) as total, updated_at'))
+            ->select(DB::raw('count(*) as total, onetoone_date'))
             ->where('group_id',$groupId)
-            ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
+            ->whereBetween('onetoone_date', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
 
     /**
@@ -125,9 +141,9 @@ class OnetoOneRepository implements OnetoOneRepositoryContract
     public function createdOnetoOnesMothly($groupId)
     {
         return DB::table('oneto_ones')
-            ->select(DB::raw('count(*) as month, created_at'))
+            ->select(DB::raw('count(*) as month, onetoone_date'))
             ->where('group_id',$groupId)
-            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+            ->groupBy(DB::raw('YEAR(onetoone_date), MONTH(onetoone_date)'))
             ->get();
     }
 

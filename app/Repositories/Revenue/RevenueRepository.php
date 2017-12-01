@@ -116,6 +116,17 @@ class RevenueRepository implements RevenueRepositoryContract
         event(new \App\Events\ClientAction($member, self::UPDATED_ASSIGN));
     }
 
+    /**
+     * @return mixed
+     */
+    public function numRevenuesByContact($groupId, $contactId)
+    {
+        return DB::table('revenues')
+            ->select(DB::raw('count(*) as total'))
+            ->where('group_id', $groupId)
+            ->where('contact_id', $contactId)
+            ->value('total');
+    }
 
     /**
      * @return mixed

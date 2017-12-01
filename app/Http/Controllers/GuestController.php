@@ -15,20 +15,39 @@ use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Member\MemberRepositoryContract;
 use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
+use App\Repositories\Group\GroupRepositoryContract;
+use App\Repositories\Meeting\MeetingRepositoryContract;
+use App\Repositories\Referral\ReferralRepositoryContract;
+use App\Repositories\Onetoone\OnetoOneRepositoryContract;
+use App\Repositories\Revenue\RevenueRepositoryContract;
 
 class GuestController extends Controller
 {
 
     protected $contacts;
     protected $settings;
+    protected $meetings;
+    protected $attendance;
+    protected $referrals;
+    protected $onetoones;
+    protected $revenues;
 
     public function __construct(
         ContactRepositoryContract $contacts,
-        SettingRepositoryContract $settings
+        SettingRepositoryContract $settings,
+        ReferralRepositoryContract $referrals,
+        OnetoOneRepositoryContract $onetoones,
+        MeetingRepositoryContract $meetings,
+        RevenueRepositoryContract $revenues
     )
     {
         $this->contacts = $contacts;
         $this->settings = $settings;
+        $this->referrals = $referrals;
+        $this->onetoones = $onetoones;
+        $this->revenues = $revenues;
+        $this->meetings = $meetings;
+
         $this->middleware('contact.create', ['only' => ['create']]);
         $this->middleware('contact.update', ['only' => ['edit']]);
     }
@@ -130,8 +149,18 @@ class GuestController extends Controller
      */
     public function show($id)
     {
+        $groupId = Helper::getGroupId();
+
+        $activity['referralsgiven'] = $this->referrals->numReferralsGivenByContact($groupId, $id);
+        $activity['referralsreceived'] = $this->referrals->numReferralsReceivedByContact($groupId, $id);
+        $activity['onetoones'] = $this->onetoones->numOnetoOnesByContact($groupId, $id);
+        $activity['guests'] = $this->contacts->numGuestsByContact($groupId, $id);
+        $activity['revenues'] = $this->revenues->numRevenuesByContact($groupId, $id);
+        $activity['meetings'] = $this->meetings->numMeetingsByContact($groupId, $id);
+
         return view('guests.show')
-            ->with('guest', $this->contacts->find($id));
+            ->with('guest', $this->contacts->find($id))
+            ->withActivity($activity);
     }
 
     /**
@@ -142,11 +171,7 @@ class GuestController extends Controller
      */
     public function edit($id)
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         return view('guests.edit')
             ->withGuest($this->contacts->find($id))

@@ -46,6 +46,8 @@
 
 
 {{ Form::hidden('meeting_id', $meeting->id) }}
+{{ Form::hidden('user_id', Auth::user()->id) }}
+{{ Form::hidden('group_id', Helper::getGroupId()) }}
 {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
 {!! Form::close() !!}
 

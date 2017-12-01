@@ -115,7 +115,7 @@
 
         <?php $createdOnetoOneEachMonths = array(); $onetoOneCreated = array();?>
         @foreach($createdOnetoOnesMonthly as $onetoone)
-            <?php $createdOnetoOneEachMonths[] = date('F', strTotime($onetoone->created_at)) ?>
+            <?php $createdOnetoOneEachMonths[] = date('F', strTotime($onetoone->onetoone_date)) ?>
             <?php $onetoOneCreated[] = $onetoone->month;?>
         @endforeach
 

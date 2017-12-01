@@ -7,6 +7,7 @@ use Datatables;
 use App\Models\Contact;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Helpers\Helper;
 use App\Http\Requests\Contact\StoreContactRequest;
 use App\Http\Requests\Contact\UpdateContactRequest;
 use App\Repositories\User\UserRepositoryContract;

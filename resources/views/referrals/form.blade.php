@@ -5,13 +5,13 @@
     </div>
 
     <div class="form-group col-sm-3 removeleft ">
-        {!! Form::label('from_contact_id', __('From member'), ['class' => 'control-label']) !!}
-        {!! Form::select('from_contact_id', $members, null, ['class' => 'form-control']) !!}
+        {!! Form::label('from_contact_id', __('From'), ['class' => 'control-label']) !!}
+        {!! Form::select('from_contact_id', $contacts, null, ['class' => 'form-control']) !!}
     </div>
 
     <div class="form-group col-sm-3 removeleft ">
-        {!! Form::label('to_contact_id', __('To member'), ['class' => 'control-label']) !!}
-        {!! Form::select('to_contact_id', $members, null, ['class' => 'form-control']) !!}
+        {!! Form::label('to_contact_id', __('To'), ['class' => 'control-label']) !!}
+        {!! Form::select('to_contact_id', $contacts, null, ['class' => 'form-control']) !!}
     </div>
     
     <div class="form-group col-sm-3 removeleft ">

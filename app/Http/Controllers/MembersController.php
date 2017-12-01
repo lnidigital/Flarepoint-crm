@@ -10,9 +10,15 @@ use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Requests\Contact\StoreContactRequest;
 use App\Http\Requests\Contact\UpdateContactRequest;
+use App\Repositories\Referral\ReferralRepositoryContract;
+use App\Repositories\Onetoone\OnetoOneRepositoryContract;
+use App\Repositories\Revenue\RevenueRepositoryContract;
 use App\Repositories\User\UserRepositoryContract;
-use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
+use App\Repositories\Contact\ContactRepositoryContract;
+use App\Repositories\Group\GroupRepositoryContract;
+use App\Repositories\Meeting\MeetingRepositoryContract;
+use Illuminate\Support\Facades\Log;
 
 class MembersController extends Controller
 {
@@ -20,16 +26,33 @@ class MembersController extends Controller
     protected $users;
     protected $members;
     protected $settings;
+    protected $referrals;
+    protected $onetoones;
+    protected $revenues;
+    protected $contacts;
+    protected $guests;
+    protected $meetings;
 
     public function __construct(
         UserRepositoryContract $users,
         ContactRepositoryContract $members,
-        SettingRepositoryContract $settings
+        SettingRepositoryContract $settings,
+        ReferralRepositoryContract $referrals,
+        OnetoOneRepositoryContract $onetoones,
+        ContactRepositoryContract $contacts,
+        MeetingRepositoryContract $meetings,
+        RevenueRepositoryContract $revenues
     )
     {
         $this->users = $users;
         $this->members = $members;
         $this->settings = $settings;
+        $this->referrals = $referrals;
+        $this->onetoones = $onetoones;
+        $this->revenues = $revenues;
+        $this->contacts = $contacts;
+        $this->meetings = $meetings;
+
         $this->middleware('contact.create', ['only' => ['create']]);
         $this->middleware('contact.update', ['only' => ['edit']]);
     }
@@ -99,8 +122,18 @@ class MembersController extends Controller
      */
     public function show($id)
     {
+        $groupId = Helper::getGroupId();
+
+        $activity['referralsgiven'] = $this->referrals->numReferralsGivenByContact($groupId, $id);
+        $activity['referralsreceived'] = $this->referrals->numReferralsReceivedByContact($groupId, $id);
+        $activity['oneonones'] = $this->onetoones->numOnetoOnesByContact($groupId, $id);
+        $activity['guests'] = $this->contacts->numGuestsByContact($groupId, $id);
+        $activity['revenues'] = $this->revenues->numRevenuesByContact($groupId, $id);
+        $activity['meetings'] = $this->meetings->numMeetingsByContact($groupId, $id);
+
         return view('members.show')
-            ->withContact($this->members->find($id));
+            ->withContact($this->members->find($id))
+            ->withActivity($activity);
     }
 
     /**

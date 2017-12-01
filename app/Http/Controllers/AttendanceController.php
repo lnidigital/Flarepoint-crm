@@ -8,6 +8,7 @@ use App\Models\Contact;
 use App\Models\Attendance;
 use App\Models\Meeting;
 use App\Http\Requests;
+use App\Helpers\Helper;
 use App\Http\Requests\Attendance\StoreAttendanceRequest;
 use Illuminate\Http\Request;
 use App\Repositories\Contact\ContactRepositoryContract;
@@ -135,11 +136,7 @@ class AttendanceController extends Controller
      */
     public function edit($id)
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
         
         return view('attendance.edit')
             ->withMembers($this->contacts->getAllMembers($groupId))

@@ -1,9 +1,27 @@
-<div class="col-md-6">
+<div class="col-md-8">
 
-    <h1 class="moveup">{{$guest->name}}</h1>
+    <div class="profilepic">
+        @if ($guest->image_path != null)
+            <img class="profilepicsize" src="../{{ $contact->image_path }}" />
+        @else
+            <img class="profilepicsize" src="../images/default_avatar.jpg" />
+        @endif
+    </div>
+
+    <h1 class="moveup">{{$guest->name}}
+        @if(Entrust::can('contact-update'))
+            <a href="{{ route('guests.edit',$guest->id) }}" class="btn btn-secondary btn-sm">Edit</a>
+        @endif
+    </h1>
 
     <!--Client info leftside-->
     <div class="contactleft">
+        @if($guest->company_name != "")
+                <!--Company-->
+        <p><span class="glyphicon glyphicon-star" aria-hidden="true" data-toggle="tooltip"
+                 title="{{ __('Company') }}" data-placement="left"> </span> {{$guest->company_name}}</p>
+        @endif
+
         @if($guest->email != "")
                 <!--MAIL-->
         <p><span class="glyphicon glyphicon-envelope" aria-hidden="true" data-toggle="tooltip"
@@ -20,7 +38,7 @@
                 <!--Address-->
         <p><span class="glyphicon glyphicon-home" aria-hidden="true" data-toggle="tooltip"
                  title="{{ __('Full address') }}" data-placement="left"> </span> {{$guest->address}}
-            <br/>{{$guest->zipcode}} {{$guest->city}}
+             {{$guest->city}} {{$guest->state}} {{$guest->zipcode}}
         </p>
         @endif
     </div>
@@ -28,11 +46,6 @@
     <!--Client info leftside END-->
     <!--Client info rightside-->
     <div class="contactright">
-        @if($guest->company_name != "")
-                <!--Company-->
-        <p><span class="glyphicon glyphicon-star" aria-hidden="true" data-toggle="tooltip"
-                 title="{{ __('Company') }}" data-placement="left"> </span> {{$guest->company_name}}</p>
-        @endif
         @if($guest->industry != "")
                 <!--Industry-->
         <p><span class="glyphicon glyphicon-briefcase" aria-hidden="true" data-toggle="tooltip"

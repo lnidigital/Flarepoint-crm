@@ -194,8 +194,20 @@ class ReferralController extends Controller
     {
     	$groupId = Helper::getGroupId();
 
+        $groupContacts = $this->members->getAllContacts($groupId);
+        $contacts = array();
+
+        foreach ($groupContacts as $contact) {
+            $name = $contact->name;
+
+            if ($contact->status == 2)
+                $name = $name . " (guest)";
+
+            $contacts[$contact->id] = $name;
+        }
+
         return view('referrals.create')
-            ->withMembers($this->members->getAllMembersSelect($groupId))
+            ->withContacts($contacts)
             ->withMeetings($this->meetings->getAllMeetingsSelect($groupId));
     }
 

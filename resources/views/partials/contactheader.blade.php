@@ -31,6 +31,4 @@
     <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
         {{ $contact->address }} {{ $contact->city }} {{ $contact->state }} {{ $contact->zipcode }}  </p>
 
-    <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-        {{ $contact->address }} {{ $contact->city }} {{ $contact->state }} {{ $contact->zipcode }}  </p>
 </div>

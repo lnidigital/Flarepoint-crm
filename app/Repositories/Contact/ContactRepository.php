@@ -40,7 +40,10 @@ class ContactRepository implements ContactRepositoryContract
      */
     public function getAllMembers($group_id)
     {
-        return Contact::where('group_id',$group_id)->where('status',1)->get();
+        return Contact::where('group_id',$group_id)
+                ->where('status',1)
+                ->orderBy('name', 'asc')
+                ->get();
     }
 
     /**
@@ -48,7 +51,10 @@ class ContactRepository implements ContactRepositoryContract
      */
     public function getAllGuests($group_id)
     {
-        return Contact::where('group_id',$group_id)->where('status',2)->get();
+        return Contact::where('group_id',$group_id)
+                ->where('status',2)
+                ->orderBy('name', 'asc')
+                ->get();
     }
 
     /**
@@ -58,7 +64,23 @@ class ContactRepository implements ContactRepositoryContract
     {
         //Log::info('getMembersSelect group_id: '.$group_id);
         
-        return Contact::where('group_id',$group_id)->where('status',1)->pluck('name','id');
+        return Contact::where('group_id',$group_id)
+                ->where('status',1)
+                ->orderBy('name', 'asc')
+                ->pluck('name','id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllContacts($group_id)
+    {
+        //Log::info('getMembersSelect group_id: '.$group_id);
+        
+        return Contact::where('group_id',$group_id)
+                        ->orderBy('status')
+                        ->orderBy('name', 'asc')
+                        ->get();
     }
 
     public function getAllMembersNameId() 
@@ -133,12 +155,25 @@ class ContactRepository implements ContactRepositoryContract
     /**
      * @return mixed
      */
+    public function numGuestsByContact($groupId, $contactId)
+    {
+        return DB::table('contacts')
+            ->select(DB::raw('count(*) as total'))
+            ->where('group_id', $groupId)
+            ->where('referrer_id', $contactId)
+            ->value('total');
+    }
+
+    /**
+     * @return mixed
+     */
     public function guestsMadeThisMonth($groupId)
     {
         return DB::table('contacts')
-            ->select(DB::raw('count(*) as total, updated_at'))
+            ->select(DB::raw('count(*) as total, attendances.updated_at'))
+            ->join('attendances', 'contact_id', 'id')
             ->where('status', 2)
             ->where('group_id',$groupId)
-            ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
+            ->whereBetween('attendances.updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
 }

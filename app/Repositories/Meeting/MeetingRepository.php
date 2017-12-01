@@ -105,14 +105,25 @@ class MeetingRepository implements MeetingRepositoryContract
         event(new \App\Events\ClientAction($member, self::UPDATED_ASSIGN));
     }
 
-
     /**
      * @return mixed
      */
-    public function referralsMadeThisMonth()
+    public function numMeetingsByContact($groupId, $contactId)
     {
-        return DB::table('referrals')
-            ->select(DB::raw('count(*) as total, updated_at'))
-            ->whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
+        return DB::table('meetings')
+            ->select(DB::raw('count(*) as total'))
+            ->join('attendances', 'meeting_id', 'id')
+            ->where('attendances.contact_id', $contactId)
+            ->where('meetings.group_id', $groupId)
+            ->value('total');
+
+        return DB::table('contacts')
+            ->select(DB::raw('count(*) as total, attendances.updated_at'))
+            ->join('attendances', 'contact_id', 'id')
+            ->where('status', 2)
+            ->where('group_id',$groupId)
+            ->whereBetween('attendances.updated_at', [Carbon::now()->startOfMonth(), Carbon::now()])->get();
     }
+
+    
 }

@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'guests'], function () {
         Route::get('/data', 'GuestController@anyData')->name('guests.data');
-        Route::get('/contactdata/{id}', 'GuestController@anyData')->name('guests.contactdata');
+        Route::get('/contactdata/{id}', 'GuestController@contactData')->name('guests.contactdata');
         Route::post('/upload/{id}', 'DocumentsController@upload');
         Route::patch('/updateassign/{id}', 'GuestController@updateAssign');
     });
@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'meetings'], function () {
         Route::get('/data', 'MeetingsController@anyData')->name('meetings.data');
+        Route::get('/contactdata/{id}', 'MeetingsController@contactData')->name('meetings.contactdata');
         Route::post('/upload/{id}', 'MeetingsController@upload');
         Route::patch('/updateassign/{id}', 'MeetingsController@updateAssign');
     });

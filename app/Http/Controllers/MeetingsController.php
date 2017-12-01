@@ -76,7 +76,43 @@ class MeetingsController extends Controller
         return Datatables::of($meetings)
             ->addColumn('namelink', function ($meetings) {
                 $date = Carbon::parse($meetings->meeting_date);
-                return '<a href="meetings/' . $meetings->id . '" ">' . $date->format('F d, Y') . '</a>';
+                return '<a href="/meetings/' . $meetings->id . '" ">' . $date->format('F d, Y') . '</a>';
+            })
+            ->addColumn('meeting_notes_short', function ($meetings) {
+                return substr($meetings->meeting_notes, 0, 80) . "...";
+            })
+            ->add_column('edit', '
+                <a href="{{ route(\'meetings.edit\', $id) }}" class="btn btn-success" >Edit</a>')
+            ->add_column('delete', '
+                <form action="{{ route(\'meetings.destroy\', $id) }}" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
+
+            {{csrf_field()}}
+            </form>')
+            ->make(true);
+    }
+
+
+    /**
+     * Make json respnse for datatables
+     * @return mixed
+     */
+    public function contactData($contactId)
+    {
+        $groupId = Helper::getGroupId();
+
+        Log::info('MeetingsController->anyData->groupId: '.$groupId);
+
+        $meetings = Meeting::select(['id', 'meeting_date', 'meeting_notes', 'group_id'])
+                    ->join('attendances','meeting_id', 'id')
+                    ->where('group_id',$groupId)
+                    ->where('attendances.contact_id', $contactId);
+
+        return Datatables::of($meetings)
+            ->addColumn('namelink', function ($meetings) {
+                $date = Carbon::parse($meetings->meeting_date);
+                return '<a href="/meetings/' . $meetings->id . '" ">' . $date->format('F d, Y') . '</a>';
             })
             ->addColumn('meeting_notes_short', function ($meetings) {
                 return substr($meetings->meeting_notes, 0, 80) . "...";

@@ -31,6 +31,7 @@
         $('#referrals-table').DataTable({
             processing: true,
             serverSide: true,
+            order: [[2, "desc"]],
             dom: 'Blfrtip',
             buttons: [
                 'copyHtml5',
