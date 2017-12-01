@@ -39,8 +39,8 @@
             <div class="box-body">
                 <div>
                     <graphline class="chart" :labels="{{json_encode($attendanceEachMonths)}}"
-                               :values="{{json_encode($attendanceCreated)}}"
-                               :valuesextra="{{json_encode($attendanceCreated)}}"></graphline>
+                               :values="{{json_encode($attendanceMade)}}"
+                               :valuesextra="{{json_encode($attendanceMade)}}"></graphline>
 
                 </div>
             </div>

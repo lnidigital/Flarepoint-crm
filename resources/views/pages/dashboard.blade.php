@@ -107,10 +107,13 @@
             <?php $referralCreated[] = $referral->month;?>
         @endforeach
 
-        <?php $attendanceEachMonths = array(); $attendanceMade = array();?>
+        <?php 
+        $attendanceEachMonths = array(); 
+        $attendanceMade = array();
+        ?>
         @foreach($attendanceMonthly as $attendance)
             <?php $attendanceEachMonths[] = date('F', strTotime($attendance->meeting_date)) ?>
-            <?php $attendanceCreated[] = $attendance->month;?>
+            <?php $attendanceMade[] = $attendance->month;?>
         @endforeach
 
         <?php $createdRevenueEachMonths = array(); $revenueCreated = array();?>
