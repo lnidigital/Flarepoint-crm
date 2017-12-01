@@ -11,6 +11,7 @@ use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Group\GroupRepositoryContract;
+use App\Repositories\Attendance\AttendanceRepositoryContract;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -25,6 +26,7 @@ class PagesController extends Controller
     protected $settings;
     protected $referrals;
     protected $groups;
+    protected $attendance;
 
     public function __construct(
         UserRepositoryContract $users,
@@ -34,6 +36,7 @@ class PagesController extends Controller
         ContactRepositoryContract $contacts,
         RevenueRepositoryContract $revenues,
         GroupRepositoryContract $groups,
+        AttendanceRepositoryContract $attendance,
         Guard $guard
     ) {
         $this->users = $users;
@@ -43,7 +46,7 @@ class PagesController extends Controller
         $this->revenues = $revenues;
         $this->contacts = $contacts;
         $this->groups = $groups;
-
+        $this->attendance = $attendance;
     }
 
     /**
@@ -65,6 +68,7 @@ class PagesController extends Controller
       $createdReferralsMonthly = $this->referrals->createdReferralsMothly($groupId);
       $createdRevenuesMonthly = $this->revenues->createdRevenuesMothly($groupId);
       $createdOnetoOnesMonthly = $this->onetoones->createdOnetoOnesMothly($groupId);
+      $attendanceMonthly = $this->attendance->attendanceMonthly($groupId);
 
       return view('pages.dashboard', compact(
             'onetoonesThisMonth',
@@ -74,6 +78,7 @@ class PagesController extends Controller
             'createdReferralsMonthly',
             'createdRevenuesMonthly',
             'createdOnetoOnesMonthly',
+            'attendanceMonthly',
             'users',
             'members'
         ));

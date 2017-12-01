@@ -86,7 +86,8 @@
                 processing: true,
                 serverSide: true,
                 searching:false,
-                "bLengthChange": false,
+                order: [[2, "desc"]],
+                bLengthChange: false,
                 ajax: '{!! route('referrals.datagiven', ['id' => $guest->id]) !!}',
                 columns: [
 
@@ -102,6 +103,7 @@
                 processing: true,
                 serverSide: true,
                 searching:false,
+                order: [[2, "desc"]],
                 bLengthChange: false,
                 ajax: '{!! route('referrals.datareceived', ['id' => $guest->id]) !!}',
                 columns: [
@@ -118,6 +120,7 @@
                 processing: true,
                 serverSide: true,
                 searching:false,
+                order: [[2, "desc"]],
                 bLengthChange: false,
                 ajax: '{!! route('onetoones.contactdata', ['id' => $guest->id]) !!}',
                 columns: [

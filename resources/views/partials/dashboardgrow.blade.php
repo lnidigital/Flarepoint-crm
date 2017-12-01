@@ -27,7 +27,7 @@
         <div class="box-header with-border">
             <h4 class="box-title"
             >
-               {{ __('Guests each month') }}
+               {{ __('Attendance each month') }}
             </h4>
             <div class="box-tools pull-right">
                 <button type="button" id="collapse2" class="btn btn-box-tool" data-toggle="collapse"
@@ -38,9 +38,9 @@
         <div id="collapseTwo" class="panel-collapse">
             <div class="box-body">
                 <div>
-                    <graphline class="chart" :labels="{{json_encode($createdRevenueEachMonths)}}"
-                               :values="{{json_encode($revenueCreated)}}"
-                               :valuesextra="{{json_encode($revenueCreated)}}"></graphline>
+                    <graphline class="chart" :labels="{{json_encode($attendanceEachMonths)}}"
+                               :values="{{json_encode($attendanceCreated)}}"
+                               :valuesextra="{{json_encode($attendanceCreated)}}"></graphline>
 
                 </div>
             </div>
@@ -102,6 +102,7 @@
 
 
 <!-- Info boxes -->
+<!--
 <div class="row movedown">
 
     <div class="col-sm-6">
@@ -138,5 +139,6 @@
         </div>
     </div>
 </div>
+-->
 <!-- /.info-box -->
     

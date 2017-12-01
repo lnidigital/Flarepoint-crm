@@ -145,9 +145,9 @@ class RevenueRepository implements RevenueRepositoryContract
     public function createdRevenuesMothly($groupId)
     {
         return DB::table('revenues')
-            ->select(DB::raw('count(*) as month, created_at'))
+            ->select(DB::raw('sum(amount) as month, report_date'))
             ->where('group_id',$groupId)
-            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+            ->groupBy(DB::raw('YEAR(report_date), MONTH(report_date)'))
             ->get();
     }
 }
