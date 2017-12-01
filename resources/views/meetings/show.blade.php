@@ -35,7 +35,10 @@
                         </tr>
                     </thead>
                 </table>
-                <a href="{{ url('/attendance/' . $meeting->id . '/edit') }}" class="btn btn-primary">Update Attendance</a> 
+                @if(Entrust::can('attendance-update'))
+                  <a href="{{ url('/attendance/' . $meeting->id . '/edit') }}" class="btn btn-primary">Update Attendance</a> 
+                @endif
+                
 
             </el-tab-pane>
             <el-tab-pane label="Guests ({{count($attendedGuests)}})" name="guests">

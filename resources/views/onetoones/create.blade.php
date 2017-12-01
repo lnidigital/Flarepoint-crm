@@ -9,7 +9,7 @@
             'route' => 'onetoones.store'
             ]) !!}
 
-    @include('onetoones.form', ['submitButtonText' => __('Create 1-to-1')])
+    @include('onetoones.form', ['submitButtonText' => __('Save')])
 
    
 

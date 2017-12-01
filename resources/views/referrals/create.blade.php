@@ -9,7 +9,7 @@
             'route' => 'referrals.store'
             ]) !!}
 
-    @include('referrals.form', ['submitButtonText' => __('Create Referral')])
+    @include('referrals.form', ['submitButtonText' => __('Save')])
 
    
 

@@ -30,7 +30,7 @@
             'route' => 'members.store',
             'class' => 'ui-form'
             ]) !!}
-    @include('members.form', ['submitButtonText' => __('Create New Member')])
+    @include('members.form', ['submitButtonText' => __('Save')])
 
     {!! Form::close() !!}
 

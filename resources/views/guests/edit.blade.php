@@ -8,7 +8,7 @@
             'method' => 'PATCH',
             'route' => ['guests.update', $guest->id],
             ]) !!}
-    @include('guests.form', ['submitButtonText' => __('Update guest')])
+    @include('guests.form', ['submitButtonText' => __('Save')])
 
     {!! Form::close() !!}
 

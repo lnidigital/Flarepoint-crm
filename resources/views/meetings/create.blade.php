@@ -9,7 +9,7 @@
             'route' => 'meetings.store'
             ]) !!}
 
-    @include('meetings.form', ['submitButtonText' => __('Create Meeting')])
+    @include('meetings.form', ['submitButtonText' => __('Save')])
 
    
 

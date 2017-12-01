@@ -8,7 +8,7 @@
             'method' => 'PATCH',
             'route' => ['onetoones.update', $onetoone->id],
             ]) !!}
-    @include('onetoones.form', ['submitButtonText' => __('Update 1-to-1')])
+    @include('onetoones.form', ['submitButtonText' => __('Save')])
 
     {!! Form::close() !!}
 

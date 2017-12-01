@@ -31,3 +31,4 @@
 {{ Form::hidden('group_id', Helper::getGroupId()) }}
 
 {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}
+<a href="{{url()->previous()}}" class="btn btn-default">Cancel</a>

@@ -30,7 +30,7 @@
             'route' => 'guests.store',
             'class' => 'ui-form'
             ]) !!}
-    @include('guests.form', ['submitButtonText' => __('Add New Guest')])
+    @include('guests.form', ['submitButtonText' => __('Save')])
 
     {!! Form::close() !!}
 

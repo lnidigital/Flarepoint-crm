@@ -17,6 +17,7 @@
             <div class="box-body">
                 <div>
                     <graphline class="chart" :labels="{{json_encode($createdReferralsEachMonths)}}"
+                                :title="{{json_encode('Referrals')}}"
                                :values="{{json_encode($referralCreated)}}"
                                :valuesextra="{{json_encode($referralCreated)}}"></graphline>
                 </div>
@@ -39,6 +40,7 @@
             <div class="box-body">
                 <div>
                     <graphline class="chart" :labels="{{json_encode($attendanceEachMonths)}}"
+                                :title="{{json_encode('Attendance')}}"
                                :values="{{json_encode($attendanceMade)}}"
                                :valuesextra="{{json_encode($attendanceMade)}}"></graphline>
 
@@ -55,15 +57,16 @@
                 {{ __('1-to-1s each month') }}
             </h4>
             <div class="box-tools pull-right">
-                <button type="button" id="collapse1" class="btn btn-box-tool" data-toggle="collapse"
-                        data-target="#collapseOne"><i id="toggler1" class="fa fa-minus"></i>
+                <button type="button" id="collapse3" class="btn btn-box-tool" data-toggle="collapse"
+                        data-target="#collapseThree"><i id="toggler1" class="fa fa-minus"></i>
                 </button>
             </div>
         </div>
-        <div id="collapseOne" class="panel-collapse">
+        <div id="collapseThree" class="panel-collapse">
             <div class="box-body">
                 <div>
                     <graphline class="chart" :labels="{{json_encode($createdOnetoOneEachMonths)}}"
+                               :title="{{json_encode('1-to-1')}}"
                                :values="{{json_encode($onetoOneCreated)}}"
                                :valuesextra="{{json_encode($onetoOneCreated)}}"></graphline>
                 </div>
@@ -77,15 +80,16 @@
                {{ __('Revenue each month') }}
             </h4>
             <div class="box-tools pull-right">
-                <button type="button" id="collapse2" class="btn btn-box-tool" data-toggle="collapse"
-                        data-target="#collapseTwo"><i id="toggler2" class="fa fa-minus"></i>
+                <button type="button" id="collapse4" class="btn btn-box-tool" data-toggle="collapse"
+                        data-target="#collapseFour"><i id="toggler2" class="fa fa-minus"></i>
                 </button>
             </div>
         </div>
-        <div id="collapseTwo" class="panel-collapse">
+        <div id="collapseFour" class="panel-collapse">
             <div class="box-body">
                 <div>
                     <graphline class="chart" :labels="{{json_encode($createdRevenueEachMonths)}}"
+                                :title="{{json_encode('Revenue')}}"
                                :values="{{json_encode($revenueCreated)}}"
                                :valuesextra="{{json_encode($revenueCreated)}}"></graphline>
 

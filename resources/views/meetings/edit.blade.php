@@ -8,7 +8,7 @@
             'method' => 'PATCH',
             'route' => ['meetings.update', $meeting->id],
             ]) !!}
-    @include('meetings.form', ['submitButtonText' => __('Update meeting')])
+    @include('meetings.form', ['submitButtonText' => __('Save')])
 
     {!! Form::close() !!}
 

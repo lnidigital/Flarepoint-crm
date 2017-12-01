@@ -9,7 +9,7 @@
             'route' => 'revenues.store'
             ]) !!}
 
-    @include('revenues.form', ['submitButtonText' => __('Add Revenue')])
+    @include('revenues.form', ['submitButtonText' => __('Save')])
 
    
 

@@ -130,5 +130,8 @@
       <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
       <script src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.html5.min.js"></script>
       @stack('scripts')
+      <script>
+        //window.onload = function () { document.getElementById("page-content-wrapper").style.display = "block"; }
+      </script>
    </body>
 </html>
