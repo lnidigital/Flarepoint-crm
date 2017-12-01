@@ -16,7 +16,7 @@
     
     <div class="form-group col-sm-3 removeleft ">
         {!! Form::label('meeting_id', __('Associated Meeting'), ['class' => 'control-label']) !!}
-        {!! Form::select('meeting_id', $meetings, null, ['placeholder'=>'Select meeting', 'class' => 'form-control']) !!}
+        {!! Form::select('meeting_id', $meetings, $meetingId, ['placeholder'=>'Select meeting', 'class' => 'form-control']) !!}
     </div>
  </div>
 
@@ -29,4 +29,5 @@
 
 {{ Form::hidden('referrer', '') }}
 {{ Form::hidden('group_id', Helper::getGroupId()) }}
+
 {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}

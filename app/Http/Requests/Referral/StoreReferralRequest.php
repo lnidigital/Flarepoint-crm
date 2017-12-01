@@ -25,12 +25,19 @@ class StoreReferralRequest extends FormRequest
     {
         return [
             'from_contact_id' => 'required',
-            'to_contact_id' => 'required',
+            'to_contact_id' => 'required|different:from_contact_id',
             'referral_date' => 'required',
             'group_id' => 'required',
             'meeting_id' =>'',
             'referral_id' =>'',
             'description' => ''
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'to_contact_id.different' => 'From and To cannot be same person.'
         ];
     }
 }

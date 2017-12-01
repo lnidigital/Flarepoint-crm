@@ -15,7 +15,7 @@
         </div>
         <div class="form-group col-sm-4 removeleft ">
             {!! Form::label('meeting_id', __('Associated Meeting'), ['class' => 'control-label']) !!}
-            {!! Form::select('meeting_id', $meetings, null, ['placeholder'=>'Select meeting', 'class' => 'form-control']) !!}
+            {!! Form::select('meeting_id', $meetings, $meetingId, ['placeholder'=>'Select meeting', 'class' => 'form-control']) !!}
         </div>
      </div>
 

@@ -47,25 +47,27 @@ class AttendanceController extends Controller
      * Make json respnse for datatables
      * @return mixed
      */
-    public function anyData()
+    public function attendanceData($meetingId, $statusId)
     {
-        // $clients = Client::select(['id', 'name', 'company_name', 'email', 'primary_number']);
-        // return Datatables::of($clients)
-        //     ->addColumn('namelink', function ($clients) {
-        //         return '<a href="clients/' . $clients->id . '" ">' . $clients->name . '</a>';
-        //     })
-        //     ->add_column('edit', '
-        //         <a href="{{ route(\'clients.edit\', $id) }}" class="btn btn-success" >Edit</a>')
-        //     ->add_column('delete', '
-        //         <form action="{{ route(\'clients.destroy\', $id) }}" method="POST">
-        //     <input type="hidden" name="_method" value="DELETE">
-        //     <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')"">
 
-        //     {{csrf_field()}}
-        //     </form>')
-        //     ->make(true);
+        $contacts = Contact::select(['id', 'name', 'company_name', 'email', 'primary_number'])
+                    ->join('attendances','contact_id', 'id')
+                    ->where('meeting_id',$meetingId)
+                    ->where('status',$statusId);
+
+        if ($statusId == 1) 
+            $detailPage = "members";
+        else
+            $detailPage = "guests";
+
+        return Datatables::of($contacts)
+            ->addColumn('namelink', function ($contacts) use ($detailPage) {
+                return '<a href="/'.$detailPage.'/' . $contacts->id . '" ">' . $contacts->name . '</a>';
+            })
+            ->make(true);
     }
 
+    
     /**
      * Show the form for creating a new resource.
      *

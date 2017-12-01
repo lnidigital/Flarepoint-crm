@@ -186,6 +186,43 @@ class ReferralController extends Controller
     }
 
     /**
+     * Make json respnse for datatables
+     * @return mixed
+     */
+    public function meetingData($meetingId)
+    {
+        Log::info('ReferralController->meetingData: entering');
+
+        $groupId = Helper::getGroupId();
+
+        $referrals = Referral::select(['id',  'from_contact_id', 'to_contact_id', 'referral_date', 'description'])
+                ->where('meeting_id', $meetingId);
+
+        return Datatables::of($referrals)
+            ->addColumn('from_name', function ($referrals) {
+                if ($this->members->find($referrals->from_contact_id)->status == 2) {
+                    return '<a href="' . route('guests.show', $referrals->from_contact_id) . '">'.$this->members->find($referrals->from_contact_id)->name.'</a>';
+                } else {
+                    return '<a href="' . route('members.show', $referrals->from_contact_id) . '">'.$this->members->find($referrals->from_contact_id)->name.'</a>';
+                }
+            })
+            ->addColumn('to_name', function ($referrals) {
+                if ($this->members->find($referrals->to_contact_id)->status == 2) {
+                    return '<a href="' . route('guests.show', $referrals->to_contact_id) . '">'.$this->members->find($referrals->to_contact_id)->name.'</a>';
+                } else {
+                    return '<a href="' . route('members.show', $referrals->to_contact_id) . '">'.$this->members->find($referrals->to_contact_id)->name.'</a>';
+                }
+            })
+            ->addColumn('referral_date_formatted', function ($referrals) {
+                $date = Carbon::parse($referrals->referral_date);
+                return $date->format('F d, Y');
+            })
+            ->make(true);
+
+            Log::info('ReferralController->meetingData: leaving');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return mixed
@@ -206,8 +243,17 @@ class ReferralController extends Controller
             $contacts[$contact->id] = $name;
         }
 
+        $referrer = $request->get('referrer');
+        $meetingId = "";
+
+        if (preg_match('/\/(.*)\/(.*)/', $referrer, $matches))
+            $meetingId = $matches[2];
+
+        Log::info('ReferralController->create->meetingId: '.$meetingId);
+
         return view('referrals.create')
             ->withContacts($contacts)
+            ->with('meetingId', $meetingId)
             ->withMeetings($this->meetings->getAllMeetingsSelect($groupId));
     }
 

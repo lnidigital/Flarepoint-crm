@@ -84,7 +84,7 @@
             processing: true,
             serverSide: true,
             searching:false,
-            "bLengthChange": false,
+            bLengthChange: false,
             ajax: '{!! route('referrals.datagiven', ['id' => $contact->id]) !!}',
             columns: [
 
@@ -172,7 +172,7 @@
                 ajax: '{!! route('meetings.contactdata', ['id' => $contact->id]) !!}',
                 columns: [
 
-                    {data: 'meeting_date', name: 'meeting_date'},
+                    {data: 'datelink', name: 'meeting_date'},
                     {data: 'meeting_notes', name: 'meeting_notes'}
                 ]
             });

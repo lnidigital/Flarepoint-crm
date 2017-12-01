@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'attendance'], function () {
         Route::get('/data', 'AttendanceController@anyData')->name('attendance.data');
+        Route::get('/meetingdata/{meetingid}/{statusid}', 'AttendanceController@attendanceData')->name('attendance.meetingdata');
         Route::post('/upload/{id}', 'AttendanceController@upload');
         Route::patch('/updateassign/{id}', 'AttendanceController@updateAssign');
     });
@@ -94,8 +95,9 @@ Route::group(['middleware' => ['auth']], function () {
     /**
      * Referral
      */
-    Route::group(['prefix' => 'referral'], function () {
+    Route::group(['prefix' => 'referrals'], function () {
         Route::get('/data', 'ReferralController@anyData')->name('referrals.data');
+        Route::get('/meetingdata/{meetingid}', 'ReferralController@meetingData')->name('referrals.meetingdata');
         Route::get('/datagiven/{id}', 'ReferralController@referralsGivenData')->name('referrals.datagiven');
         Route::get('/datareceived/{id}', 'ReferralController@referralsReceivedData')->name('referrals.datareceived');
         Route::post('/upload/{id}', 'ReferralController@upload');
@@ -108,6 +110,7 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'onetoones'], function () {
         Route::get('/data', 'OnetoOneController@anyData')->name('onetoones.data');
+        Route::get('/meetingdata/{meetingid}', 'OnetoOneController@meetingData')->name('onetoones.meetingdata');
         Route::get('/contactdata{id}', 'OnetoOneController@contactData')->name('onetoones.contactdata');
         Route::post('/upload/{id}', 'OnetoOneController@upload');
         Route::patch('/updateassign/{id}', 'OnetoOneController@updateAssign');

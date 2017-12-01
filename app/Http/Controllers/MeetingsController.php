@@ -110,7 +110,7 @@ class MeetingsController extends Controller
                     ->where('attendances.contact_id', $contactId);
 
         return Datatables::of($meetings)
-            ->addColumn('namelink', function ($meetings) {
+            ->addColumn('datelink', function ($meetings) {
                 $date = Carbon::parse($meetings->meeting_date);
                 return '<a href="/meetings/' . $meetings->id . '" ">' . $date->format('F d, Y') . '</a>';
             })
@@ -136,11 +136,7 @@ class MeetingsController extends Controller
      */
     public function create()
     {
-    	$groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+    	$groupId = Helper::getGroupId();
 
         return view('meetings.create')
             ->withMembers($this->contacts->getAllMembers($groupId))
@@ -165,16 +161,14 @@ class MeetingsController extends Controller
      */
     public function show($id)
     {
-        $groupId = session('user_group_id');
-
-        if ($groupId == null) {
-            $groupId = Auth::user()->group_id;
-        }
+        $groupId = Helper::getGroupId();
 
         $attendedMembers = array();
         $groupMembers = $this->contacts->getAllMembers($groupId);
 
         foreach ($groupMembers as $groupMember) {
+            //Log::info('MeetingsController->show->meeting_id&contact_id: '.$id." ".$groupMember->id);
+        
             $attendance = Attendance::where('meeting_id',$id)->where('contact_id',$groupMember->id)->first();
             if ($attendance !=null) {
                 $attendedMembers[] = $groupMember;

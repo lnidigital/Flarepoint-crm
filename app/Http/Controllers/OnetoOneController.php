@@ -16,6 +16,7 @@ use App\Repositories\Contact\ContactRepositoryContract;
 use App\Repositories\Onetoone\OnetoOneRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
 use App\Repositories\Meeting\MeetingRepositoryContract;
+use Illuminate\Support\Facades\Log;
 
 class OnetoOneController extends Controller
 {
@@ -123,15 +124,59 @@ class OnetoOneController extends Controller
     }
 
     /**
+     * Make json respnse for datatables
+     * @return mixed
+     */
+    public function meetingData($meetingId)
+    {
+        Log::info('OnetoOneController->meetingData: entering');
+
+        $groupId = Helper::getGroupId();
+
+        $onetoones = OnetoOne::select(['id',  'first_contact_id', 'second_contact_id', 'onetoone_date'])
+                ->where('meeting_id', $meetingId);
+
+        return Datatables::of($onetoones)
+            ->addColumn('first_name', function ($onetoones) {
+                if ($this->members->find($onetoones->first_contact_id)->status == 2) {
+                    return '<a href="' . route('guests.show', $onetoones->first_contact_id) . '">'.$this->members->find($referrals->first_contact_id)->name.'</a>';
+                } else {
+                    return '<a href="' . route('members.show', $onetoones->first_contact_id) . '">'.$this->members->find($onetoones->first_contact_id)->name.'</a>';
+                }
+            })
+            ->addColumn('second_name', function ($onetoones) {
+                if ($this->members->find($onetoones->second_contact_id)->status == 2) {
+                    return '<a href="' . route('guests.show', $onetoones->second_contact_id) . '">'.$this->members->find($onetoones->second_contact_id)->name.'</a>';
+                } else {
+                    return '<a href="' . route('members.show', $onetoones->second_contact_id) . '">'.$this->members->find($onetoones->second_contact_id)->name.'</a>';
+                }
+            })
+            ->addColumn('onetoone_date_formatted', function ($onetoones) {
+                $date = Carbon::parse($onetoones->onetoone_date);
+                return $date->format('F d, Y');
+            })
+            ->make(true);
+
+            Log::info('ReferralController->meetingData: leaving');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return mixed
      */
-    public function create()
+    public function create(Request $request)
     {
     	$groupId = Helper::getGroupId();
 
+        $referrer = $request->get('referrer');
+        $meetingId = "";
+
+        if (preg_match('/\/(.*)\/(.*)/', $referrer, $matches))
+            $meetingId = $matches[2];
+
         return view('onetoones.create')
+            ->with('meetingId', $meetingId)
             ->withMembers($this->members->getAllMembersSelect($groupId))
             ->withMeetings($this->meetings->getAllMeetingsSelect($groupId));
     }

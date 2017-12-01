@@ -25,11 +25,18 @@ class StoreOnetoOneRequest extends FormRequest
     {
         return [
             'first_contact_id' => 'required',
-            'second_contact_id' => 'required',
+            'second_contact_id' => 'required|different:first_contact_id',
             'onetoone_date' => 'required',
             'group_id' => 'required',
             'meeting_id' => '',
             'description' => ''
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'second_contact_id.different' => 'Cannot be same person.'
         ];
     }
 }

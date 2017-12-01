@@ -179,7 +179,7 @@
                 ajax: '{!! route('meetings.contactdata', ['id' => $guest->id]) !!}',
                 columns: [
 
-                    {data: 'namelink', name: 'meeting_date'},
+                    {data: 'datelink', name: 'meeting_date'},
                     {data: 'meeting_notes_short', name: 'meeting_notes'}
                 ]
             });
