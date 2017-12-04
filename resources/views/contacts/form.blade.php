@@ -114,5 +114,5 @@
     !!}
 </div>
 
-{{ Form::hidden('user_id', '1') }}
+{{ Form::hidden('user_id', Auth::id()) }}
 {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}

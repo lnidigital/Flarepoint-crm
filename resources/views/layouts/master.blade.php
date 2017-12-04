@@ -59,39 +59,32 @@
                <p class=" list-group-item siderbar-top" title=""><img src="{{url('images/chamberedge-logo.png')}}" alt="" width="160px"></p>
                
                <div class="group-picker">
+                @if (count(auth()->user()->groups) > 0)
                  {!! Form::open(['route' => 'dashboard.store']) !!}
                  {!! Form::select('group_id', $groups, $selectedGroup, ['class' => 'form-control group-select','onchange'=>'this.form.submit();']) !!}
                  {{ csrf_field() }}
                  {!! Form::close() !!}
+                @endif
                </div>
 
                <div class="side-menu">
-
-                @if(Entrust::hasRole('administrator'))
-                  <el-tabs active-name="menu" style="width:100%">
-                    <el-tab-pane label="Menu" name="menu">
-                        @include('partials.usermenu')
-                    </el-tab-pane>
-                    <el-tab-pane label="Admin" name="admin">
-                        @include('partials.adminmenu')
-                    </el-tab-pane>
-                  </el-tabs>
-                 @elseif(Entrust::hasRole('super'))
-                    <el-tabs active-name="menu" style="width:100%">
-                      <el-tab-pane label="Menu" name="menu">
+                  <el-tabs active-name="{{Helper::getActiveMenu()}}" style="width:100%">
+                    @if (Helper::getGroupId() != null)
+                      <el-tab-pane label="Menu" name="usermenu">
                           @include('partials.usermenu')
                       </el-tab-pane>
-                      <el-tab-pane label="Admin" name="admin">
+                    @endif
+                    @if (count(Helper::getUserOrganizations()) > 0)
+                      <el-tab-pane label="Admin" name="adminmenu">
                           @include('partials.adminmenu')
                       </el-tab-pane>
-                      <el-tab-pane label="Super" name="super">
-                          @include('partials.supermenu')
-                      </el-tab-pane>
-                    </el-tabs>
-                  @else
-                    @include('partials.usermenu')
-                  @endif
-
+                    @endif
+                    @if(Entrust::hasRole('super'))
+                    <el-tab-pane label="Super" name="supermenu">
+                        @include('partials.supermenu')
+                    </el-tab-pane>
+                    @endif
+                  </el-tabs>
               </div>
             </div>
          </nav>

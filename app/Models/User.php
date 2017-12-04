@@ -7,6 +7,7 @@ use Cache;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -49,7 +50,14 @@ class User extends Authenticatable
     
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'group_user')->withPivot('group_id');
+        Log::info('User->groups: entering');
+        return $this->belongsToMany(Group::class, 'group_user', 'user_id','group_id');
+        Log::info('User->groups: leaving');
+    }
+
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'organization_user')->withPivot('organization_id');
     }
 
     public function userRole()

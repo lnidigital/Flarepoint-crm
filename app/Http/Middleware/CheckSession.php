@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use View;
 use App\Repositories\Group\GroupRepository;
+use Illuminate\Support\Facades\Log;
 
 class CheckSession
 {
@@ -17,6 +18,8 @@ class CheckSession
      */
     public function handle($request, Closure $next)
     {
+        if (count($request->user()->groups) == 1)
+            session(['user_group_id'=>$request->user()->groups[0]->id]);
         
         if (session('user_group_id') != null)
             $selectedGroup = session('user_group_id');
@@ -25,7 +28,8 @@ class CheckSession
 
         if (\Auth::check()) {
             $groups = new GroupRepository();
-            $userGroups = $groups->getAllGroups($request->user()->id); //Auth::user()->id
+            Log::info('CheckSession->handle->user_id: '.$request->user()->id);
+            $userGroups = $groups->getAllGroupsByUser($request->user()->id); //Auth::user()->id
             View::share('groups', $userGroups);
             View::share('selectedGroup', $selectedGroup);
         }

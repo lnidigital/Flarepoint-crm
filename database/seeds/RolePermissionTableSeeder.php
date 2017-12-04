@@ -346,6 +346,25 @@ class RolePermissionTableSeeder extends Seeder
         $deleteGroup->timestamps = false;
         $deleteGroup->save();
 
+        // Admin & organization
+        $createGroup = new PermissionRole;
+        $createGroup->role_id = '2';
+        $createGroup->permission_id = '25';
+        $createGroup->timestamps = false;
+        $createGroup->save();
+
+        $updateGroup = new PermissionRole;
+        $updateGroup->role_id = '2';
+        $updateGroup->permission_id = '26';
+        $updateGroup->timestamps = false;
+        $updateGroup->save();
+
+        $deleteGroup = new PermissionRole;
+        $deleteGroup->role_id = '2';
+        $deleteGroup->permission_id = '27';
+        $deleteGroup->timestamps = false;
+        $deleteGroup->save();
+
         /**
          * Manager Role
          *

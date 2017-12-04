@@ -196,19 +196,19 @@ class PermissionsTableSeeder extends Seeder
         
         $createGroup = new Permissions;
         $createGroup->display_name = 'Create organization';
-        $createGroup->name = 'org-create';
+        $createGroup->name = 'organization-create';
         $createGroup->description = 'Permission to create organization';
         $createGroup->save();
 
         $updateGroup = new Permissions;
         $updateGroup->display_name = 'Update organization';
-        $updateGroup->name = 'org-update';
+        $updateGroup->name = 'organization-update';
         $updateGroup->description = 'Permission to update organization';
         $updateGroup->save();
 
         $deleteGroup = new Permissions;
         $deleteGroup->display_name = 'Delete organization';
-        $deleteGroup->name = 'org-delete';
+        $deleteGroup->name = 'organization-delete';
         $deleteGroup->description = 'Permission to delete organization';
         $deleteGroup->save();
 

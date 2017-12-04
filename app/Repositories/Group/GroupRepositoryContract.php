@@ -3,7 +3,7 @@ namespace App\Repositories\Group;
 
 interface GroupRepositoryContract
 {
-    public function getAllGroups($userId);
+    public function getAllGroupsByUser($userId);
     
     public function listAllGroups($organizationId);
 

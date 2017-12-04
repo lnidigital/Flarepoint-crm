@@ -84,9 +84,9 @@ class Helper
     {
         $groupId = session('user_group_id');
 
-        if ($groupId == null) {
-            $groupId = Auth::user()->default_group;
-        }
+        // if ($groupId == null) {
+        //     $groupId = Auth::user()->default_group;
+        // }
 
         return $groupId;
     }
@@ -99,6 +99,51 @@ class Helper
             $organization = Organization::find(Auth::user()->default_group)->name;
 
         return $organization;
+    }
+
+    public static function getOrganizationId()
+    {
+        $groupId = Helper::getGroupId();
+
+        if ($groupId == null)
+            return null;
+        else
+            return Organization::find(Helper::getGroupId())->id;
+    }
+
+    public static function getUserOrganizationIds()
+    {
+        $orgs = auth()->user()->organizations;
+
+        $orgIds = array();
+
+        foreach($orgs as $org)
+        {
+            $orgIds[] = $org->id;
+        }
+        
+        return $orgIds;
+
+       //return Organization::find(Helper::getGroupId())->id;
+    }
+
+    public static function getUserOrganizations()
+    {
+        if (auth()->user()->hasRole('manager') || 
+                auth()->user()->hasRole('member'))
+            return null;
+
+        return auth()->user()->organizations;
+    }
+
+    public static function getActiveMenu()
+    {
+        if (Helper::getGroupId() != null)
+            return 'usermenu';
+        elseif (count(Helper::getUserOrganizations()) > 0)
+            return 'adminmenu';
+        elseif (auth()->user()->hasRole('super'))
+            return 'supermenu';
     }
 }
 

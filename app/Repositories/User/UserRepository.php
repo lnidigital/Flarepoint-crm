@@ -35,6 +35,15 @@ class UserRepository implements UserRepositoryContract
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getAllUsersSelect()
+    {
+        return User::all()
+            ->pluck('name', 'id');
+    }
+
+    /**
      * @return mixed
      */
     public function getAllUsersWithDepartments()
@@ -70,9 +79,16 @@ class UserRepository implements UserRepositoryContract
         $user->personal_number = $requestData->personal_number;
         $user->password = bcrypt($requestData->password);
         $user->image_path = $filename;
+        $user->default_group = $requestData->default_group;
         $user->save();
         $user->roles()->attach($requestData->roles);
-        $user->department()->attach($requestData->departments);
+
+        if ($requestData->organization != null)
+            $user->organizations()->attach($requestData->organization);
+        
+        if ($requestData->group != null)
+            $user->groups()->attach($requestData->group);
+        //$user->group()->attach($requestData->default_group);
         $user->save();
 
         Session::flash('flash_message', 'User successfully added!'); //Snippet in Master.blade.php

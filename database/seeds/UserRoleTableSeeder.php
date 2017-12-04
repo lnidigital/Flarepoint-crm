@@ -14,6 +14,14 @@ class UserRoleTableSeeder extends Seeder
     {
         // Roles: 1 = super, 2 = admin, 3 = manager, 4 = member
         // Users: 1 = member, 2 = manager, 3 = admin, 4 = super
+
+        $newrole = new RoleUser;
+        $newrole->user_id = '1';
+        $newrole->role_id = '1';
+        $newrole->timestamps = false;
+        $newrole->save();
+
+        /*
         $newrole = new RoleUser;
         $newrole->user_id = '2';
         $newrole->role_id = '3';
@@ -32,28 +40,12 @@ class UserRoleTableSeeder extends Seeder
         $newrole->timestamps = false;
         $newrole->save();
 
-        // $newrole = new RoleUser;
-        // $newrole->role_id = '3';
-        // $newrole->user_id = '1';
-        // $newrole->timestamps = false;
-        // $newrole->save();
+        $newrole = new RoleUser;
+        $newrole->user_id = '6';
+        $newrole->role_id = '1';
+        $newrole->timestamps = false;
+        $newrole->save();
+        */
 
-        // $newrole = new RoleUser;
-        // $newrole->role_id = '2';
-        // $newrole->user_id = '1';
-        // $newrole->timestamps = false;
-        // $newrole->save();
-
-        // $newrole = new RoleUser;
-        // $newrole->role_id = '1';
-        // $newrole->user_id = '1';
-        // $newrole->timestamps = false;
-        // $newrole->save();
-
-        // $newrole = new RoleUser;
-        // $newrole->role_id = '2'; 
-        // $newrole->user_id = '2';
-        // $newrole->timestamps = false;
-        // $newrole->save();
     }
 }

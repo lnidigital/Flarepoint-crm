@@ -15,7 +15,7 @@ class RoleRepository implements RoleRepositoryContract
      */
     public function listAllRoles()
     {
-        return Role::pluck('name', 'id');
+        return Role::where('name','!=','super')->pluck('name', 'id');
     }
 
     /**

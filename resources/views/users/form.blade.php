@@ -10,23 +10,8 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('email', __('Mail'), ['class' => 'control-label']) !!}
+    {!! Form::label('email', __('E-mail'), ['class' => 'control-label']) !!}
     {!! Form::email('email', null, ['class' => 'form-control']) !!}
-</div>
-
-<div class="form-group">
-    {!! Form::label('address', __('Address'), ['class' => 'control-label']) !!}
-    {!! Form::text('address', null, ['class' => 'form-control']) !!}
-</div>
-
-<div class="form-group">
-    {!! Form::label('work_number', __('Work number'), ['class' => 'control-label']) !!}
-    {!! Form::text('work_number',  null, ['class' => 'form-control']) !!}
-</div>
-
-<div class="form-group">
-    {!! Form::label('personal_number', __('Personal number'), ['class' => 'control-label']) !!}
-    {!! Form::text('personal_number',  null, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group">
@@ -38,19 +23,28 @@
     {!! Form::password('password_confirmation', ['class' => 'form-control']) !!}
 </div>
 <div class="form-group form-inline">
-    {!! Form::label('roles', __('Assign role'), ['class' => 'control-label']) !!}
+   
+    {!! Form::label('organization', __('Assign organization'), ['class' => 'control-label']) !!}
+
+    {!!
+        Form::select('organization',
+        $organizations, isset($user->organizations) ? $user->organizations[0]->id : null,
+        ['placeholder' => 'Select organization', 'class' => 'form-control']) !!}
+    
+    {!! Form::label('groups', __('Assign group'), ['class' => 'control-label']) !!}
+
+    {!!
+        Form::select('group',
+        $groups, isset($user->groups) ? $user->groups[0]->id : null,
+        ['placeholder' => 'Select group', 'class' => 'form-control']) !!}
+
+     {!! Form::label('roles', __('Assign role'), ['class' => 'control-label']) !!}
     {!!
         Form::select('roles',
         $roles,
         isset($user->role->role_id) ? $user->role->role_id : null,
         ['class' => 'form-control']) !!}
 
-    {!! Form::label('groups', __('Assign group'), ['class' => 'control-label']) !!}
-
-    {!!
-        Form::select('groups',
-        $groups, null,
-        ['class' => 'form-control']) !!}
 </div>
 
 {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}

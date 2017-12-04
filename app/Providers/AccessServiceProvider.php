@@ -63,5 +63,9 @@ class AccessServiceProvider extends ServiceProvider
             \App\Repositories\Attendance\AttendanceRepositoryContract::class,
             \App\Repositories\Attendance\AttendanceRepository::class
         );
+        $this->app->bind(
+            \App\Repositories\Organization\OrganizationRepositoryContract::class,
+            \App\Repositories\Organization\OrganizationRepository::class
+        );
     }
 }

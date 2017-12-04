@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controllers;
 
+use Auth;
 use Gate;
 use Carbon;
 use Datatables;
+use App\Helpers\Helper;
 use App\Models\User;
 use App\Models\Task;
 use App\Http\Requests;
@@ -16,6 +18,7 @@ use App\Repositories\User\UserRepositoryContract;
 use App\Repositories\Role\RoleRepositoryContract;
 use App\Repositories\Group\GroupRepositoryContract;
 use App\Repositories\Setting\SettingRepositoryContract;
+use App\Repositories\Organization\OrganizationRepositoryContract;
 
 class UsersController extends Controller
 {
@@ -23,11 +26,13 @@ class UsersController extends Controller
     protected $roles;
     protected $groups;
     protected $settings;
+    protected $organizations;
 
     public function __construct(
         UserRepositoryContract $users,
         RoleRepositoryContract $roles,
         GroupRepositoryContract $groups,
+        OrganizationRepositoryContract $organizations,
         SettingRepositoryContract $settings
     )
     {
@@ -35,7 +40,9 @@ class UsersController extends Controller
         $this->roles = $roles;
         $this->groups = $groups;
         $this->settings = $settings;
-        $this->middleware('user.create', ['only' => ['create']]);
+        $this->organizations = $organizations;
+
+        //$this->middleware('user.create', ['only' => ['create']]);
     }
 
     /**
@@ -54,7 +61,21 @@ class UsersController extends Controller
     public function anyData()
     {
         $canUpdateUser = auth()->user()->can('update-user');
-        $users = User::select(['id', 'name', 'email', 'work_number']);
+        $organizationId = Helper::getOrganizationId();
+
+        if (auth()->user()->hasRole('super')) {
+            $users = User::select(['users.id', 'users.name', 'users.email', 'organizations.name as organization_name'])
+                        ->join('organization_user','user_id','users.id')
+                        ->join('organizations','organizations.id','organization_user.organization_id');
+        } else {
+            $users = User::select(['users.id', 'users.name', 'users.email', 'organizations.name as organization_name'])
+                        ->join('organization_user','user_id','users.id')
+                        ->join('organizations','organizations.id','organization_user.organization_id')
+                        ->join('role_user','role_user.user_id','users.id')
+                        ->where('role_user.role_id','!=',1)
+                        ->whereIn('organization_id', Helper::getUserOrganizationIds());
+        }
+        
         return Datatables::of($users)
             ->addColumn('namelink', function ($users) {
                 return '<a href="/users/' . $users->id . '" ">' . $users->name . '</a>';
@@ -62,9 +83,12 @@ class UsersController extends Controller
             ->addColumn('edit', function ($user) {
                 return '<a href="' . route("users.edit", $user->id) . '" class="btn btn-success"> Edit</a>';
             })
-            ->add_column('delete', function ($user) { 
-                return '<button type="button" class="btn btn-danger delete_client" data-client_id="' . $user->id . '" onClick="openModal(' . $user->id. ')" id="myBtn">Delete</button>';
-            })->make(true);
+            ->add_column('delete', '<form action="{{ route(\'users.destroy\', $id) }}" method="POST">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" name="submit" value="Delete" class="btn btn-danger" onClick="return confirm(\'Are you sure?\')" id="myBtn">
+    {{csrf_field()}}
+</form>')
+            ->make(true);
     }
 
     /**
@@ -159,9 +183,17 @@ class UsersController extends Controller
      */
     public function create()
     {
+        $userId = Auth::id();
+
+        $organizations = Helper::getUserOrganizations();
+        $organizationIds = array();
+        foreach ($organizations as $organization)
+            $organizationIds[] = $organization->id;
+
         return view('users.create')
             ->withRoles($this->roles->listAllRoles())
-            ->withDepartments($this->departments->listAllDepartments());
+            ->withGroups($this->groups->getAllGroupsByOrganization($organizationIds))
+            ->withOrganizations($this->organizations->getOrganizationsByUserSelect($userId));
     }
 
     /**
@@ -191,12 +223,18 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $org_id = 1;
+        $userId = Auth::id();
+
+        $organizations = Helper::getUserOrganizations();
+        $organizationIds = array();
+        foreach ($organizations as $organization)
+            $organizationIds[] = $organization->id;
 
         return view('users.edit')
             ->withUser($this->users->find($id))
             ->withRoles($this->roles->listAllRoles())
-            ->withGroups($this->groups->listAllGroups($org_id));
+            ->withGroups($this->groups->getAllGroupsByOrganization($organizationIds))
+            ->withOrganizations($this->organizations->getOrganizationsByUserSelect($userId));
     }
 
     /**
@@ -208,7 +246,7 @@ class UsersController extends Controller
     {
         $this->users->update($id, $request);
         Session()->flash('flash_message', 'User successfully updated');
-        return redirect()->back();
+        return redirect()->route('users.index');
     }
 
     /**

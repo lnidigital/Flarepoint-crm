@@ -53,6 +53,7 @@ class Kernel extends HttpKernel
         'user.create' => [ \App\Http\Middleware\User\CanUserCreate::class ],
         'user.update' => [ \App\Http\Middleware\User\CanUserUpdate::class ],
         'user.is.admin' => [ \App\Http\Middleware\RedirectIfNotAdmin::class ],
+        'user.is.super' => [ \App\Http\Middleware\RedirectIfNotSuper::class ],
         'api' => [
             'throttle:60,1',
             'bindings',

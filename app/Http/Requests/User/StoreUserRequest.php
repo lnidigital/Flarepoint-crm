@@ -13,7 +13,8 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('user-create');
+        return true;
+        //return auth()->user()->can('user-create');
     }
 
     /**
@@ -33,7 +34,7 @@ class StoreUserRequest extends FormRequest
             'password_confirmation' => 'required|min:5',
             'image_path' => '',
             'roles' => 'required',
-            'departments' => 'required'
+            'default_group' => ''
         ];
     }
 }

@@ -127,7 +127,18 @@ Route::group(['middleware' => ['auth']], function () {
         Route::patch('/updateassign/{id}', 'RevenueController@updateAssign');
     });
         Route::resource('revenues', 'RevenueController');
-      
+     
+    /**
+     * Revenue
+     */
+    Route::group(['prefix' => 'organizations'], function () {
+        Route::get('/data', 'OrganizationsController@anyData')->name('organizations.data');
+        Route::get('/userdata/{id}', 'OrganizationsController@userData')->name('organizations.userdata');
+        Route::post('/upload/{id}', 'OrganizationsController@upload');
+        Route::patch('/updateassign/{id}', 'OrganizationsController@updateAssign');
+    });
+        Route::resource('organizations', 'OrganizationsController');
+       
     
     /**
      * Settings
@@ -139,8 +150,13 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     /**
-     * Departments
+     * Groups
      */
+    Route::group(['prefix' => 'groups'], function () {
+        Route::get('/data', 'GroupsController@anyData')->name('groups.data');
+        Route::post('/upload/{id}', 'GroupsController@upload');
+        Route::patch('/updateassign/{id}', 'GroupsController@updateAssign');
+    });
         Route::resource('groups', 'GroupsController'); 
 
     /**

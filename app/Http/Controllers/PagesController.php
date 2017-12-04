@@ -56,7 +56,13 @@ class PagesController extends Controller
     public function dashboard()
     {
      
+      if (count(auth()->user()->organizations) == 0 && count(auth()->user()->groups) == 0)
+        return view('pages.firsttime');
+      
       $groupId = Helper::getGroupId();
+
+      Log::info('PagesController->dashboard->groups: '.json_encode(auth()->user()->groups));
+      Log::info('PagesController->dashboard->groupCount: '.count(auth()->user()->groups));
       
       $members = $this->contacts->getAllMembers($groupId);
       $referralsThisMonth = $this->referrals->referralsMadeThisMonth($groupId);

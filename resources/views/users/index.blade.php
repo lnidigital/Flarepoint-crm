@@ -8,15 +8,15 @@
         <thead>
         <tr>
             <th>{{ __('Name') }}</th>
-            <th>{{ __('Mail') }}</th>
-            <th>{{ __('Work number') }}</th>
+            <th>{{ __('E-amil') }}</th>
+            <th>{{ __('Organization') }}</th>
             <th></th>
             <th></th>
         </tr>
         </thead>
     </table>
-
-
+      <a href="{{ route('users.create')}}" class="btn btn-primary">{{ __('+ Add New') }}</a>
+    
         <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     
@@ -106,17 +106,13 @@
 
                 {data: 'namelink', name: 'name'},
                 {data: 'email', name: 'email'},
-                {data: 'work_number', name: 'work_number'},
-                    @if(Entrust::can('user-update'))
+                {data: 'organization_name', name: 'organization_name'},
                 {
                     data: 'edit', name: 'edit', orderable: false, searchable: false
                 },
-                    @endif
-                    @if(Entrust::can('user-delete'))
                 {
                     data: 'delete', name: 'delete', orderable: false, searchable: false
-                },
-                @endif
+                }
             ]
         });
     });
